@@ -6,9 +6,11 @@ import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.Client;
 import sudo.module.Mod;
 import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
+import sudo.module.movement.Example;
 import sudo.ui.screens.clickgui.setting.Component;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
@@ -43,7 +45,7 @@ public class Frame {
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		DrawableHelper.fill(matrices, x, y, x + width, y + height, 0xffA962E8);
+		DrawableHelper.fill(matrices, x, y, x + width, y + height, Client.moduleManager.getModule(Example.class).coolor.getColor().getRGB());
 		textRend.drawString(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - (mc.textRenderer.fontHeight/2)-2, -1, 1);
 		if (extended) {
 			for (ModuleButton button : buttons) {

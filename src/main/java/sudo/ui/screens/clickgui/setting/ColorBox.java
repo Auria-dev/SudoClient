@@ -32,7 +32,7 @@ public class ColorBox extends Component{
         colorSet.name = colorSet.name;
         int sx = parent.parent.x - 10,
                 sy = parent.parent.y + 12,
-                ex = parent.parent.x + parent.parent.width,
+                ex = parent.parent.x + 100,
                 ey = parent.parent.y + getHeight(120);
 
         textRend.drawString(matrices, colorSet.name, (int) sx, (int) sy - 12, -1, 1);
