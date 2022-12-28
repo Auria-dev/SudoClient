@@ -5,13 +5,13 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-import sudo.core.font.GlyphPageFontRenderer;
-import sudo.core.font.IFont;
 import sudo.module.settings.ColorSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
 import sudo.utils.render.ColorUtils;
 import sudo.utils.render.RenderUtils;
+import sudo.utils.text.GlyphPageFontRenderer;
+import sudo.utils.text.IFont;
 
 import java.awt.*;
 
