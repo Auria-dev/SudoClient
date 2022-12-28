@@ -50,8 +50,8 @@ public class ColorBox extends Component{
 
         if (hovered((int)mouseX, (int)mouseY, sx + (open ? 83 : 73), sy - 12, sx + 91, sy - 4)) {
             RenderUtils.setup2DRender(true);
-            RenderUtils.fill(matrices, mouseX, mouseY+3, mouseX + textRend.getStringWidth("R Click to toggle color picker") + 6, mouseY - 9, new Color(0, 0, 0, 200).getRGB());
-            textRend.drawString(matrices, "R Click to toggle color picker", mouseX + 2, mouseY - 10, -1, 1);
+            RenderUtils.fill(matrices, mouseX, mouseY+3, mouseX + textRend.getStringWidth("Right click to toggle color picker") + 6, mouseY - 9, new Color(0, 0, 0, 200).getRGB());
+            textRend.drawString(matrices, "Right click to toggle color picker", mouseX + 2, mouseY - 10, -1, 1);
             RenderUtils.end2DRender();
         }
         if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) + 17, sy - 12, sx + 27 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
