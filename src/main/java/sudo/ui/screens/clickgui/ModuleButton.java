@@ -70,7 +70,7 @@ public class ModuleButton {
 				parent.x + parent.width-2, 
 				parent.y+offset+parent.height-2,
 				enabledAnim.getColour().getRGB());
-		textRend.drawString(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3, textEnabledAnim.getColour().getRGB(), 1);
+		textRend.drawString(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, textEnabledAnim.getColour().getRGB(), 1);
 		
 		if (extended) {
 			for (Component component : components) {
