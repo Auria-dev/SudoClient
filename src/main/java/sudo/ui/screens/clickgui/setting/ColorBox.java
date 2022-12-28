@@ -31,9 +31,9 @@ public class ColorBox extends Component{
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         colorSet.name = colorSet.name;
         int sx = parent.parent.x - 10,
-                sy = parent.parent.y + 12,
+                sy = parent.parent.y + 12 + parent.offset+ offset,
                 ex = parent.parent.x + 100,
-                ey = parent.parent.y + getHeight(120);
+                ey = parent.parent.y + getHeight(120)+ parent.offset+ offset;
 
         textRend.drawString(matrices, colorSet.name, (int) sx, (int) sy - 12, -1, 1);
         textRend.drawString(matrices, "#" + colorSet.getRGB(), (int) sx + textRend.getStringWidth(colorSet.name) + 12, (int) sy - 12, colorSet.getRGB(),1);

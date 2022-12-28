@@ -1,24 +1,31 @@
 package sudo.module.movement;
 
-import org.lwjgl.glfw.GLFW;
-
 import sudo.module.Mod;
+import sudo.module.settings.BooleanSetting;
 
 public class Sprint extends Mod {
 
-	public Sprint() {
-		super("Sprint", "Automaticly sprints for you", Category.MOVEMENT, GLFW.GLFW_KEY_V);
-	}
+	BooleanSetting smart = new BooleanSetting("Smart", false);
+
+    public Sprint() {
+        super("Sprint", "Automatically sprints for you", Category.MOVEMENT, 0);
+        addSetting(smart);
+    }
+
+    @Override
+    public void onTick() {
+    	if (this.isEnabled()) {
+    		if (smart.isEnabled()) {
+    			if (mc.player.forwardSpeed>0) mc.player.setSprinting(true);
+    		}
+    		else mc.player.setSprinting(true);
+    	}
+        super.onTick();
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+    }
 	
-	@Override
-	public void onTick() {
-		this.mc.player.setSprinting(true);
-		super.onTick();
-	}
-	
-	@Override
-	public void onDisable() {
-		this.mc.player.setSprinting(false);
-		super.onDisable();
-	}
 }
