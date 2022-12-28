@@ -3,6 +3,7 @@ package sudo.module;
 import java.util.ArrayList;
 import java.util.List;
 
+import sudo.module.Mod.Category;
 import sudo.module.movement.*;
 
 public class ModuleManager {
@@ -27,6 +28,17 @@ public class ModuleManager {
 		return enabled;
 	}
 	
+	public List<Mod> getModulesInCategory(Category category) {
+		List<Mod> categoryModules = new ArrayList<>();
+		
+		for (Mod mod : modules) {
+			if (mod.getCategory() == category) {
+				categoryModules.add(mod);
+			}
+		}
+		
+		return categoryModules;
+	}
 	private void addModules() {
 		modules.add(new Flight());
 		modules.add(new Sprint());
