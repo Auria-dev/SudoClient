@@ -44,7 +44,7 @@ public class Frame {
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		DrawableHelper.fill(matrices, x, y, x + width, y + height, 0xffA962E8);
-		textRend.drawString(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - (mc.textRenderer.fontHeight/2), -1, 1);
+		textRend.drawString(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - (mc.textRenderer.fontHeight/2)-2, -1, 1);
 		if (extended) {
 			for (ModuleButton button : buttons) {
 				button.render(matrices, mouseX, mouseY, delta);
