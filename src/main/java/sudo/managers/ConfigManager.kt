@@ -59,10 +59,10 @@ class ConfigManager {
         module.name = moduleJson.get("Name").asString
         val toggle = moduleJson.get("Toggle").asBoolean
         if (module.isEnabled && !toggle) {
-            module.isEnabled = false
+            module.toggle()
         }
         if (!module.isEnabled && toggle) {
-            module.isEnabled = true
+            module.toggle()
         }
         val element = moduleJson.get("Settings") ?: return
     }
