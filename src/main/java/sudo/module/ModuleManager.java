@@ -18,6 +18,11 @@ public class ModuleManager {
 	public List<Mod> getModules() {
 		return modules;
 	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Mod> T getModule(Class<T> clazz) {
+		return (T) modules.stream().filter(mod -> mod.getClass() == clazz).findFirst().orElse(null);
+	}
 	
 	public List<Mod> getEnabledModules() {
 		List<Mod> enabled = new ArrayList<>();
