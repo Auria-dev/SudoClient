@@ -30,22 +30,30 @@ public class ColorBox extends Component{
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         colorSet.name = colorSet.name;
-        int sx = parent.parent.x - 10,
+        int sx = parent.parent.x +6,
                 sy = parent.parent.y + 12 + parent.offset+ offset,
-                ex = parent.parent.x + 100,
+                ex = parent.parent.x + 87,
                 ey = parent.parent.y + getHeight(120)+ parent.offset+ offset;
+        DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y+parent.offset+offset, parent.parent.x + parent.parent.width, parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 0xff1f1f1f);
+		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 0xff9D73E6);
 
         textRend.drawString(matrices, colorSet.name, (int) sx, (int) sy - 12, -1, 1);
-        textRend.drawString(matrices, "#" + colorSet.getRGB(), (int) sx + textRend.getStringWidth(colorSet.name) + 12, (int) sy - 12, colorSet.getRGB(),1);
-        if (hovered((int)mouseX, (int)mouseY, sx + 160, sy - 12, sx + 190, sy - 4) && rmDown) {
-            RenderUtils.setup2DRender(true);
-            RenderUtils.end2DRender();
+        textRend.drawString(matrices, "#" + colorSet.getHex().substring(1), (int) sx + textRend.getStringWidth(colorSet.name) + 3, (int) sy - 12, colorSet.getRGB(),1);
+        
+        if (hovered((int)mouseX, (int)mouseY, sx + (open ? 83 : 73), sy - 12, sx + 91, sy - (open? 2:0)) && rmDown) {
             open = !open;
             parent.parent.updateButton();
             rmDown = false;
         }
-        RenderUtils.fill(matrices, sx + 190, sy - 12, sx + 160, sy - 4, colorSet.getColor().getRGB());
-        RenderUtils.fill(matrices, sx + 3 + textRend.getStringWidth(colorSet.name), sy - 3, sx + 10 + textRend.getStringWidth(colorSet.name), sy - 11, colorSet.getColor().getRGB());
+
+        RenderUtils.fill(matrices, sx + (open ? 83 : 73), sy - 10, sx + 91, sy - (open? 2:0), colorSet.getColor().getRGB()); //right clicked rect 
+
+        if (hovered((int)mouseX, (int)mouseY, sx + (open ? 83 : 73), sy - 12, sx + 91, sy - 4)) {
+            RenderUtils.setup2DRender(true);
+            RenderUtils.fill(matrices, mouseX, mouseY+3, mouseX + textRend.getStringWidth("R Click to toggle color picker") + 6, mouseY - 9, new Color(0, 0, 0, 200).getRGB());
+            textRend.drawString(matrices, "R Click to toggle color picker", mouseX + 2, mouseY - 10, -1, 1);
+            RenderUtils.end2DRender();
+        }
         if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) + 17, sy - 12, sx + 27 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
             RenderUtils.setup2DRender(true);
             RenderUtils.end2DRender();
@@ -63,7 +71,7 @@ public class ColorBox extends Component{
             return;
         }
 
-        RenderUtils.fill(matrices, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) + 17, sy - 4, sx + 27 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 12, new Color(0, 0, 0, 200).getRGB());
+        RenderUtils.fill(matrices, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB())-3, sy-2, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 10, new Color(0, 0, 0, 200).getRGB());
         RenderUtils.fill(matrices, sx, sy, ex, ey, -1);
         int satColor = MathHelper.hsvToRgb(colorSet.hue, 1f, 1f);
         int red = satColor >> 16 & 255;
@@ -109,9 +117,9 @@ public class ColorBox extends Component{
 
 
         //Set hex codes
-        if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) + 17, sy - 12, sx + 27 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
+        if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) - 3, sy - 10, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
             RenderUtils.setup2DRender(true);
-            RenderUtils.fill(matrices, mouseX, mouseY, mouseX + textRend.getStringWidth("Sets the hex color to your current clipboard") + 6, mouseY - 12, new Color(0, 0, 0, 200).getRGB());
+            RenderUtils.fill(matrices, mouseX, mouseY+3, mouseX + textRend.getStringWidth("Sets the hex color to your current clipboard") + 6, mouseY - 9, new Color(0, 0, 0, 200).getRGB());
             textRend.drawString(matrices, "Sets the hex color to your current clipboard", mouseX + 2, mouseY - 10, -1, 1);
             RenderUtils.end2DRender();
             if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard())) {
@@ -129,16 +137,16 @@ public class ColorBox extends Component{
 
         for (int i = sy; i < ey; i++) {
             float curHue = 1f / ((float) (ey - sy) / (i - sy));
-            DrawableHelper.fill(matrices, sx, i, ex, i + 1, 0xff000000 | MathHelper.hsvToRgb(curHue, 1f, 1f));
+            DrawableHelper.fill(matrices, sx-2, i, ex-2, i + 1, 0xff000000 | MathHelper.hsvToRgb(curHue, 1f, 1f));
         }
 
-        if (hovered(mouseX, mouseY, sx, sy, ex, ey) && lmDown) {
+        if (hovered(mouseX, mouseY, sx-2, sy, ex-2, ey) && lmDown) {
             colorSet.hue = 1f / ((float) (ey - sy) / (mouseY - sy));
         }
 
         int hueY = (int) (sy + (ey - sy) * colorSet.hue);
-        RenderUtils.fill(matrices, sx, hueY - 1, ex, hueY + 1, -1);
-        RenderUtils.drawOutlineCircle(matrices, satX - 2, briY - 2, 4, Color.WHITE);
+        RenderUtils.fill(matrices, sx-2, hueY-0.8, ex-2, hueY + 1, -1);
+        RenderUtils.fill(matrices, satX-1, briY-1, satX+1, briY+1, -1);
         super.render(matrices, mouseX, mouseY, delta);
     }
 
