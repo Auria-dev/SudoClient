@@ -2,6 +2,8 @@ package sudo.ui.screens.clickgui.setting;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.core.font.GlyphPageFontRenderer;
+import sudo.core.font.IFont;
 import sudo.module.settings.KeybindSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
@@ -10,6 +12,7 @@ import sudo.utils.text.KeyUtils;
 public class Keybind extends Component {
 
 	private KeybindSetting binding = (KeybindSetting)setting;
+	GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	public boolean isBinding = false;
 
 	public Keybind(Setting setting, ModuleButton parent, int offset) {
@@ -50,8 +53,8 @@ public class Keybind extends Component {
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset, parent.parent.x + parent.parent.width, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff1f1f1f);
 		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff9D73E6);
 		
-		if (isBinding==false) mc.textRenderer.draw(matrices, "Bind: " + KeyUtils.NumToKey(binding.getKey()), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B);
-		if (isBinding==true) mc.textRenderer.draw(matrices, "Binding...", parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B);
+		if (isBinding==false) textRend.drawString(matrices, "Bind: " + KeyUtils.NumToKey(binding.getKey()), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B,1);
+		if (isBinding==true) textRend.drawString(matrices, "Binding...", parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B,1);
 
 		
 		super.render(matrices, mouseX, mouseY, delta);

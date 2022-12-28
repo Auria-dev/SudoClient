@@ -5,11 +5,14 @@ import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.core.font.GlyphPageFontRenderer;
+import sudo.core.font.IFont;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 
 public class Hud {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
+	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 
 	public static void render(MatrixStack matrices, float tickDelta) {
 		mc.textRenderer.drawWithShadow(matrices, "Sudo client", 5, 5, -1);
@@ -30,7 +33,7 @@ public class Hud {
 			int fHeight = (int) mc.textRenderer.fontHeight;
             
 			if (mod.isEnabled()) {
-				mc.textRenderer.drawWithShadow(matrices, mod.getDisplayName(), (sWidth-4) - fWidth, 5+(fHeight*index), -1);
+				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), (sWidth-4) - fWidth, 5+(fHeight*index), -1, 1);
 				index++;
 			}
 		}

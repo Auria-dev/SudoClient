@@ -6,6 +6,8 @@ import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.core.font.GlyphPageFontRenderer;
+import sudo.core.font.IFont;
 import sudo.module.Mod;
 import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
@@ -15,7 +17,7 @@ public class Frame {
 	
 	public int x, y, width, height, dragX, dragY;
 	public Category category;
-	
+	GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	public boolean dragging, extended;
 	
 	private List<ModuleButton> buttons;
@@ -42,7 +44,7 @@ public class Frame {
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		DrawableHelper.fill(matrices, x, y, x + width, y + height, 0xffA962E8);
-		mc.textRenderer.drawWithShadow(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - (mc.textRenderer.fontHeight/2), -1);
+		textRend.drawString(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - (mc.textRenderer.fontHeight/2), -1, 1);
 		if (extended) {
 			for (ModuleButton button : buttons) {
 				button.render(matrices, mouseX, mouseY, delta);

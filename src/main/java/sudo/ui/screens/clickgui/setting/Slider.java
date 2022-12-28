@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.core.font.GlyphPageFontRenderer;
+import sudo.core.font.IFont;
 import sudo.module.settings.NumberSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
@@ -12,6 +14,7 @@ import sudo.ui.screens.clickgui.ModuleButton;
 public class Slider extends Component {
 	
 	public NumberSetting numSet = (NumberSetting)setting;
+	GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	
 	private boolean sliding = false;
 	
@@ -39,9 +42,9 @@ public class Slider extends Component {
 				numSet.setValue(roundToPlace(((diff/(parent.parent.width-2)) * (numSet.getMax()-numSet.getMin())+numSet.getMin()), 2));
 			}
 		}
-		
-		mc.textRenderer.draw(matrices, numSet.getName(), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B);
-		mc.textRenderer.draw(matrices, ""+roundToPlace(numSet.getValue(), 1), parent.parent.x + parent.parent.width-mc.textRenderer.getWidth(""+roundToPlace(numSet.getValue(), 1))-2, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B);
+
+		textRend.drawString(matrices, numSet.getName(), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B,1);
+		textRend.drawString(matrices, ""+roundToPlace(numSet.getValue(), 1), parent.parent.x + parent.parent.width-mc.textRenderer.getWidth(""+roundToPlace(numSet.getValue(), 1))-2, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B,1);
 
 		super.render(matrices, mouseX, mouseY, delta);
 	}
