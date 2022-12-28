@@ -6,11 +6,9 @@ import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import sudo.Client;
 import sudo.module.Mod;
 import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
-import sudo.module.movement.Example;
 import sudo.ui.screens.clickgui.setting.ColorBox;
 import sudo.ui.screens.clickgui.setting.Component;
 import sudo.utils.text.GlyphPageFontRenderer;
@@ -46,7 +44,7 @@ public class Frame {
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		DrawableHelper.fill(matrices, x, y, x + width, y + height, Client.moduleManager.getModule(Example.class).color.getColor().getRGB());
+		DrawableHelper.fill(matrices, x, y, x + width, y + height, 0xffA962E8);
 		textRend.drawString(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - (mc.textRenderer.fontHeight/2)-2, -1, 1);
 		if (extended) {
 			for (ModuleButton button : buttons) {
@@ -103,7 +101,9 @@ public class Frame {
 				for (Component component : button.components) {
 					if (component.setting.isVisible()) {
 						if (component instanceof ColorBox) {
-							offset += height * (((ColorBox)component).open ? 6.5f : 1);
+							if (((ColorBox)component).open) offset += height*6.5f;
+							else offset+=height;
+//							offset += height * (((ColorBox)component).open ? 6.5f : 1);
 						} else offset += height;
 //						offset += (component instanceof ColorBox ? height * (((ColorBox)component).open ? 6.5f : 1) : height);
 					}

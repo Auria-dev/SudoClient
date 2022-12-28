@@ -41,6 +41,7 @@ public class ColorBox extends Component{
             RenderUtils.setup2DRender(true);
             RenderUtils.end2DRender();
             open = !open;
+            parent.parent.updateButton();
             rmDown = false;
         }
         RenderUtils.fill(matrices, sx + 190, sy - 12, sx + 160, sy - 4, colorSet.getColor().getRGB());
