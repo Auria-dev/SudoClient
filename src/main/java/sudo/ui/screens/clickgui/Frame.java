@@ -101,11 +101,9 @@ public class Frame {
 				for (Component component : button.components) {
 					if (component.setting.isVisible()) {
 						if (component instanceof ColorBox) {
-							if (((ColorBox)component).open) offset += height*6.5f;
+							if (((ColorBox)component).open) offset += height*6.2f;
 							else offset+=height;
-//							offset += height * (((ColorBox)component).open ? 6.5f : 1);
 						} else offset += height;
-//						offset += (component instanceof ColorBox ? height * (((ColorBox)component).open ? 6.5f : 1) : height);
 					}
 				}
 			}
