@@ -1,4 +1,4 @@
-package sudo.core.font;
+package sudo.utils.text;
 
 import java.awt.Color;
 import java.awt.Font;

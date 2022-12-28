@@ -1,4 +1,4 @@
-package sudo.core.font;
+package sudo.utils.text;
 
 public class IFont {
     public static GlyphPageFontRenderer CONSOLAS = GlyphPageFontRenderer.create("Inter-Medium",

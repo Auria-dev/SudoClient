@@ -5,11 +5,11 @@ import java.math.RoundingMode;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import sudo.core.font.GlyphPageFontRenderer;
-import sudo.core.font.IFont;
 import sudo.module.settings.NumberSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
+import sudo.utils.text.GlyphPageFontRenderer;
+import sudo.utils.text.IFont;
 
 public class Slider extends Component {
 	
