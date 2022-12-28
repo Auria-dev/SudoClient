@@ -29,11 +29,11 @@ public class CheckBox extends Component {
 
 		if (boolSet.isEnabled()) {
 			RenderUtils.renderRoundedQuad(matrices, new Color(157, 115, 230), (parent.parent.x + offsetY) + 88, (parent.parent.y + parent.offset + offset + offsetY) + 2, parent.parent.x + offsetY + 94, parent.parent.y + parent.offset + offset + offsetY + 8, 1, 100);
-			mc.textRenderer.draw(matrices, "✗", parent.parent.width+1, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, -1);
+//			textRend.drawString(matrices, "X", parent.parent.width+1, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, -1, 1);
 		} else if (!boolSet.isEnabled()) {
 			RenderUtils.renderRoundedQuad(matrices, new Color(84, 84, 84), (parent.parent.x + offsetY) + 88, (parent.parent.y + parent.offset + offset + offsetY) + 2, parent.parent.x + offsetY + 94, parent.parent.y + parent.offset + offset + offsetY + 8, 1, 100);
 		}
-		textRend.drawString(matrices, boolSet.getName(), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B,1);
+		textRend.drawString(matrices, boolSet.getName(), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset-3, 0xff8B8B8B,1);
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 	
