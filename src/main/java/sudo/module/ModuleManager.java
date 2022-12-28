@@ -3,7 +3,7 @@ package sudo.module;
 import java.util.ArrayList;
 import java.util.List;
 
-import sudo.module.movement.Flight;
+import sudo.module.movement.*;
 
 public class ModuleManager {
 
@@ -29,5 +29,6 @@ public class ModuleManager {
 	
 	private void addModules() {
 		modules.add(new Flight());
+		modules.add(new Sprint());
 	}
 }
