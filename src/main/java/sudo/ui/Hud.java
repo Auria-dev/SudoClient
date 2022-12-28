@@ -5,10 +5,10 @@ import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import sudo.core.font.GlyphPageFontRenderer;
-import sudo.core.font.IFont;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
+import sudo.utils.text.GlyphPageFontRenderer;
+import sudo.utils.text.IFont;
 
 public class Hud {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
