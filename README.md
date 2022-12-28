@@ -1,8 +1,8 @@
-# sudo client
+# Sudo Client
 haha funny 5$ client
 
 # ToDo
 * make clickgui
 * add event system
 * more modules?
-* smth else that i cant remember
+* fix the configmanager
