@@ -1,7 +1,12 @@
 package sudo.module;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.module.settings.KeybindSetting;
+import sudo.module.settings.Setting;
 
 public class Mod {
 	protected MinecraftClient mc = MinecraftClient.getInstance();
@@ -13,13 +18,30 @@ public class Mod {
 	public int key;
 	private boolean enabled;
 	
+	private List<Setting> settings = new ArrayList<>();
+	
 	public Mod(String name, String description, Category category, int key) {
 		this.name = name;
 		this.displayName = name;
 		this.description = description;
 		this.category = category;
 		this.key = key;
+		
+		addSetting(new KeybindSetting("Bind: ", key));
 	}
+	
+	public List<Setting> getSetting() {
+		return settings;
+	}
+	
+	public void addSetting(Setting setting) {
+		settings.add(setting);
+	}
+	
+	public void addSettings(Setting...settings) {
+		for (Setting setting : settings) addSetting(setting);
+	}
+	
 	
 	public void toggle() {
 		this.enabled = !this.enabled;

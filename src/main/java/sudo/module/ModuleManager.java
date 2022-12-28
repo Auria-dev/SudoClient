@@ -41,6 +41,7 @@ public class ModuleManager {
 	}
 	private void addModules() {
 		modules.add(new Flight());
+		modules.add(new Example());
 		modules.add(new Sprint());
 	}
 }

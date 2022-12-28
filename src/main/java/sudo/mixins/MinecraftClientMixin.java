@@ -10,10 +10,7 @@ import net.minecraft.client.MinecraftClient;
 //import net.minecraft.entity.Entity;
 import sudo.Client;
 
-import java.util.Objects;
-//import skiddedclient.Client;
-//import skiddedclient.module.ModuleManager;
-//import skiddedclient.module.render.ESP;
+//import java.util.Objects;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
@@ -27,18 +24,7 @@ public class MinecraftClientMixin {
     public void getWindowTitle(CallbackInfoReturnable<String> ci) {
         ci.setReturnValue("Sudo client");
     }
-
-
-	@Inject(at = @At("TAIL"), method = "scheduleStop")
-	public void onShutdown(CallbackInfo ci) {
-		this.saveConfig();
-	}
-
-	public void saveConfig() {
-		Client.logger.warn("Saving config");
-		Objects.requireNonNull(Client.configManager).saveAll();
-		Client.logger.warn("Config saved!");
-	}
+	
 //	@SuppressWarnings("static-access")
 //	@Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
 //	private void onHasOutline(Entity entity, CallbackInfoReturnable<Boolean> info){
