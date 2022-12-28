@@ -3,6 +3,7 @@ package sudo;
 import net.fabricmc.api.ModInitializer;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
+import sudo.ui.screens.clickgui.ClickGUI;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,7 @@ public class Client implements ModInitializer{
 	public void onKeyPress(int key, int action) {
 		if (action == GLFW.GLFW_PRESS) {
 			if (mc.currentScreen==null) {
+				if (key==GLFW.GLFW_KEY_RIGHT_SHIFT) mc.setScreen(ClickGUI.INSTANCE);
 				for (Mod module : ModuleManager.INSTANCE.getModules()) {
 					if (key==module.getKey()) module.toggle();
 				}
