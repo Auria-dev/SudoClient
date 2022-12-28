@@ -50,4 +50,12 @@ public class ClickGUI extends Screen {
 		}
 		return super.mouseReleased(mouseX, mouseY, button);
 	}
+	
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+	    for (Frame frame : frames) {
+	        frame.keyPressed(keyCode);
+	    }
+	    return super.keyPressed(keyCode, scanCode, modifiers);
+	}
 }

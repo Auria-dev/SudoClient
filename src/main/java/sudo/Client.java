@@ -1,8 +1,7 @@
 package sudo;
 
 import net.fabricmc.api.ModInitializer;
-import org.checkerframework.checker.units.qual.C;
-import sudo.managers.ConfigManager;
+//import org.checkerframework.checker.units.qual.C;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.ui.screens.clickgui.ClickGUI;
@@ -19,13 +18,11 @@ public class Client implements ModInitializer{
 	public static Logger logger = LogManager.getLogger(Client.class);
 	private MinecraftClient mc = MinecraftClient.getInstance();
 	public static ModuleManager moduleManager = null;
-	public static ConfigManager configManager = null;
 
 	@Override
 	public void onInitialize() {
 		logger.info("> Sudo client");
 		moduleManager = new ModuleManager();
-		configManager = new ConfigManager();
 	}
 	
 	public void onKeyPress(int key, int action) {
