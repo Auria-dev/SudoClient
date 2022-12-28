@@ -9,6 +9,8 @@ import me.surge.animation.Easing;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.core.font.GlyphPageFontRenderer;
+import sudo.core.font.IFont;
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.KeybindSetting;
@@ -26,6 +28,7 @@ public class ModuleButton {
 	private ColourAnimation hoverAnim = new ColourAnimation(new Color(0xff2A2A2A), new Color(0xff1c1c1c), 300F, false, Easing.LINEAR);
 	private ColourAnimation enabledAnim = new ColourAnimation(new Color(0xff545454), new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
 	private ColourAnimation textEnabledAnim = new ColourAnimation(Color.WHITE, new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
+	GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 
 	public Mod module;
 	public Frame parent;
@@ -67,7 +70,7 @@ public class ModuleButton {
 				parent.x + parent.width-2, 
 				parent.y+offset+parent.height-2,
 				enabledAnim.getColour().getRGB());
-		parent.mc.textRenderer.draw(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1, textEnabledAnim.getColour().getRGB());
+		textRend.drawString(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1, textEnabledAnim.getColour().getRGB(), 1);
 		
 		if (extended) {
 			for (Component component : components) {

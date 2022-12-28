@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.core.font.GlyphPageFontRenderer;
+import sudo.core.font.IFont;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
@@ -12,7 +14,8 @@ import sudo.utils.render.RenderUtils;
 public class CheckBox extends Component {
 
 	private BooleanSetting boolSet = (BooleanSetting)setting;
-	
+	GlyphPageFontRenderer textRend = IFont.CONSOLAS;
+
 	public CheckBox(Setting setting, ModuleButton parent, int offset) {
 		super(setting, parent, offset);
 		this.boolSet = (BooleanSetting)setting;
@@ -30,7 +33,7 @@ public class CheckBox extends Component {
 		} else if (!boolSet.isEnabled()) {
 			RenderUtils.renderRoundedQuad(matrices, new Color(84, 84, 84), (parent.parent.x + offsetY) + 88, (parent.parent.y + parent.offset + offset + offsetY) + 2, parent.parent.x + offsetY + 94, parent.parent.y + parent.offset + offset + offsetY + 8, 1, 100);
 		}
-		mc.textRenderer.draw(matrices, boolSet.getName(), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B);
+		textRend.drawString(matrices, boolSet.getName(), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset, 0xff8B8B8B,1);
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 	
