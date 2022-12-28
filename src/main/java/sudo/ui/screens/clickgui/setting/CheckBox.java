@@ -4,12 +4,12 @@ import java.awt.Color;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import sudo.core.font.GlyphPageFontRenderer;
-import sudo.core.font.IFont;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
 import sudo.utils.render.RenderUtils;
+import sudo.utils.text.GlyphPageFontRenderer;
+import sudo.utils.text.IFont;
 
 public class CheckBox extends Component {
 

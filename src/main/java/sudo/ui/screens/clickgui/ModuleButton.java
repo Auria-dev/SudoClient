@@ -9,11 +9,19 @@ import me.surge.animation.Easing;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import sudo.core.font.GlyphPageFontRenderer;
-import sudo.core.font.IFont;
 import sudo.module.Mod;
-import sudo.module.settings.*;
-import sudo.ui.screens.clickgui.setting.*;
+import sudo.module.settings.BooleanSetting;
+import sudo.module.settings.KeybindSetting;
+import sudo.module.settings.ModeSetting;
+import sudo.module.settings.NumberSetting;
+import sudo.module.settings.Setting;
+import sudo.ui.screens.clickgui.setting.CheckBox;
+import sudo.ui.screens.clickgui.setting.Component;
+import sudo.ui.screens.clickgui.setting.Keybind;
+import sudo.ui.screens.clickgui.setting.ModeBox;
+import sudo.ui.screens.clickgui.setting.Slider;
+import sudo.utils.text.GlyphPageFontRenderer;
+import sudo.utils.text.IFont;
 
 public class ModuleButton {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
@@ -45,8 +53,6 @@ public class ModuleButton {
 				components.add(new Slider(setting, this, setOffset));
 			} else if (setting instanceof KeybindSetting) {
 				components.add(new Keybind(setting, this, setOffset));
-			}else if (setting instanceof ColorSetting){
-				components.add(new ColorBox(setting, this, setOffset));
 			}
 			setOffset += parent.height;
 		}
