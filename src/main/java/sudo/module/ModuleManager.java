@@ -45,8 +45,15 @@ public class ModuleManager {
 		return categoryModules;
 	}
 	private void addModules() {
-		modules.add(new Flight());
 		modules.add(new Example());
+		modules.add(new Flight());
+		modules.add(new ElytraFly());
 		modules.add(new Sprint());
+		modules.add(new InvWalk());
+		modules.add(new Spider());
+		modules.add(new FastStop());
+		modules.add(new NoFall());
+		modules.add(new Strafe());
+		modules.add(new Step());
 	}
 }

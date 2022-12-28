@@ -11,6 +11,7 @@ import sudo.module.Mod;
 import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
 import sudo.module.movement.Example;
+import sudo.ui.screens.clickgui.setting.ColorBox;
 import sudo.ui.screens.clickgui.setting.Component;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
@@ -45,7 +46,7 @@ public class Frame {
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		DrawableHelper.fill(matrices, x, y, x + width, y + height, Client.moduleManager.getModule(Example.class).coolor.getColor().getRGB());
+		DrawableHelper.fill(matrices, x, y, x + width, y + height, Client.moduleManager.getModule(Example.class).color.getColor().getRGB());
 		textRend.drawString(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - (mc.textRenderer.fontHeight/2)-2, -1, 1);
 		if (extended) {
 			for (ModuleButton button : buttons) {
@@ -100,7 +101,12 @@ public class Frame {
 			
 			if (button.extended) {
 				for (Component component : button.components) {
-					if (component.setting.isVisible()) offset += height;
+					if (component.setting.isVisible()) {
+						if (component instanceof ColorBox) {
+							offset += height * (((ColorBox)component).open ? 6.5f : 1);
+						} else offset += height;
+//						offset += (component instanceof ColorBox ? height * (((ColorBox)component).open ? 6.5f : 1) : height);
+					}
 				}
 			}
 		}

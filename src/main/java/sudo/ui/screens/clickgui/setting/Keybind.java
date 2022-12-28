@@ -53,7 +53,10 @@ public class Keybind extends Component {
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset, parent.parent.x + parent.parent.width, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff1f1f1f);
 		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff9D73E6);
 		
-		if (isBinding==false) textRend.drawString(matrices, "Bind: " + KeyUtils.NumToKey(binding.getKey()), parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset-3, 0xff8B8B8B,1);
+		if (isBinding==false) {
+			textRend.drawString(matrices, "Bind: ", parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset-3, 0xff8B8B8B,1);
+			textRend.drawString(matrices, KeyUtils.NumToKey(binding.getKey()), parent.parent.x+parent.parent.width-textRend.getStringWidth(KeyUtils.NumToKey(binding.getKey()))-2, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset-3, 0xff8B8B8B,1);
+		}
 		if (isBinding==true) textRend.drawString(matrices, "Binding...", parent.parent.x + 7, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset-3, 0xff8B8B8B,1);
 
 		
