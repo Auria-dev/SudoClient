@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sudo.module.Mod.Category;
+import sudo.module.combat.Criticals;
+import sudo.module.combat.Velocity;
+import sudo.module.dev.PacketLogger;
 import sudo.module.movement.*;
+import sudo.module.render.HoleESP;
 
 public class ModuleManager {
 
@@ -32,6 +36,15 @@ public class ModuleManager {
 		
 		return enabled;
 	}
+
+	public Mod getModuleByName(String moduleName) {
+		for(Mod mod : modules) {
+			if ((mod.getName().trim().equalsIgnoreCase(moduleName)) || (mod.toString().trim().equalsIgnoreCase(moduleName.trim()))) {
+				return mod;
+			}
+		}
+		return null;
+	}
 	
 	public List<Mod> getModulesInCategory(Category category) {
 		List<Mod> categoryModules = new ArrayList<>();
@@ -55,5 +68,9 @@ public class ModuleManager {
 		modules.add(new NoFall());
 		modules.add(new Strafe());
 		modules.add(new Step());
+		modules.add(new PacketLogger());
+		modules.add(new Velocity());
+		modules.add(new HoleESP());
+		modules.add(new Criticals());
 	}
 }

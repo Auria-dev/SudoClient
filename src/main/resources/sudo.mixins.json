@@ -8,7 +8,12 @@
   "client": [
     "MinecraftClientMixin",
     "KeyboardMixin",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "ClientConnectionMixin",
+    "WorldRendererMixin",
+    "accessors.IExplosionS2CPacketAccessor",
+    "accessors.IEntityVelocityUpdateS2CPacketAccessor",
+    "accessors.WorldRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
