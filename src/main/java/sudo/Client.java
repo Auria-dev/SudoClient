@@ -1,7 +1,7 @@
 package sudo;
 
 import net.fabricmc.api.ModInitializer;
-//import org.checkerframework.checker.units.qual.C;
+import com.google.common.eventbus.EventBus;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.ui.screens.clickgui.ClickGUI;
@@ -18,6 +18,7 @@ public class Client implements ModInitializer{
 	public static Logger logger = LogManager.getLogger(Client.class);
 	private MinecraftClient mc = MinecraftClient.getInstance();
 	public static ModuleManager moduleManager = null;
+	public static final EventBus EventBus = new EventBus();
 
 	@Override
 	public void onInitialize() {

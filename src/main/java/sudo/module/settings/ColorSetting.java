@@ -68,14 +68,14 @@ public class ColorSetting extends Setting {
     public Color getColor() {
         return new Color(getRGB());
     }
-	public String getHex() {
-		return Integer.toHexString(getRGB());
-	}
-	
-	public String rgbToHex(int rgb) {
-		return Integer.toHexString(rgb);
-	}
-	
+    public String getHex() {
+        return Integer.toHexString(getRGB());
+    }
+
+    public String rgbToHex(int rgb) {
+        return Integer.toHexString(rgb);
+    }
+
     public float[] rgbToHsv(float r, float g, float b, float a) {
         float[] hsv = Color.RGBtoHSB((int) r, (int) g, (int) b, null);
         return new float[]{hsv[0], hsv[1], hsv[2], a / 255f};

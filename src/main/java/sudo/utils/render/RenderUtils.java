@@ -4,17 +4,24 @@ import java.awt.Color;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
+import sudo.mixins.accessors.WorldRendererAccessor;
 
 public class RenderUtils {
+
+
+    @SuppressWarnings("resource")
+    public static Frustum getFrustum() {
+        return ((WorldRendererAccessor) MinecraftClient.getInstance().worldRenderer).getFrustum();
+    }
+
     public static void renderRoundedQuadInternal(Matrix4f matrix, float cr, float cg, float cb, float ca, double fromX, double fromY, double toX, double toY, double rad, double samples) { 
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer(); 
         bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR); 
@@ -68,6 +75,26 @@ public class RenderUtils {
         RenderSystem.enableDepthTest();
     }
 
+    public static void setup3DRender(boolean disableDepth) {
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        if (disableDepth)
+            RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(MinecraftClient.isFabulousGraphicsOrBetter());
+        RenderSystem.enableCull();
+    }
+
+    public static void end3DRender() {
+        RenderSystem.enableTexture();
+        RenderSystem.disableCull();
+        RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthMask(true);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+    }
+
     public static void fill(MatrixStack matrixStack, double x1, double y1, double x2, double y2, int color) {
         Matrix4f matrix = matrixStack.peek().getPositionMatrix();
         double j;
@@ -100,6 +127,19 @@ public class RenderUtils {
         BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
+    }
+
+    @SuppressWarnings("resource")
+    public static MatrixStack matrixFrom(double x, double y, double z) {
+        MatrixStack matrices = new MatrixStack();
+
+        Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
+        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0F));
+
+        matrices.translate(x - camera.getPos().x, y - camera.getPos().y, z - camera.getPos().z);
+
+        return matrices;
     }
 
     public static void drawOutlineCircle(MatrixStack matrices, double xx, double yy, double radius, Color color) {
@@ -138,5 +178,53 @@ public class RenderUtils {
         bufferBuilder.vertex(matrices, (float)x1, (float)y0, (float)z).texture(u1, v0).next();
         bufferBuilder.vertex(matrices, (float)x0, (float)y0, (float)z).texture(u0, v0).next();
         BufferRenderer.drawWithShader(bufferBuilder.end());
+    }
+
+    public static void drawBoxFill(Box box, QuadColor color, Direction... excludeDirs) {
+        if (!getFrustum().isVisible(box)) {
+            return;
+        }
+
+        setup3DRender(true);
+
+        MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+
+        // Fill
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+        buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        Vertexer1.vertexBoxQuads(matrices, buffer, Boxes.moveToZero(box), color, excludeDirs);
+        tessellator.draw();
+
+        end3DRender();
+    }
+
+    public static void drawBoxOutline(Box box, QuadColor color, float lineWidth, Direction... excludeDirs) {
+        if (!getFrustum().isVisible(box)) {
+            return;
+        }
+
+        setup3DRender(true);
+
+        MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+
+        // Outline
+        RenderSystem.disableCull();
+        RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
+        RenderSystem.lineWidth(lineWidth);
+
+        buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
+        Vertexer1.vertexBoxLines(matrices, buffer, Boxes.moveToZero(box), color, excludeDirs);
+        tessellator.draw();
+
+        RenderSystem.enableCull();
+
+        end3DRender();
     }
 }
