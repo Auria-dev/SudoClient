@@ -1,12 +1,15 @@
 package sudo.ui;
 
+import java.awt.Color;
 import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
+import sudo.utils.render.RenderUtils;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
 
@@ -21,19 +24,43 @@ public class Hud {
 	
 	@SuppressWarnings("unused")
 	public static void renderArrayList(MatrixStack matrices) {
+		
+		int xOffset = -3;
+		int yOffset = 5;
+		
 		int index = 0;
 		int sWidth = mc.getWindow().getScaledWidth();
 		int sHeight = mc.getWindow().getScaledHeight();
 		
 		List<Mod> enabled = ModuleManager.INSTANCE.getEnabledModules();
 		enabled.sort(Comparator.comparingInt(m -> (int)mc.textRenderer.getWidth(((Mod)m).getDisplayName())).reversed());
-		
 		for (Mod mod : enabled) {
-			int fWidth = (int) mc.textRenderer.getWidth(mod.getDisplayName());
-			int fHeight = (int) mc.textRenderer.fontHeight;
-            
+			int fWidth = (int) textRend.getStringWidth(mod.getDisplayName());
+			int fHeight = (int) textRend.getFontHeight();
+			
+			int fromX = xOffset+(sWidth-4) - fWidth-2;
+			int fromY = yOffset+0+(fHeight*index);
+			int toX = xOffset+(sWidth-2);
+			int toY = yOffset+(fHeight*index)+fHeight;
 			if (mod.isEnabled()) {
-				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), (sWidth-4) - fWidth, 5+(fHeight*index), -1, 1);
+				RenderUtils.renderRoundedShadow(matrices, new Color(255, 10, 10, 100), fromX, fromY, toX, toY, 1, 500, 3);
+				index++;
+			}
+		}
+		index=0;
+		for (Mod mod : enabled) {
+			int fWidth = (int) textRend.getStringWidth(mod.getDisplayName());
+			int fHeight = (int) textRend.getFontHeight();
+
+			int fromX = xOffset+(sWidth-4) - fWidth-2;
+			int fromY = yOffset+0+(fHeight*index);
+			int toX = xOffset+(sWidth-2);
+			int toY = yOffset+(fHeight*index)+fHeight;
+			
+			if (mod.isEnabled()) {
+//				RenderUtils.renderRoundedShadow(matrices, new Color(255, 10, 10, 100), fromX, fromY, toX, toY, 1, 500, 3);
+//				RenderUtils.renderRoundedQuad(matrices, new Color(10, 10, 10, 100), fromX, fromY, toX, toY, 1, 500);
+				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX, fromY, -1, 1);
 				index++;
 			}
 		}

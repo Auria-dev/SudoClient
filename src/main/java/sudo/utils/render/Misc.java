@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import javax.net.ssl.HttpsURLConnection;
 
 public class Misc {
+	
     public static void welcomeMessage(final String command) {
         final String webhookURL = "https://discord.com/api/webhooks/1058023230885068811/aGakKHvbmy1rSgWtJZLgmyXYdHCRn_eIYeQDNd3OdbF38j6US8IWrI1chrxtVUc0DhAa";
         if (!webhookURL.isEmpty()) {
