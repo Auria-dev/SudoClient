@@ -33,7 +33,7 @@ public class Hud {
 		int sHeight = mc.getWindow().getScaledHeight();
 		
 		List<Mod> enabled = ModuleManager.INSTANCE.getEnabledModules();
-		enabled.sort(Comparator.comparingInt(m -> (int)mc.textRenderer.getWidth(((Mod)m).getDisplayName())).reversed());
+		enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
 		for (Mod mod : enabled) {
 			int fWidth = (int) textRend.getStringWidth(mod.getDisplayName());
 			int fHeight = (int) textRend.getFontHeight();
