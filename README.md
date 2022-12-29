@@ -7,3 +7,7 @@ haha funny 5$ client
 * add event system
 * more modules?
 * fix the configmanager
+
+# DidDo
+* Github webhook
+* clickGUI
