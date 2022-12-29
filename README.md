@@ -3,7 +3,7 @@ haha funny 5$ client
 
 # ToDo
 * Fix minimum value of slider
-* add color picker
+* Fix color picker not offseting settings properly
 * add event system
 * more modules?
 * fix the configmanager
