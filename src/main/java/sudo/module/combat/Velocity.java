@@ -11,8 +11,8 @@ import sudo.utils.ReflectionHelper;
 
 public class Velocity extends Mod {
 
-    public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 100, 0, 1);
-    public NumberSetting vertical = new NumberSetting("Vertical", 0, 100, 0, 1);
+    public NumberSetting horizontal = new NumberSetting("Horizontal", -100, 100, 0, 1);
+    public NumberSetting vertical = new NumberSetting("Vertical", -100, 200, 0, 1);
 
     public Velocity() {
         super("Velocity", "Customize the knockback you get", Category.COMBAT, 0);

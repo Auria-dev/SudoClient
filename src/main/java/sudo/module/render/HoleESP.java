@@ -9,7 +9,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import org.checkerframework.checker.units.qual.C;
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
@@ -27,7 +26,7 @@ public class HoleESP extends Mod {
     public BooleanSetting out = new BooleanSetting("Outline", false);
     public BooleanSetting fill = new BooleanSetting("Fill", true);
 
-    public ColorSetting bedrockColor = new ColorSetting("BedRock", new Color(30,235,30));
+    public ColorSetting bedrockColor = new ColorSetting("Bedrock", new Color(30,235,30));
     public ColorSetting obsidianColor = new ColorSetting("Obsidian", new Color(30,235,235));
     public ColorSetting mixedColor = new ColorSetting("Mixed", new Color(127,0,127));
 

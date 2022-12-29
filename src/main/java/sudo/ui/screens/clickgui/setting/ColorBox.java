@@ -40,15 +40,15 @@ public class ColorBox extends Component{
         textRend.drawString(matrices, colorSet.name, (int) sx, (int) sy - 12, -1, 1);
         textRend.drawString(matrices, "#" + colorSet.getHex().substring(1), (int) sx + textRend.getStringWidth(colorSet.name) + 3, (int) sy - 12, colorSet.getRGB(),1);
         
-        if (hovered((int)mouseX, (int)mouseY, sx + (open ? 83 : 73), sy - 12, sx + 91, sy - (open? 2:0)) && rmDown) {
+        if (hovered((int)mouseX, (int)mouseY, sx + (open ? 83 : 83), sy - 12, sx + 91, sy - (open? 2:2)) && rmDown) {
             open = !open;
             parent.parent.updateButton();
             rmDown = false;
         }
 
-        RenderUtils.fill(matrices, sx + (open ? 83 : 73), sy - 10, sx + 91, sy - (open? 2:0), colorSet.getColor().getRGB()); //right clicked rect 
+        RenderUtils.fill(matrices, sx + (open ? 83 : 83), sy - 10, sx + 91, sy - (open? 2:2), colorSet.getColor().getRGB()); //right clicked rect 
 
-        if (hovered((int)mouseX, (int)mouseY, sx + (open ? 83 : 73), sy - 12, sx + 91, sy - 4)) {
+        if (hovered((int)mouseX, (int)mouseY, sx + (open ? 83 : 83), sy - 12, sx + 91, sy - 2)) {
             RenderUtils.setup2DRender(true);
             RenderUtils.fill(matrices, mouseX, mouseY+3, mouseX + textRend.getStringWidth("Right click to toggle color picker") + 6, mouseY - 9, new Color(0, 0, 0, 200).getRGB());
             textRend.drawString(matrices, "Right click to toggle color picker", mouseX + 2, mouseY - 10, -1, 1);
