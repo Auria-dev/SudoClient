@@ -11,6 +11,7 @@
     "InGameHudMixin",
     "ClientConnectionMixin",
     "WorldRendererMixin",
+    "MixinEntityRenderer",
     "accessors.IExplosionS2CPacketAccessor",
     "accessors.IEntityVelocityUpdateS2CPacketAccessor",
     "accessors.WorldRendererAccessor"

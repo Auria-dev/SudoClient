@@ -8,6 +8,7 @@ import sudo.module.combat.*;
 import sudo.module.dev.PacketLogger;
 import sudo.module.movement.*;
 import sudo.module.render.*;
+import sudo.module.world.FakePlayer;
 
 public class ModuleManager {
 
@@ -73,5 +74,7 @@ public class ModuleManager {
 		modules.add(new HoleESP());
 		modules.add(new Criticals());
 		modules.add(new ESP());
+		modules.add(new NameTags());
+		modules.add(new FakePlayer());
 	}
 }
