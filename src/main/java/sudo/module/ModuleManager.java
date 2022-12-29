@@ -76,5 +76,6 @@ public class ModuleManager {
 		modules.add(new ESP());
 		modules.add(new NameTags());
 		modules.add(new FakePlayer());
+		modules.add(new Chams());
 	}
 }

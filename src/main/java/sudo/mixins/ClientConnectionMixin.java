@@ -22,7 +22,7 @@ public class ClientConnectionMixin {
         EventSendPacket event = new EventSendPacket(packet);
         event.call();
         if (event.isCancelled()) ci.cancel();
-        if(ModuleManager.INSTANCE.getModule(Criticals.class).isEnabled()) {Criticals.instance.doCritical();}
+        if(ModuleManager.INSTANCE.getModule(Criticals.class).isEnabled()) {Criticals.instance.sendPacket(event);}
     }
 
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
