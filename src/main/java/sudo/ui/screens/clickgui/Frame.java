@@ -7,11 +7,9 @@ import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import sudo.Client;
 import sudo.module.Mod;
 import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
-import sudo.module.render.ClickGuiMod;
 import sudo.ui.screens.clickgui.setting.ColorBox;
 import sudo.ui.screens.clickgui.setting.Component;
 import sudo.utils.text.GlyphPageFontRenderer;
@@ -92,7 +90,23 @@ public class Frame {
 			
 		}
 	}
+	
+	public int getX() {
+		return x;
+	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 	public void updateButton() {
 		int offset = height;
 		

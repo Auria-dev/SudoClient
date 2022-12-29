@@ -27,6 +27,7 @@ public class ModuleButton {
 	public int offset;
 	public List<Component> components;
 	public boolean extended;
+	public float extraOffset;
 	
 	public ModuleButton(Mod module, Frame parent, int offset) {
 		this.module = module;
@@ -48,7 +49,7 @@ public class ModuleButton {
 			} else if (setting instanceof ColorSetting) {
 				components.add(new ColorBox(setting, this, setOffset));
 			}
-			setOffset += parent.height;
+			setOffset += parent.height*(setting instanceof ColorSetting ? (extraOffset=6.2f) : (extraOffset=1f));
 		}
 	}
 	
@@ -69,6 +70,7 @@ public class ModuleButton {
 		if (extended) {
 			for (Component component : components) {
 				component.render(matrices, mouseX, mouseY, delta);
+				parent.updateButton();
 			}
 		}
 	}
@@ -85,6 +87,7 @@ public class ModuleButton {
 		if (extended) {
 			for (Component component : components) {
 				component.mouseClicked(mouseX, mouseY, button);
+				parent.updateButton();
 			}
 		}
 	}

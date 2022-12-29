@@ -1,7 +1,5 @@
 package sudo.module.combat;
 
-import java.util.Objects;
-
 import com.google.common.eventbus.Subscribe;
 
 import io.netty.buffer.Unpooled;

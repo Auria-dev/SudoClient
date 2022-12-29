@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sudo.module.Mod.Category;
-import sudo.module.combat.Criticals;
-import sudo.module.combat.Velocity;
+import sudo.module.combat.*;
 import sudo.module.dev.PacketLogger;
 import sudo.module.movement.*;
-import sudo.module.render.HoleESP;
+import sudo.module.render.*;
 
 public class ModuleManager {
 
@@ -59,6 +58,7 @@ public class ModuleManager {
 	}
 	private void addModules() {
 		modules.add(new Example());
+		modules.add(new ClickGuiMod());
 		modules.add(new Flight());
 		modules.add(new ElytraFly());
 		modules.add(new Sprint());

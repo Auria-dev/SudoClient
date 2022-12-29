@@ -58,4 +58,14 @@ public class ClickGUI extends Screen {
 	    }
 	    return super.keyPressed(keyCode, scanCode, modifiers);
 	}
+	
+	
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+		for (Frame frame : frames) {
+			if (amount > 0) frame.setY((int) (frame.getY() + 5));
+			else if (amount < 0) frame.setY((int) (frame.getY() - 5));
+		}
+		return super.mouseScrolled(mouseX, mouseY, amount);
+	}
 }
