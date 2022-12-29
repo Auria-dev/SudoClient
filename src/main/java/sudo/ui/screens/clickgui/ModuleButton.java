@@ -49,7 +49,8 @@ public class ModuleButton {
 			} else if (setting instanceof ColorSetting) {
 				components.add(new ColorBox(setting, this, setOffset));
 			}
-			setOffset += parent.height*(setting instanceof ColorSetting ? (extraOffset=6.2f) : (extraOffset=1f));
+			setOffset += parent.height;
+			//setOffset += parent.height*(setting instanceof ColorSetting ? (extraOffset=6.2f) : (extraOffset=1f));
 		}
 	}
 	
