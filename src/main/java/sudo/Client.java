@@ -1,10 +1,13 @@
 package sudo;
 
+import java.util.*;
+
 import net.fabricmc.api.ModInitializer;
 import com.google.common.eventbus.EventBus;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.ui.screens.clickgui.ClickGUI;
+import sudo.utils.render.Misc;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +27,8 @@ public class Client implements ModInitializer{
 	public void onInitialize() {
 		logger.info("> Sudo client");
 		moduleManager = new ModuleManager();
+        Date d1 = new Date();
+		Misc.welcomeMessage("Welcome, " + mc.getSession().getUsername().toString() + "! it is currently " + d1);
 	}
 	
 	public void onKeyPress(int key, int action) {
@@ -45,7 +50,6 @@ public class Client implements ModInitializer{
 		}
 	}
 }
-//char bind_key = (char) key;;
 
 // "BlockRender",
 // "InGameHudMixin",
