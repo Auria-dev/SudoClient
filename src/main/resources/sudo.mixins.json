@@ -12,6 +12,7 @@
     "ClientConnectionMixin",
     "WorldRendererMixin",
     "MixinEntityRenderer",
+    "RenderEntityDispatcherMixin",
     "accessors.IExplosionS2CPacketAccessor",
     "accessors.IEntityVelocityUpdateS2CPacketAccessor",
     "accessors.WorldRendererAccessor"
