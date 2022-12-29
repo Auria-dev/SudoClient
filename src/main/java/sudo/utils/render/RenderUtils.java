@@ -5,24 +5,13 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.Frustum;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.*;
 import sudo.mixins.accessors.WorldRendererAccessor;
 
 public class RenderUtils {
@@ -318,4 +307,55 @@ public class RenderUtils {
         matrixstack.multiply(new Quaternion(new Vec3f(0, 1, 0), 0, true));
         matrixstack.translate(-x, -y, -z);
     }
+
+    public static void drawText(Text text, double x, double y, double z, double scale, boolean fill) {
+        drawText(text, x, y, z, 0, 0, scale, fill);
+    }
+
+    public static Vec3d getInterpolationOffset(Entity e) {
+        if (MinecraftClient.getInstance().isPaused()) {
+            return Vec3d.ZERO;
+        }
+
+        double tickDelta = MinecraftClient.getInstance().getTickDelta();
+        return new Vec3d(
+                e.getX() - MathHelper.lerp(tickDelta, e.lastRenderX, e.getX()),
+                e.getY() - MathHelper.lerp(tickDelta, e.lastRenderY, e.getY()),
+                e.getZ() - MathHelper.lerp(tickDelta, e.lastRenderZ, e.getZ()));
+    }
+
+    public static void drawText(Text text, double x, double y, double z, double offX, double offY, double scale, boolean fill) {
+        MatrixStack matrices = matrixFrom(x, y, z);
+
+        Camera camera = mc.gameRenderer.getCamera();
+        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
+        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+
+        matrices.translate(offX, offY, 0);
+        matrices.scale(-0.025f * (float) scale, -0.025f * (float) scale, 1);
+
+        int halfWidth = mc.textRenderer.getWidth(text) / 2;
+
+        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+
+        if (fill) {
+            int opacity = (int) (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.6F) * 255.0F) << 24;
+            mc.textRenderer.draw(text, -halfWidth, 0f, 553648127, false, matrices.peek().getPositionMatrix(), immediate, true, opacity, 0xf000f0);
+            immediate.draw();
+        } else {
+            matrices.push();
+            matrices.translate(1, 1, 0);
+            immediate.draw();
+            matrices.pop();
+        }
+
+        mc.textRenderer.draw(text, -halfWidth, 0f, -1, false, matrices.peek().getPositionMatrix(), immediate, true, 0, 0xf000f0);
+        immediate.draw();
+
+        RenderSystem.disableBlend();
+    }
+
 }
