@@ -72,5 +72,6 @@ public class ModuleManager {
 		modules.add(new Velocity());
 		modules.add(new HoleESP());
 		modules.add(new Criticals());
+		modules.add(new ESP());
 	}
 }

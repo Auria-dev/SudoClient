@@ -7,10 +7,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.client.MinecraftClient;
-//import net.minecraft.entity.Entity;
+import net.minecraft.entity.Entity;
 import sudo.Client;
+import sudo.module.ModuleManager;
+import sudo.module.render.ESP;
 
-//import java.util.Objects;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
@@ -25,11 +26,10 @@ public class MinecraftClientMixin {
         ci.setReturnValue("Sudo client");
     }
 	
-//	@SuppressWarnings("static-access")
-//	@Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
-//	private void onHasOutline(Entity entity, CallbackInfoReturnable<Boolean> info){
-//		if(ModuleManager.INSTANCE.getModule(ESP.class).isEnabled() && ModuleManager.INSTANCE.getModule(ESP.class).mode.is("Glow") && ModuleManager.INSTANCE.getModule(ESP.class).shouldRenderEntity(entity)) {
-//			info.setReturnValue(true);
-//		}
-//	}
+	@Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
+	private void onHasOutline(Entity entity, CallbackInfoReturnable<Boolean> info){
+		if(ModuleManager.INSTANCE.getModule(ESP.class).isEnabled() && ModuleManager.INSTANCE.getModule(ESP.class).mode.is("Glow") && ModuleManager.INSTANCE.getModule(ESP.class).shouldRenderEntity(entity)) {
+			info.setReturnValue(true);
+		}
+	}
 }

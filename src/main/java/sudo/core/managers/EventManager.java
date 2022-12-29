@@ -130,5 +130,8 @@ public class EventManager {
 		REGISTRY_MAP.clear();
 	}
 
+	public ArrayHelper<Data> get2(final Class<sudo.events.Event> class1) {
+		return REGISTRY_MAP.get(class1);
+	}
 }
 
