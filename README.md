@@ -7,6 +7,7 @@ haha funny 5$ client
 * add event system
 * more modules?
 * fix the configmanager
+* discord server
 
 # DidDo
 * Github webhook
