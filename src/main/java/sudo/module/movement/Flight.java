@@ -1,5 +1,7 @@
 package sudo.module.movement;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.GameOptions;
@@ -27,7 +29,7 @@ public class Flight extends Mod {
 	int bypassTimer = 0;
 	
 	public Flight() {
-		super("Flight", "Allows you to fly", Category.MOVEMENT, 0);
+		super("Flight", "Allows you to fly", Category.MOVEMENT, GLFW.GLFW_KEY_G);
 		addSettings(speed, mode);
 	}
 	

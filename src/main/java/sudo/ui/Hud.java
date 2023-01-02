@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;

@@ -58,24 +58,30 @@ public class ModuleManager {
 		return categoryModules;
 	}
 	private void addModules() {
-		modules.add(new Example());
-		modules.add(new ClickGuiMod());
-		modules.add(new Flight());
-		modules.add(new ElytraFly());
-		modules.add(new Sprint());
-		modules.add(new InvWalk());
-		modules.add(new Spider());
-		modules.add(new FastStop());
-		modules.add(new NoFall());
-		modules.add(new Strafe());
-		modules.add(new Step());
-		modules.add(new PacketLogger());
-		modules.add(new Velocity());
-		modules.add(new HoleESP());
 		modules.add(new Criticals());
-		modules.add(new ESP());
-		modules.add(new NameTags());
-		modules.add(new FakePlayer());
+		modules.add(new Velocity());
+
+		modules.add(new PacketLogger());
+
+		modules.add(new ElytraFly());
+		modules.add(new Example());
+		modules.add(new FastStop());
+		modules.add(new Flight());
+		modules.add(new InvWalk());
+		modules.add(new NoFall());
+		modules.add(new Spider());
+		modules.add(new Sprint());
+		modules.add(new Step());
+		modules.add(new Strafe());
+
 		modules.add(new Chams());
+		modules.add(new ClickGuiMod());
+		modules.add(new ESP());
+		modules.add(new FakeHacker());
+		modules.add(new HoleESP());
+		modules.add(new NameTags());
+		modules.add(new Tracers());
+		
+		modules.add(new FakePlayer());
 	}
 }

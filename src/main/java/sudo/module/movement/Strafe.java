@@ -1,6 +1,8 @@
 package sudo.module.movement;
 
 
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.GameOptions;
@@ -25,7 +27,7 @@ public class Strafe extends Mod {
 	public ModeSetting mode = new ModeSetting("Mode", "Static", "Static", "Vanilla");
 		
 	public Strafe() {
-		super("Strafe", "Moves, but better", Category.MOVEMENT, 0);
+		super("Strafe", "Moves, but better", Category.MOVEMENT, GLFW.GLFW_KEY_V);
 		addSettings(speed, mode);
 	}
 	

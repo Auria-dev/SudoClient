@@ -2,6 +2,8 @@ package sudo.utils.render;
 
 import java.awt.Color;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MinecraftClient;
@@ -28,11 +30,52 @@ public class RenderUtils {
         RenderSystem.disableBlend();
     }
     
+	public static Vec3d center() {
+		Vec3d pos = new Vec3d(0, 0, 1);
+		
+        return new Vec3d(pos.x, -pos.y, pos.z)
+            .rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
+            .rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
+            .add(mc.gameRenderer.getCamera().getPos());
+	}
     @SuppressWarnings("resource")
     public static Frustum getFrustum() {
         return ((WorldRendererAccessor) MinecraftClient.getInstance().worldRenderer).getFrustum();
     }
+    
+	public static void line(Vec3d start, Vec3d end, Color color, MatrixStack matrices) {
+        float red = color.getRed() / 255f;
+        float green = color.getGreen() / 255f;
+        float blue = color.getBlue() / 255f;
+        float alpha = color.getAlpha() / 255f;
+        Camera c = mc.gameRenderer.getCamera();
+        Vec3d camPos = c.getPos();
+        start = start.subtract(camPos);
+        end = end.subtract(camPos);
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+        float x1 = (float) start.x;
+        float y1 = (float) start.y;
+        float z1 = (float) start.z;
+        float x2 = (float) end.x;
+        float y2 = (float) end.y;
+        float z2 = (float) end.z;
+        BufferBuilder buffer = Tessellator.getInstance().getBuffer();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        GL11.glDepthFunc(GL11.GL_ALWAYS);
+        
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableBlend();
+        buffer.begin(VertexFormat.DrawMode.DEBUG_LINES,
+                VertexFormats.POSITION_COLOR);
+        buffer.vertex(matrix, x1, y1, z1).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x2, y2, z2).color(red, green, blue, alpha).next();
 
+        BufferRenderer.drawWithShader(buffer.end());
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
+        RenderSystem.disableBlend();
+    }
+	
     public static void renderRoundedQuadInternal(Matrix4f matrix, float cr, float cg, float cb, float ca, double fromX, double fromY, double toX, double toY, double rad, double samples) { 
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer(); 
         bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR); 
