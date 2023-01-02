@@ -1,18 +1,14 @@
 package sudo.module.render;
 
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.profiling.jfr.event.PacketReceivedEvent;
 import sudo.events.EventReceivePacket;
-import sudo.events.PacketEvent;
 import sudo.module.Mod;
-import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -23,8 +19,6 @@ import sudo.module.settings.NumberSetting;
 import sudo.utils.render.RenderUtils;
 
 import java.text.DecimalFormat;
-import java.text.Normalizer;
-import java.util.List;
 import java.util.UUID;
 
 public class NameTags extends Mod {
