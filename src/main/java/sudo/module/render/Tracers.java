@@ -8,6 +8,7 @@ import java.util.stream.StreamSupport;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -17,24 +18,22 @@ import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
-import sudo.module.settings.NumberSetting;
+import sudo.module.settings.ColorSetting;
 import sudo.utils.render.RenderUtils;
 
 public class Tracers extends Mod {
 	
 	public BooleanSetting players = new BooleanSetting("Players", true);
 	public BooleanSetting monsters = new BooleanSetting("Monsters", true);
-	public BooleanSetting animals = new BooleanSetting("Animals", true);
 	public BooleanSetting passives = new BooleanSetting("Passives", true);
 	public BooleanSetting invisibles = new BooleanSetting("Invisibles", true);
+	public BooleanSetting items = new BooleanSetting("Items", true);
 	
-	public NumberSetting red = new NumberSetting("Color",  0, 255, 255, 1);
-	public NumberSetting blue = new NumberSetting("Color",  0, 255, 0, 1);
-	public NumberSetting green = new NumberSetting("Color",  0, 255, 0, 1);
+	public ColorSetting color = new ColorSetting("Color", new Color(255, 0, 0));
 	
 	public Tracers() {
 		super("Tracers", "Draws a line from the cursor to every entities", Category.RENDER, 0);
-		addSettings(players, monsters, animals, passives, invisibles, red,green,blue);
+		addSettings(players, monsters, items, passives, invisibles, color);
 	}
     
 	@Override
@@ -69,19 +68,17 @@ public class Tracers extends Mod {
 	public boolean shouldRenderEntity(Entity entity) {
 		if (players.isEnabled() && entity instanceof PlayerEntity) return true;
 		if (monsters.isEnabled() && entity instanceof Monster) return true;
-		if (animals.isEnabled() && entity instanceof AnimalEntity) return true;
-		if (passives.isEnabled() && entity instanceof PassiveEntity && !(entity instanceof AnimalEntity)) return true;
+		if (passives.isEnabled() && (entity instanceof PassiveEntity))return true;
 		if (invisibles.isEnabled() && entity.isInvisible()) return true;
+		if (items.isEnabled() && entity instanceof ItemEntity) return true;
 		return false;
 	}
 	
 	public Color getEntityColor(Entity entity) {
-		if (entity instanceof PlayerEntity) return new Color(red.getValueInt(), blue.getValueInt(), green.getValueInt());
-		if (entity instanceof Monster) return new Color(red.getValueInt(), blue.getValueInt(), green.getValueInt());
-		if (entity instanceof AnimalEntity) return new Color(red.getValueInt(), blue.getValueInt(), green.getValueInt());
-		if (entity instanceof PassiveEntity) return new Color(red.getValueInt(), blue.getValueInt(), green.getValueInt());
-		if (entity.isInvisible()) return new Color(red.getValueInt(), blue.getValueInt(), green.getValueInt());
-		
-		return new Color(255, 0, 0);
+		/* if (entity instanceof PlayerEntity) return color.getColor(); if (entity
+		 * instanceof Monster) return color.getColor(); if (entity instanceof
+		 * AnimalEntity) return color.getColor(); if (entity instanceof PassiveEntity)
+		 * return color.getColor(); if (entity.isInvisible()) return color.getColor(); */
+		return color.getColor();
 	}
 }

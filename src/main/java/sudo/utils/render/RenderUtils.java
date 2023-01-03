@@ -464,4 +464,46 @@ public class RenderUtils {
     public static float transformColor(float f) {
         return AlphaOverride.compute((int) (f * 255)) / 255f;
     }
+    
+	public static void renderOutlineRect(Entity e, Color color, MatrixStack stack) {
+        float red = color.getRed() / 255f;
+        float green = color.getGreen() / 255f;
+        float blue = color.getBlue() / 255f;
+        float alpha = color.getAlpha() / 255f;
+        Camera c = mc.gameRenderer.getCamera();
+        Vec3d camPos = c.getPos();
+        Vec3d start = e.getPos().subtract(camPos);
+        float x = (float) start.x;
+        float y = (float) start.y;
+        float z = (float) start.z;
+
+        double r = Math.toRadians(-c.getYaw() + 90);
+        float sin = (float) (Math.sin(r) * (e.getWidth() / 1.7));
+        float cos = (float) (Math.cos(r) * (e.getWidth() / 1.7));
+        stack.push();
+
+        Matrix4f matrix = stack.peek().getPositionMatrix();
+        BufferBuilder buffer = Tessellator.getInstance().getBuffer();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        GL11.glDepthFunc(GL11.GL_ALWAYS);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableBlend();
+        buffer.begin(VertexFormat.DrawMode.DEBUG_LINES,
+                VertexFormats.POSITION_COLOR);
+
+        buffer.vertex(matrix, x + sin, y, z + cos).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x - sin, y, z - cos).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x - sin, y, z - cos).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x - sin, y + e.getHeight(), z - cos).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x - sin, y + e.getHeight(), z - cos).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x + sin, y + e.getHeight(), z + cos).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x + sin, y + e.getHeight(), z + cos).color(red, green, blue, alpha).next();
+        buffer.vertex(matrix, x + sin, y, z + cos).color(red, green, blue, alpha).next();
+
+        BufferRenderer.drawWithShader(buffer.end());
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
+        RenderSystem.disableBlend();
+        stack.pop();
+    }
 }
