@@ -28,7 +28,7 @@ public class Client implements ModInitializer{
 		logger.info("> Sudo client");
 		moduleManager = new ModuleManager();
         Date d1 = new Date();
-		Misc.welcomeMessage("Welcome, " + mc.getSession().getUsername().toString() + "! it is currently " + d1);
+//		Misc.welcomeMessage("Welcome, " + mc.getSession().getUsername().toString() + "! it is currently " + d1);
 	}
 	
 	public void onKeyPress(int key, int action) {
