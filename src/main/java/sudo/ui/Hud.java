@@ -42,7 +42,7 @@ public class Hud {
 			int toX = xOffset+(sWidth-2);
 			int toY = yOffset+(fHeight*index)+fHeight;
 			if (mod.isEnabled()) {
-				RenderUtils.renderRoundedShadow(matrices, new Color(255, 10, 10, 100), fromX, fromY, toX, toY, 1, 500, 3);
+				RenderUtils.renderRoundedShadow(matrices, new Color(164, 2, 179, 100), fromX, fromY, toX, toY, 1, 500, 4);
 				index++;
 			}
 		}
