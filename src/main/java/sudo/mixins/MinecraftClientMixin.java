@@ -26,6 +26,7 @@ public class MinecraftClientMixin {
         ci.setReturnValue("Sudo client");
     }
 	
+	@SuppressWarnings("static-access")
 	@Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
 	private void onHasOutline(Entity entity, CallbackInfoReturnable<Boolean> info){
 		if(ModuleManager.INSTANCE.getModule(ESP.class).isEnabled() && ModuleManager.INSTANCE.getModule(ESP.class).mode.is("Glow") && ModuleManager.INSTANCE.getModule(ESP.class).shouldRenderEntity(entity)) {
