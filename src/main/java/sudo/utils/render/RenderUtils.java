@@ -531,12 +531,17 @@ public class RenderUtils {
 	}
 	
     public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("shaders/post/blur.json"),
-    		shader -> shader.setUniformValue("Radius", 18f));
+    		shader -> shader.setUniformValue("Radius", 8f));
     
-	public static void blur(MatrixStack matrices, double x, double y, double x1, double y1, float Value) {
+	public static void blur(MatrixStack matrices, int fromX, int fromY, int toX, int toY, float Value) {
 //		preStencil();		
 //		postStencil();
+		blur.setUniformValue("x1", fromX);
+		blur.setUniformValue("y2", fromY);
+		blur.setUniformValue("x2", toX);
+		blur.setUniformValue("y2", toY);
 		blur.setUniformValue("Radius", Value);
+		blur.render(mc.getTickDelta());
 		blur.render(mc.getTickDelta());
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}

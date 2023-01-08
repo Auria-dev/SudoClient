@@ -35,7 +35,6 @@ public class ClickGUI extends Screen {
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		if (ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blur.isEnabled()) {
 			RenderUtils.blur(matrices, 0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), (float) ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blurIntensity.getValueFloat());
-			RenderUtils.blur(matrices, 0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), (float) ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blurIntensity.getValueFloat());
 		}
 		for (Frame frame : frames) {
 			frame.render(matrices, mouseX, mouseY, delta);
