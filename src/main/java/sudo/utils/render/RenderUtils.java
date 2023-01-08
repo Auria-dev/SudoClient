@@ -6,7 +6,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import ladysnake.satin.api.managed.ManagedShaderEffect;
+import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.Framebuffer;
+import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -506,4 +510,58 @@ public class RenderUtils {
         RenderSystem.disableBlend();
         stack.pop();
     }
+
+	public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
+        if (framebuffer == null || framebuffer.viewportWidth != mc.getWindow().getFramebufferWidth() || framebuffer.viewportHeight != mc.getWindow().getFramebufferHeight()) {
+            if (framebuffer != null) {
+                framebuffer.delete();
+            }
+            return new SimpleFramebuffer(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight(), true, MinecraftClient.IS_SYSTEM_MAC);
+        }
+        return framebuffer;
+    }
+
+	public static void startScissor(int x, int y, int width, int height) {
+		double factor = mc.getWindow().getScaleFactor();
+        RenderSystem.enableScissor((int) (x * factor), (int) ((mc.getWindow().getHeight() - (y * factor) - height * factor)), (int) (width * factor), (int) (height * factor));
+	}
+	
+	public static void endScissor() {
+		RenderSystem.disableScissor();
+	}
+	
+    public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("shaders/post/blur.json"),
+    		shader -> shader.setUniformValue("Radius", 18f));
+    
+	public static void blur(MatrixStack matrices, double x, double y, double x1, double y1, float Value) {
+//		preStencil();		
+//		postStencil();
+		blur.setUniformValue("Radius", Value);
+		blur.render(mc.getTickDelta());
+		GL11.glDisable(GL11.GL_STENCIL_TEST);
+	}
+	
+	private static int stencilBit = 0xff;
+
+	public static void preStencil() {
+		GL11.glEnable(GL11.GL_STENCIL_TEST);
+		RenderSystem.colorMask(false, false, false, false);
+		RenderSystem.depthMask(false);
+		RenderSystem.stencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
+		RenderSystem.stencilFunc(GL11.GL_ALWAYS, stencilBit, stencilBit);
+		RenderSystem.stencilMask(stencilBit);
+		RenderSystem.clear(GL11.GL_STENCIL_BUFFER_BIT, false);
+	}
+	
+	public static void postStencil() {
+		RenderSystem.colorMask(true, true, true, true);
+		RenderSystem.depthMask(true);
+		RenderSystem.stencilMask(0x00);
+		RenderSystem.stencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
+		RenderSystem.stencilFunc(GL11.GL_EQUAL, stencilBit, stencilBit);
+	}
+	
+	public static void disableStencil() {
+		GL11.glDisable(GL11.GL_STENCIL_TEST);
+	}
 }

@@ -8,7 +8,6 @@ import sudo.module.combat.*;
 import sudo.module.dev.PacketLogger;
 import sudo.module.movement.*;
 import sudo.module.render.*;
-import sudo.module.world.FakePlayer;
 
 public class ModuleManager {
 
@@ -60,7 +59,6 @@ public class ModuleManager {
 	private void addModules() {
 		modules.add(new Criticals());
 		modules.add(new Velocity());
-
 		modules.add(new PacketLogger());
 
 		modules.add(new ElytraFly());

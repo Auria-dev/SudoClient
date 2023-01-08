@@ -57,6 +57,7 @@ public class ESP extends Mod {
 							RenderUtils.drawEntityBox(matrices, e, renderPos.x, renderPos.y, renderPos.z, color.getColor());
 						}
 						if (mode.is("Glow")) {
+							
 						}
 					}
 				}
@@ -66,16 +67,9 @@ public class ESP extends Mod {
 	}
 	
 	@Override
-	public void onEnable() {
-		
-		super.onEnable();
-	}
-	
+	public void onEnable() {super.onEnable();}
 	@Override
-	public void onDisable() {
-		
-		super.onDisable();
-	}
+	public void onDisable() {super.onDisable();}
 	
 	public boolean shouldRenderEntity(Entity entity) {
 		if (players.isEnabled() && entity instanceof PlayerEntity) return true;

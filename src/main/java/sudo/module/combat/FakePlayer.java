@@ -1,4 +1,4 @@
-package sudo.module.world;
+package sudo.module.combat;
 
 import java.util.ArrayList;
 import java.util.UUID;
