@@ -1,6 +1,5 @@
 package sudo.module.render;
 
-import net.minecraft.client.util.math.MatrixStack;
 import sudo.events.EventModelPlayerRender;
 import sudo.module.Mod;
 

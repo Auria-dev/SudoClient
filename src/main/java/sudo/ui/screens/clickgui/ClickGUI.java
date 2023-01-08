@@ -3,14 +3,19 @@ package sudo.ui.screens.clickgui;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import sudo.module.Mod.Category;
+import sudo.module.render.ClickGuiMod;
+import sudo.module.ModuleManager;
+import sudo.utils.render.RenderUtils;
 
 public class ClickGUI extends Screen {
 
 	public static final ClickGUI INSTANCE = new ClickGUI();
+	private static MinecraftClient mc = MinecraftClient.getInstance();
 
 	private List<Frame> frames;
 	
@@ -28,6 +33,10 @@ public class ClickGUI extends Screen {
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		if (ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blur.isEnabled()) {
+			RenderUtils.blur(matrices, 0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), (float) ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blurIntensity.getValueFloat());
+			RenderUtils.blur(matrices, 0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), (float) ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blurIntensity.getValueFloat());
+		}
 		for (Frame frame : frames) {
 			frame.render(matrices, mouseX, mouseY, delta);
 			frame.updatePosition(mouseX, mouseY);

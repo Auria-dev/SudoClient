@@ -28,8 +28,8 @@ public class Slider extends Component {
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset, parent.parent.x + parent.parent.width, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff1f1f1f);
 		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff9D73E6);
 
-		double diff = Math.min(parent.parent.width-2, Math.max(6, mouseX-(parent.parent.x)));
-		int renderWidth = (int)((parent.parent.width-2)*(numSet.getValue() - numSet.getMin()) / (numSet.getMax() - numSet.getMin()));
+		double diff = Math.min(parent.parent.width, Math.max(0, mouseX - parent.parent.x));
+		int renderWidth = (int) (parent.parent.width * (numSet.getValue() - numSet.getMin()) / (numSet.getMax() - numSet.getMin()));
 		
 		DrawableHelper.fill(matrices, parent.parent.x+5, parent.parent.y + parent.offset + offset+parent.parent.height-2, parent.parent.x + parent.parent.width-2, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff545454);
 		
@@ -39,7 +39,7 @@ public class Slider extends Component {
 			if (diff==0) {
 				numSet.setValue(numSet.getMin());
 			} else {
-				numSet.setValue(roundToPlace(((diff/(parent.parent.width-2)) * (numSet.getMax()-numSet.getMin())+numSet.getMin()), 2));
+				numSet.setValue(roundToPlace((diff / parent.parent.width) * (numSet.getMax() - numSet.getMin()) + numSet.getMin(), 2));
 			}
 		}
 

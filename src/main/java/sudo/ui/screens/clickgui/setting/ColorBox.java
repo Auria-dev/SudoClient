@@ -57,7 +57,7 @@ public class ColorBox extends Component{
         if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) + 17, sy - 12, sx + 27 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
             RenderUtils.setup2DRender(true);
             RenderUtils.end2DRender();
-            if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard())) {
+            if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard()) && open) {
                 Color hexColor = ColorUtils.hexToRgb(mc.keyboard.getClipboard());
                 float[] vals = colorSet.rgbToHsv(hexColor.getRed(), hexColor.getGreen(), hexColor.getBlue(), hexColor.getAlpha());
                 colorSet.setHSV(vals[0], vals[1], vals[2]);
@@ -107,7 +107,7 @@ public class ColorBox extends Component{
         RenderSystem.enableTexture();
 
         //Set the color
-        if (hovered(mouseX, mouseY, sx, sy, ex, ey) && lmDown) {
+        if (hovered(mouseX, mouseY, sx, sy, ex, ey) && lmDown && open) {
             colorSet.bri = 1f - 1f / ((float) (ey - sy) / (mouseY - sy));
             colorSet.sat = 1f / ((float) (ex - sx) / (mouseX - sx));
         }
@@ -117,12 +117,12 @@ public class ColorBox extends Component{
 
 
         //Set hex codes
-        if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) - 3, sy - 10, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
+        if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) - 3, sy - 10, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4) && open) {
             RenderUtils.setup2DRender(true);
             RenderUtils.fill(matrices, mouseX, mouseY+3, mouseX + textRend.getStringWidth("Sets the hex color to your current clipboard") + 6, mouseY - 9, new Color(0, 0, 0, 200).getRGB());
             textRend.drawString(matrices, "Sets the hex color to your current clipboard", mouseX + 2, mouseY - 10, -1, 1);
             RenderUtils.end2DRender();
-            if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard())) {
+            if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard()) && open) {
                 Color hexColor = ColorUtils.hexToRgb(mc.keyboard.getClipboard());
                 float[] vals = colorSet.rgbToHsv(hexColor.getRed(), hexColor.getGreen(), hexColor.getBlue(), hexColor.getAlpha());
                 colorSet.setHSV(vals[0], vals[1], vals[2]);

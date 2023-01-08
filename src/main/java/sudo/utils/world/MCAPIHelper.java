@@ -89,7 +89,6 @@ public enum MCAPIHelper {
         }
     }
 
-    @SuppressWarnings("deprecation")
     private void openLinkOnOS(String url) throws IOException {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.indexOf("win") >= 0) {
