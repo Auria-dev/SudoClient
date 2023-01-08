@@ -15,6 +15,11 @@
         { "name": "InSize",      "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
         { "name": "OutSize",     "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
         { "name": "BlurDir",     "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
-        { "name": "Radius",      "type": "float",     "count": 1,  "values": [ 5.0 ] }
+        { "name": "Radius",      "type": "float",     "count": 1,  "values": [ 5.0 ] },
+        { "name": "x1",      "type": "int",     "count": 1,  "values": [ 0.0 ] },
+        { "name": "y1",      "type": "int",     "count": 1,  "values": [ 0.0 ] },
+        { "name": "x2",      "type": "int",     "count": 1,  "values": [ 5.0 ] },
+        { "name": "y2",      "type": "int",     "count": 1,  "values": [ 5.0 ] }
+        
     ]
 }
