@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import ladysnake.satin.api.managed.ManagedCoreShader;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.client.MinecraftClient;
@@ -529,8 +530,9 @@ public class RenderUtils {
 	public static void endScissor() {
 		RenderSystem.disableScissor();
 	}
-	
+
     public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("shaders/post/blur.json"),
+//    public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("shaders/program/blur.json"),
     		shader -> shader.setUniformValue("Radius", 8f));
     
 	public static void blur(MatrixStack matrices, int fromX, int fromY, int toX, int toY, float Value) {
@@ -569,4 +571,38 @@ public class RenderUtils {
 	public static void disableStencil() {
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}
+	
+    public static void drawBlurredTexture(MatrixStack matrices, int x, int y, int z, float u, float v, int width, int height, int textureHeight, int textureWidth) {
+        drawBlurredTexture(matrices, x, x + width, y, y + height, z, width, height, u, v, textureHeight, textureWidth);
+    }
+
+    private static void drawBlurredTexture(
+        MatrixStack matrices, int x0, int x1, int y0, int y1, int z, int regionWidth, int regionHeight, float u, float v, int textureWidth, int textureHeight
+    ) {
+        drawBlurredTexturedQuad(
+            matrices.peek().getPositionMatrix(),
+            x0,
+            x1,
+            y0,
+            y1,
+            z,
+            (u + 0.0F) / (float)textureWidth,
+            (u + (float)regionWidth) / (float)textureWidth,
+            (v + 0.0F) / (float)textureHeight,
+            (v + (float)regionHeight) / (float)textureHeight
+        );
+    }
+    
+    public static final ManagedCoreShader BLUR_SHADER = ShaderEffectManager.getInstance().manageCoreShader(new Identifier("blur"));
+
+    public static void drawBlurredTexturedQuad(Matrix4f matrix, int x0, int x1, int y0, int y1, int z, float u0, float u1, float v0, float v1) {
+            RenderSystem.setShader(BLUR_SHADER::getProgram);
+            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+            bufferBuilder.vertex(matrix, (float)x0, (float)y1, (float)z).texture(u0, v1).next();
+            bufferBuilder.vertex(matrix, (float)x1, (float)y1, (float)z).texture(u1, v1).next();
+            bufferBuilder.vertex(matrix, (float)x1, (float)y0, (float)z).texture(u1, v0).next();
+            bufferBuilder.vertex(matrix, (float)x0, (float)y0, (float)z).texture(u0, v0).next();
+            BufferRenderer.drawWithShader(bufferBuilder.end());
+        }
 }

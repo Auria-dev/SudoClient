@@ -32,7 +32,7 @@ public class ElytraFly extends Mod {
 
 	@Override
 	public void onTick() {
-		this.setDisplayName("Elytra Fly" + Gray + "["+mode.getMode()+"]");
+		this.setDisplayName("Elytra Fly" + Gray + "["+mode.getMode()+"] ");
 		if (!mc.player.isFallFlying()) {
 			if (takeOff.isEnabled() && !mc.player.isOnGround() && mc.options.jumpKey.isPressed()) {
 				mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));

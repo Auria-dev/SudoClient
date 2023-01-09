@@ -68,7 +68,7 @@ public class Criticals extends Mod {
 
     @Override
     public void onTick() {
-        this.setDisplayName("Criticals" + Gray + "["+critical.getMode()+"]");
+        this.setDisplayName("Criticals" + Gray + "["+critical.getMode()+"] ");
         if(critical.is("Jump")) {
 
         }

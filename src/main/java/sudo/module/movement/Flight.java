@@ -36,7 +36,7 @@ public class Flight extends Mod {
 	private static final Formatting Gray = Formatting.GRAY;
 	@Override
 	public void onTick() {
-		this.setDisplayName("Flight" + Gray + " ["+mode.getMode()+"]");
+		this.setDisplayName("Flight" + Gray + " ["+mode.getMode()+"] ");
 		if (mc.player == null || mc.getNetworkHandler() == null) {
             return;
         }

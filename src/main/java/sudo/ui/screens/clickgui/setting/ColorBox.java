@@ -71,7 +71,7 @@ public class ColorBox extends Component{
             return;
         }
 
-        RenderUtils.fill(matrices, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB())-3, sy-2, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 10, new Color(0, 0, 0, 200).getRGB());
+        RenderUtils.fill(matrices, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB())-3+9, sy-2, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB())+9, sy - 10, new Color(0, 0, 0, 200).getRGB());
         RenderUtils.fill(matrices, sx, sy, ex, ey, -1);
         int satColor = MathHelper.hsvToRgb(colorSet.hue, 1f, 1f);
         int red = satColor >> 16 & 255;
@@ -117,7 +117,7 @@ public class ColorBox extends Component{
 
 
         //Set hex codes
-        if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) - 3, sy - 10, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4) && open) {
+        if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) - 3+9, sy - 10, sx + 8 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB())+9, sy - 4) && open) {
             RenderUtils.setup2DRender(true);
             RenderUtils.fill(matrices, mouseX, mouseY+3, mouseX + textRend.getStringWidth("Sets the hex color to your current clipboard") + 6, mouseY - 9, new Color(0, 0, 0, 200).getRGB());
             textRend.drawString(matrices, "Sets the hex color to your current clipboard", mouseX + 2, mouseY - 10, -1, 1);

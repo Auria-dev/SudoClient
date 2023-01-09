@@ -15,7 +15,7 @@ public class Step extends Mod {
     private static final Formatting Gray = Formatting.GRAY;
     @Override
     public void onTick() {
-        this.setDisplayName("Step" + Gray + " [H:"+height.getValue()+"]");
+        this.setDisplayName("Step" + Gray + " [H:"+height.getValue()+"] ");
         mc.player.stepHeight = height.getValueInt();
         super.onTick();
     }
