@@ -74,6 +74,7 @@ public class ModuleManager {
 
 		modules.add(new Chams());
 		modules.add(new ClickGuiMod());
+		modules.add(new HudModule());
 		modules.add(new ESP());
 		modules.add(new FakeHacker());
 		modules.add(new HoleESP());

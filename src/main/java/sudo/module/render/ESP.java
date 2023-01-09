@@ -40,7 +40,7 @@ public class ESP extends Mod {
 	
 	@Override
 	public void onTick() {
-		this.setDisplayName("ESP" + Gray + " ["+mode.getMode()+"]");
+		this.setDisplayName("ESP" + Gray + " ["+mode.getMode()+"] ");
 	}
 	
 	@Override

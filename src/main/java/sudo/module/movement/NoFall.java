@@ -19,7 +19,7 @@ public class NoFall extends Mod {
     
 	@Override
 	public void onTick() {
-		this.setDisplayName("NoFall" + Gray + " ["+mode.getMode()+"]");
+		this.setDisplayName("NoFall" + Gray + " ["+mode.getMode()+"] ");
         if (mc.player == null || mc.getNetworkHandler() == null) {
             return;
         }
