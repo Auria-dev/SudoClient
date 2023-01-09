@@ -44,8 +44,10 @@ public class Hud {
 			int toX = xOffset+(sWidth-2)   +1;
 			int toY = yOffset+(fHeight*index)+fHeight;
 			if (mod.isEnabled()) {
-				RenderUtils.renderRoundedShadow(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500, 4);
-				RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500);
+				if (ModuleManager.INSTANCE.getModule(HudModule.class).mode.is("Original")) {
+					RenderUtils.renderRoundedShadow(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500, 4);
+					RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500);
+				}
 //				DrawableHelper.fill(matrices, fromX-6, fromY-3, toX+5, toY+2, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getRGB());
 				index++;
 			}
@@ -62,11 +64,11 @@ public class Hud {
 			int toY = yOffset+(fHeight*index)+fHeight;
 			
 			if (mod.isEnabled()) {
-//				RenderUtils.renderRoundedQuad(matrices, new Color(10, 10, 10, 100), fromX, fromY, toX, toY, 1, 500);
 				DrawableHelper.fill(matrices, fromX, fromY+1, toX-1, toY, 0x90000000);
+				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX, fromY, -1, 1);
+//				RenderUtils.renderRoundedQuad(matrices, new Color(10, 10, 10, 100), fromX, fromY, toX, toY, 1, 500);
 //				DrawableHelper.fill(matrices, toX, fromY+1, toX-1, toY,ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor2.getColor().getRGB());
 //				DrawableHelper.fill(matrices, toX, fromY+1, toX-2, toY, ColorUtils.rainbow(10, 0.8f, 1, 200*index));
-				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX, fromY, -1, 1);
 				index++;
 			}
 		}
