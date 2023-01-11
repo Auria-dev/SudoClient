@@ -531,11 +531,12 @@ public class RenderUtils {
 		RenderSystem.disableScissor();
 	}
 
-    public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("shaders/post/blur.json"),
-//    public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("shaders/program/blur.json"),
+//    public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("shaders/post/blur.json"),
+    public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("sudo", "shaders/post/blur.json"
+    		+ ""),
     		shader -> shader.setUniformValue("Radius", 8f));
     
-	public static void blur(MatrixStack matrices, int fromX, int fromY, int toX, int toY, float Value) {
+	public static void blur(MatrixStack matrices, float fromX, float fromY, float toX, float toY, float Value) {
 //		preStencil();		
 //		postStencil();
 		blur.setUniformValue("x1", fromX);
