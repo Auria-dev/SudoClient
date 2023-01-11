@@ -2,11 +2,7 @@ package sudo.utils.render;
 
 import java.awt.*;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.MathHelper;
-
 public class ColorUtils {
-	private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static Color hexToRgb(String hex) {
         try {

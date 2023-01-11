@@ -540,7 +540,7 @@ public class RenderUtils {
 //		preStencil();		
 //		postStencil();
 		blur.setUniformValue("x1", fromX);
-		blur.setUniformValue("y2", fromY);
+		blur.setUniformValue("y1", fromY);
 		blur.setUniformValue("x2", toX);
 		blur.setUniformValue("y2", toY);
 		blur.setUniformValue("Radius", Value);
