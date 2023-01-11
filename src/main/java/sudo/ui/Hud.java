@@ -4,12 +4,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.render.HudModule;
-import sudo.utils.render.ColorUtils;
 import sudo.utils.render.RenderUtils;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
