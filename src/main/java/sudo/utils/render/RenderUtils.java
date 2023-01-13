@@ -539,10 +539,10 @@ public class RenderUtils {
 	public static void blur(MatrixStack matrices, float fromX, float fromY, float toX, float toY, float Value) {
 //		preStencil();		
 //		postStencil();
-		blur.setUniformValue("x1", fromX);
-		blur.setUniformValue("y1", fromY);
-		blur.setUniformValue("x2", toX);
-		blur.setUniformValue("y2", toY);
+		blur.setUniformValue("fromX", fromX);
+		blur.setUniformValue("fromY", fromY);
+		blur.setUniformValue("toX", toX);
+		blur.setUniformValue("toY", toY);
 		blur.setUniformValue("Radius", Value);
 		blur.render(mc.getTickDelta());
 		blur.render(mc.getTickDelta());
