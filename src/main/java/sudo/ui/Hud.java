@@ -45,11 +45,12 @@ public class Hud {
 				if (ModuleManager.INSTANCE.getModule(HudModule.class).mode.is("Original")) {
 					RenderUtils.renderRoundedShadow(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500, 4);
 //					RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500);
+					int theX = sWidth;
 					RenderUtils.blur(matrices,
-							fromX, 
-							fromY, 
-							toX-1, 
-							toY-1, 
+							0,
+							0,
+							fWidth*4,
+							sHeight*(index+1),
 							8f);
 
 				}

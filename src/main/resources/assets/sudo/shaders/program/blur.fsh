@@ -10,20 +10,18 @@ uniform vec2 InSize;
 uniform vec2 BlurDir;
 uniform float Radius;
 
-uniform float x1;
-uniform float y1;
-uniform float x2;
-uniform float y2;
+uniform float fromX;
+uniform float fromY;
+uniform float toX;
+uniform float toY;
 
 out vec4 fragColor;
 
 void main() {
-    vec2 screenCoord = gl_FragCoord.xy;
-    if (screenCoord.x < x1 || screenCoord.x > x2 || screenCoord.y < y1 || screenCoord.y > y2) {
+	if (texCoord.x < fromX/(InSize.x) || texCoord.x > toX/(InSize.x*2) || texCoord.y < fromY/(InSize.y) || texCoord.y > toY/(InSize.y*2)) {
         fragColor = texture(DiffuseSampler, texCoord);
         return;
     }
-    
     vec4 blurred = vec4(0.0);
     float totalStrength = 0.0;
     float totalAlpha = 0.0;
