@@ -6,6 +6,9 @@
   "mixins": [
   ],
   "client": [
+    "BlockRender",
+    "XRayLighting",
+    "MouseMixin",
     "MinecraftClientMixin",
     "KeyboardMixin",
     "InGameHudMixin",
@@ -13,6 +16,7 @@
     "WorldRendererMixin",
     "MixinEntityRenderer",
     "RenderEntityDispatcherMixin",
+    "SimpleOptionMixin",
     "accessors.IExplosionS2CPacketAccessor",
     "accessors.IEntityVelocityUpdateS2CPacketAccessor",
     "accessors.WorldRendererAccessor"

@@ -17,7 +17,8 @@ public class Hud {
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	
 	public static void render(MatrixStack matrices, float tickDelta) {
-		mc.textRenderer.drawWithShadow(matrices, "Sudo client", 5, 5, -1);
+//		mc.textRenderer.drawWithShadow(matrices, "Sudo client", 5, 5, -1);
+		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
 		renderArrayList(matrices);
 	}
 	
@@ -44,15 +45,7 @@ public class Hud {
 			if (mod.isEnabled()) {
 				if (ModuleManager.INSTANCE.getModule(HudModule.class).mode.is("Original")) {
 					RenderUtils.renderRoundedShadow(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500, 4);
-//					RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500);
-					int theX = sWidth;
-					RenderUtils.blur(matrices,
-							0,
-							0,
-							fWidth*4,
-							sHeight*(index+1),
-							8f);
-
+					RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500);
 				}
 //				DrawableHelper.fill(matrices, fromX-6, fromY-3, toX+5, toY+2, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getRGB());
 				index++;

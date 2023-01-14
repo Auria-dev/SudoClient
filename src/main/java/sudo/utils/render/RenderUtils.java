@@ -20,9 +20,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import sudo.mixins.accessors.WorldRendererAccessor;
+import sudo.utils.text.GlyphPageFontRenderer;
+import sudo.utils.text.IFont;
 
 public class RenderUtils {
 	public static MinecraftClient mc = MinecraftClient.getInstance();
+	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 
     public static void setupRender() {
         RenderSystem.enableBlend();
@@ -410,7 +413,6 @@ public class RenderUtils {
             immediate.draw();
             matrices.pop();
         }
-
         mc.textRenderer.draw(text, -halfWidth, 0f, -1, false, matrices.peek().getPositionMatrix(), immediate, true, 0, 0xf000f0);
         immediate.draw();
 
@@ -597,13 +599,13 @@ public class RenderUtils {
     public static final ManagedCoreShader BLUR_SHADER = ShaderEffectManager.getInstance().manageCoreShader(new Identifier("blur"));
 
     public static void drawBlurredTexturedQuad(Matrix4f matrix, int x0, int x1, int y0, int y1, int z, float u0, float u1, float v0, float v1) {
-            RenderSystem.setShader(BLUR_SHADER::getProgram);
-            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-            bufferBuilder.vertex(matrix, (float)x0, (float)y1, (float)z).texture(u0, v1).next();
-            bufferBuilder.vertex(matrix, (float)x1, (float)y1, (float)z).texture(u1, v1).next();
-            bufferBuilder.vertex(matrix, (float)x1, (float)y0, (float)z).texture(u1, v0).next();
-            bufferBuilder.vertex(matrix, (float)x0, (float)y0, (float)z).texture(u0, v0).next();
-            BufferRenderer.drawWithShader(bufferBuilder.end());
-        }
+		RenderSystem.setShader(BLUR_SHADER::getProgram);
+		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+		bufferBuilder.vertex(matrix, (float)x0, (float)y1, (float)z).texture(u0, v1).next();
+		bufferBuilder.vertex(matrix, (float)x1, (float)y1, (float)z).texture(u1, v1).next();
+		bufferBuilder.vertex(matrix, (float)x1, (float)y0, (float)z).texture(u1, v0).next();
+		bufferBuilder.vertex(matrix, (float)x0, (float)y0, (float)z).texture(u0, v0).next();
+		BufferRenderer.drawWithShader(bufferBuilder.end());
+    }
 }

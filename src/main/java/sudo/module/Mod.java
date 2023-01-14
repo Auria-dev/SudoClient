@@ -59,6 +59,12 @@ public class Mod {
         }
     }
     
+	public void nullCheck() {
+		if(mc.world == null || mc.player == null || mc.getNetworkHandler() == null || mc.getBufferBuilders() == null) {
+			return;
+		}
+	}
+	
 	public void onEnable() {}
 	public void onDisable() {}
 	public void onTick() {}
