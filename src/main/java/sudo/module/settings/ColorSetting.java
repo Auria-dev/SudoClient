@@ -80,4 +80,14 @@ public class ColorSetting extends Setting {
         float[] hsv = Color.RGBtoHSB((int) r, (int) g, (int) b, null);
         return new float[]{hsv[0], hsv[1], hsv[2], a / 255f};
     }
+
+	public int[] hexToRgbInt(String hex) {
+		try {
+			Color color = Color.decode("#" + hex.replace("#", ""));
+			return new int[] {color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()};
+		} catch(NumberFormatException e) {
+			System.err.println("Invalid hex string!");
+			return new int[] {Color.WHITE.getRed(), Color.WHITE.getGreen(), Color.WHITE.getBlue(), Color.WHITE.getAlpha()};
+		}
+	}
 }

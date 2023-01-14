@@ -1,7 +1,11 @@
 package sudo.core.managers;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import net.minecraft.client.MinecraftClient;
 import sudo.module.Mod;
@@ -13,8 +17,9 @@ import sudo.module.settings.NumberSetting;
 import sudo.module.settings.Setting;
 
 public class ConfigManager {
-    @SuppressWarnings("resource")
+	
     public static void saveModules() {
+		@SuppressWarnings("resource")
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
         for (Mod module : ModuleManager.INSTANCE.getModules()) {
             try {
@@ -43,6 +48,40 @@ public class ConfigManager {
 				writer.write("\n    \"keybind\": " + module.getKey() + "");
                 writer.write("\n}");
                 writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+
+    public static void loadConfig() {
+        @SuppressWarnings("resource")
+		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
+        for (Mod module : ModuleManager.INSTANCE.getModules()) {
+            try {
+                Gson gson = new Gson();
+                FileReader reader = new FileReader(path + module.getName() + ".json");
+                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+                module.setEnabled(jsonObject.get("enabled").getAsBoolean());
+                module.setDescription(jsonObject.get("description").getAsString());
+                for (Setting setting : module.getSetting()) {
+                    if (setting instanceof BooleanSetting) {
+                        ((BooleanSetting) setting).setEnabled(jsonObject.get(((BooleanSetting) setting).getName()).getAsBoolean());
+                    }
+                    if (setting instanceof ModeSetting) {
+                        ((ModeSetting) setting).setMode(jsonObject.get(((ModeSetting) setting).getName()).getAsString());
+                    }
+                    if (setting instanceof NumberSetting) {
+                        ((NumberSetting) setting).setValue(jsonObject.get(((NumberSetting) setting).getName()).getAsDouble());
+                    }
+                    if (setting instanceof ColorSetting) {
+                    	int[] color = ((ColorSetting)setting).hexToRgbInt(jsonObject.get(((ColorSetting) setting).getName()).getAsString());
+                    	((ColorSetting) setting).setRGB(color[0], color[1], color[2], color[3]);
+                    }
+                }
+                module.setKey(jsonObject.get("keybind").getAsInt());
+                reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

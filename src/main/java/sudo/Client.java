@@ -8,6 +8,7 @@ import com.google.common.eventbus.EventBus;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
+import sudo.core.managers.ConfigManager;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.ui.screens.clickgui.ClickGUI;
@@ -24,6 +25,7 @@ public class Client implements ModInitializer{
 	public void onInitialize() {
 		logger.info("> Sudo client");
 		moduleManager = new ModuleManager();
+		ConfigManager.loadConfig();
 	}
 	
 	public void onKeyPress(int key, int action) {
