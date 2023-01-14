@@ -5,6 +5,7 @@ import java.util.List;
 
 import sudo.module.Mod.Category;
 import sudo.module.combat.*;
+import sudo.module.exploit.*;
 import sudo.module.movement.*;
 import sudo.module.render.*;
 import sudo.module.world.*;
@@ -61,6 +62,7 @@ public class ModuleManager {
 		modules.add(new AutoArmor());
 		modules.add(new Surround());
 		modules.add(new Criticals());
+		modules.add(new Killaura());
 		modules.add(new Velocity());
 		modules.add(new HoleTP());
 		modules.add(new Trigger());
@@ -100,5 +102,8 @@ public class ModuleManager {
 		modules.add(new ChestStealer());
 		modules.add(new Scaffold());
 		modules.add(new Timer());
+		
+		modules.add(new PacketLogger());
+		modules.add(new BoatPhase());
 	}
 }
