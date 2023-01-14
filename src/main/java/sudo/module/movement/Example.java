@@ -21,7 +21,7 @@ public class Example extends Mod {
 	public ColorSetting coolor = new ColorSetting("Color", new Color(255,25,25));
 	
 	public Example() {
-		super("Test module", "Just a test module", Category.MOVEMENT, 0);
+		super("AAA-Example", "Just a test module", Category.MOVEMENT, 0);
 		addSettings(slider, bool, mode,coolor);
 	}
 	

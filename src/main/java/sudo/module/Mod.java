@@ -11,12 +11,12 @@ import sudo.module.settings.Setting;
 public class Mod {
 	protected MinecraftClient mc = MinecraftClient.getInstance();
 
-	private String name;
-	private String displayName;
-	private String description;
-	private Category category;
+	public String name;
+	public String displayName;
+	public String description;
+	public Category category;
 	public int key;
-	private boolean enabled;
+	public boolean enabled;
 	
 	private List<Setting> settings = new ArrayList<>();
 	
