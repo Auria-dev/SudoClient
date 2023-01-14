@@ -27,29 +27,19 @@ public class Example extends Mod {
 	
 	@Override
 	public void onEnable() {
-		// This gets called when you enabled the module
 		super.onEnable();
 	}
 	
 	@Override
 	public void onDisable() {
-		// This gets called when you disable the module
 		super.onDisable();
 	}
 	int cooldown = 50;
 	static PlayerEntity target = null;
 	@Override
 	public void onTick() {
-		// This gets called every game tick
 		HitResult hit = mc.crosshairTarget;
 
-//		if (((EntityHitResult) hit).getEntity() instanceof PlayerEntity player) {
-//	        target = player;
-//	        if (target.getHealth()<0) {
-//	        	mc.player.sendChatMessage(target.getName().getString() + " died EZ");
-//	        	target=null;
-//	        }
-//	    }
 		if (mc.player != null) {
 			if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
 			    if (((EntityHitResult) hit).getEntity() instanceof PlayerEntity player) {
@@ -68,7 +58,6 @@ public class Example extends Mod {
 	
 	@Override
 	public void onWorldRender(MatrixStack matrices) {
-		// Rendering things goes here
 		super.onWorldRender(matrices);
 	}
 }

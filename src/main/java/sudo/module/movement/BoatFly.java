@@ -22,6 +22,8 @@ public class BoatFly extends Mod {
             Vec3d velocity = vehicle.getVelocity();
             double motionY = mc.options.jumpKey.isPressed() ? 0.5 : 0;
             vehicle.setVelocity(new Vec3d(velocity.x, motionY, velocity.z));
+            vehicle.stepHeight = 3;
+            vehicle.fallDistance = 0;
         }
 		
 		super.onTick();
