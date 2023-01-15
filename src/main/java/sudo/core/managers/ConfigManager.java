@@ -12,22 +12,22 @@ import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
+import sudo.module.settings.KeybindSetting;
 import sudo.module.settings.ModeSetting;
 import sudo.module.settings.NumberSetting;
 import sudo.module.settings.Setting;
 
 public class ConfigManager {
 	
-    public static void saveModules() {
+    public static void saveConfig() {
 		@SuppressWarnings("resource")
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
         for (Mod module : ModuleManager.INSTANCE.getModules()) {
             try {
                 FileWriter writer = new FileWriter(path + module.getName() + ".json");
                 writer.write(""
-                		+ "{\n"
-                		+ "    \"name\": \"" + module.getName() + "\","
-                        + "\n    \"description\": \"" + module.getDescription() + "\","
+                		+ "{"
+                		+ "\n    \"name\": \"" + module.getName() + "\","
                 		+ "\n    \"enabled\": " + module.isEnabled() + ",");
 
 				for (Setting setting : module.getSetting()) {
@@ -44,8 +44,11 @@ public class ConfigManager {
 	                	ColorSetting colorSet = (ColorSetting)setting;
 	                	writer.write("\n    \"" + colorSet.getName() + "\": \"" + colorSet.getHex() + "\",");
 	                }
+	                if (setting instanceof KeybindSetting) {
+	                	writer.write("\n    \"" + ((KeybindSetting) setting).getName() + "\": " + ((KeybindSetting) setting).getKey() + ",");
+	                }
         		}
-				writer.write("\n    \"keybind\": " + module.getKey() + "");
+				writer.write("\n    \"description\": \"" + module.getDescription() + "\"");
                 writer.write("\n}");
                 writer.close();
             } catch (IOException e) {
@@ -56,7 +59,7 @@ public class ConfigManager {
     
 
     public static void loadConfig() {
-        @SuppressWarnings("resource")
+		@SuppressWarnings("resource")
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
         for (Mod module : ModuleManager.INSTANCE.getModules()) {
             try {
@@ -64,7 +67,6 @@ public class ConfigManager {
                 FileReader reader = new FileReader(path + module.getName() + ".json");
                 JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
                 module.setEnabled(jsonObject.get("enabled").getAsBoolean());
-                module.setDescription(jsonObject.get("description").getAsString());
                 for (Setting setting : module.getSetting()) {
                     if (setting instanceof BooleanSetting) {
                         ((BooleanSetting) setting).setEnabled(jsonObject.get(((BooleanSetting) setting).getName()).getAsBoolean());
@@ -80,7 +82,7 @@ public class ConfigManager {
                     	((ColorSetting) setting).setRGB(color[0], color[1], color[2], color[3]);
                     }
                 }
-                module.setKey(jsonObject.get("keybind").getAsInt());
+                module.setDescription(jsonObject.get("description").getAsString());
                 reader.close();
             } catch (IOException e) {
                 e.printStackTrace();

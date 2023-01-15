@@ -25,8 +25,11 @@ public class Jesus extends Mod{
 	public void onTick() {
 		this.setDisplayName("Jesus" + Gray + " ["+mode.getMode()+"]");
 		if(mode.is("Dolphin")) {
-			if(mc.player.isSwimming() && mc.player.isSubmergedInWater()) {
-				mc.player.jump();
+			if (mc.player.isTouchingWater()) {
+				mc.player.setSwimming(true);
+				if(mc.player.isSwimming() && mc.player.isSubmergedInWater()) {
+					mc.player.jump();
+				}
 			}
 		}else if(mode.is("Static")){
 			if (mc.player.isTouchingWater()) {

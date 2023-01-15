@@ -6,10 +6,11 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.StriderEntity;
 import net.minecraft.entity.player.PlayerEntity;
+
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
 
-public class Chams extends Mod {
+public class Chams extends Mod{
 
     public BooleanSetting players = new BooleanSetting("Players", true);
     public BooleanSetting crystals = new BooleanSetting("Crystals", true);

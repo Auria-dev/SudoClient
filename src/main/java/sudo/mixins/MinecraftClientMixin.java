@@ -36,7 +36,7 @@ public class MinecraftClientMixin {
 	
 	@Inject(at = @At("TAIL"), method = "scheduleStop")
 	public void onShutdown(CallbackInfo ci) {
-		ConfigManager.saveModules();
+		ConfigManager.saveConfig();
 	}
 //
 //	public void saveConfig() {

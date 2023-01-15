@@ -87,7 +87,8 @@ public class Mod {
 		COMBAT("Combat"),
 		RENDER("Render"),
 		EXPLOIT("Exploit"),
-		WORLD("World");
+		WORLD("World"),
+		CLIENT("Client");
 		
 		public String name;
 		

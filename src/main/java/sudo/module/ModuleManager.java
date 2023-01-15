@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sudo.module.Mod.Category;
+import sudo.module.client.*;
 import sudo.module.combat.*;
 import sudo.module.exploit.*;
 import sudo.module.movement.*;
@@ -74,8 +75,8 @@ public class ModuleManager {
 		modules.add(new AirJump());
 		modules.add(new InvWalk());
 		modules.add(new Jetpack());
-		modules.add(new ClickTP());
 		modules.add(new BoatFly());
+		modules.add(new ClickTP());
 		modules.add(new Speed());
 		modules.add(new NoFall());
 		modules.add(new Spider());
@@ -91,19 +92,22 @@ public class ModuleManager {
 		modules.add(new TrueSight());
 		modules.add(new Fullbright());
 		modules.add(new HoleESP());
-		modules.add(new ClickGuiMod());
 		modules.add(new Tracers());
 		modules.add(new Chams());
 		modules.add(new xray());
 		modules.add(new ESP());
-		modules.add(new HudModule());
 
 		modules.add(new AutoRespawn());
 		modules.add(new ChestStealer());
 		modules.add(new Scaffold());
 		modules.add(new Timer());
 		
-		modules.add(new PacketLogger());
 		modules.add(new BoatPhase());
+
+		modules.add(new PacketLogger());
+		modules.add(new LoadConfig());
+		modules.add(new SaveConfig());
+		modules.add(new ClickGuiMod());
+		modules.add(new HudModule());
 	}
 }

@@ -7,7 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
-import sudo.module.render.HudModule;
+import sudo.module.client.HudModule;
 import sudo.utils.render.RenderUtils;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
@@ -43,10 +43,10 @@ public class Hud {
 			int toX = xOffset+(sWidth-2)   +1;
 			int toY = yOffset+(fHeight*index)+fHeight;
 			if (mod.isEnabled()) {
-				if (ModuleManager.INSTANCE.getModule(HudModule.class).mode.is("Original")) {
+//				if (ModuleManager.INSTANCE.getModule(HudModule.class).mode.is("Original")) {
 					RenderUtils.renderRoundedShadow(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500, 4);
 					RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY-1, 1, 500);
-				}
+//				}
 //				DrawableHelper.fill(matrices, fromX-6, fromY-3, toX+5, toY+2, ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor.getRGB());
 				index++;
 			}
