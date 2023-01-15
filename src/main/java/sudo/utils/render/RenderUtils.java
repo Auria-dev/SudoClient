@@ -608,4 +608,24 @@ public class RenderUtils {
 		bufferBuilder.vertex(matrix, (float)x0, (float)y0, (float)z).texture(u0, v0).next();
 		BufferRenderer.drawWithShader(bufferBuilder.end());
     }
+
+	public static void drawBoxBoth(BlockPos blockPos, QuadColor color, float lineWidth, Direction... excludeDirs) {
+		drawBoxBoth(new Box(blockPos), color, lineWidth, excludeDirs);
+	}
+
+	public static void drawBoxBoth(Box box, QuadColor color, float lineWidth, Direction... excludeDirs) {
+		QuadColor outlineColor = color.clone();
+		outlineColor.overwriteAlpha(255);
+
+		drawBoxBoth(box, color, outlineColor, lineWidth, excludeDirs);
+	}
+
+	public static void drawBoxBoth(BlockPos blockPos, QuadColor fillColor, QuadColor outlineColor, float lineWidth, Direction... excludeDirs) {
+		drawBoxBoth(new Box(blockPos), fillColor, outlineColor, lineWidth, excludeDirs);
+	}
+
+	public static void drawBoxBoth(Box box, QuadColor fillColor, QuadColor outlineColor, float lineWidth, Direction... excludeDirs) {
+		drawBoxFill(box, fillColor, excludeDirs);
+		drawBoxOutline(box, outlineColor, lineWidth, excludeDirs);
+	}
 }

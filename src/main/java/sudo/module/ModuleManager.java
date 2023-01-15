@@ -59,7 +59,9 @@ public class ModuleManager {
 		return categoryModules;
 	}
 	private void addModules() {
+		modules.add(new CrystalAura());
 		modules.add(new FakePlayer());
+		modules.add(new AutoTotem());
 		modules.add(new AutoArmor());
 		modules.add(new Surround());
 		modules.add(new Criticals());
