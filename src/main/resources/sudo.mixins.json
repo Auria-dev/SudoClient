@@ -17,6 +17,9 @@
     "WorldRendererMixin",
     "MixinEntityRenderer",
     "SimpleOptionMixin",
+    "ParticleManagerMixin",
+    "accessors.ClientPlayNetworkHandlerAccessor",
+    "accessors.PlayerMoveC2SPacketAccessor",
     "accessors.IExplosionS2CPacketAccessor",
     "accessors.IEntityVelocityUpdateS2CPacketAccessor",
     "accessors.WorldRendererAccessor"
