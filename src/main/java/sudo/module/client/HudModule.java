@@ -1,4 +1,4 @@
-package sudo.module.render;
+package sudo.module.client;
 
 import java.awt.Color;
 
@@ -8,12 +8,13 @@ import sudo.module.settings.ModeSetting;
 
 public class HudModule extends Mod{
 
-	public ModeSetting mode = new ModeSetting("Mode", "Original", "Original", "Glow", "Classic");
+	public ModeSetting mode = new ModeSetting("Mode", "Original", "Original");
+//	public ModeSetting mode = new ModeSetting("Mode", "Original", "Original", "Glow", "Classic");
     public ColorSetting Arraycolor = new ColorSetting("ModList", new Color(0xff13294B));
     public ColorSetting Arraycolor2 = new ColorSetting("SideCL", new Color(0xffff294B));
 
 	public HudModule() {
-		super("Hud", "", Category.RENDER, 0);
-		addSettings(mode, Arraycolor, Arraycolor2);
+		super("Hud", "", Category.CLIENT, 0);
+		addSettings(mode, Arraycolor);
 	}
 }

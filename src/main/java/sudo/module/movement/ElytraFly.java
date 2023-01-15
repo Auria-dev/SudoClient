@@ -67,7 +67,10 @@ public class ElytraFly extends Mod {
 
     			float yaw = (float) Math.toRadians(mc.player.getYaw());
     			if (mc.options.forwardKey.isPressed()) {
-    				mc.player.addVelocity(-MathHelper.sin(yaw) * speed.getValue() / 70, 0, MathHelper.cos(yaw) * speed.getValue() / 70);
+    				mc.player.addVelocity(
+    						(-MathHelper.sin(yaw) * speed.getValue() / 30), 
+    						(((mc.player.getRotationVector().multiply(speed.getValue()).y /2) * speed.getValue()) / 60),
+    						(MathHelper.cos(yaw) * speed.getValue() / 30));
     			}
             }
     		

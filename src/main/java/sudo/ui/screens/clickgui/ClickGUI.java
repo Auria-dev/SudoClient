@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import sudo.module.Mod.Category;
-import sudo.module.render.ClickGuiMod;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.ModuleManager;
 import sudo.utils.render.RenderUtils;
 

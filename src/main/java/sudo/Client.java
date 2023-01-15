@@ -8,9 +8,9 @@ import com.google.common.eventbus.EventBus;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
-import sudo.core.managers.ConfigManager;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
+import sudo.module.client.ClickGuiMod;
 import sudo.ui.screens.clickgui.ClickGUI;
 
 public class Client implements ModInitializer{
@@ -25,13 +25,12 @@ public class Client implements ModInitializer{
 	public void onInitialize() {
 		logger.info("> Sudo client");
 		moduleManager = new ModuleManager();
-		ConfigManager.loadConfig();
 	}
 	
 	public void onKeyPress(int key, int action) {
 		if (action == GLFW.GLFW_PRESS) {
 			if (mc.currentScreen==null) {
-				if (key==GLFW.GLFW_KEY_RIGHT_SHIFT) mc.setScreen(ClickGUI.INSTANCE);
+				if (key==GLFW.GLFW_KEY_RIGHT_SHIFT || key==ModuleManager.INSTANCE.getModule(ClickGuiMod.class).getKey()) mc.setScreen(ClickGUI.INSTANCE);
 				for (Mod module : ModuleManager.INSTANCE.getModules()) {
 					if (key==module.getKey()) module.toggle();
 				}

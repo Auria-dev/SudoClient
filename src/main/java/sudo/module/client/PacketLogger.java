@@ -1,4 +1,4 @@
-package sudo.module.exploit;
+package sudo.module.client;
 
 import net.minecraft.util.profiling.jfr.sample.NetworkIoStatistics.Packet;
 import sudo.Client;
@@ -9,7 +9,7 @@ import sudo.module.Mod;
 public class PacketLogger extends Mod {
 	
     public PacketLogger() {
-        super("PacketLogger", "Allways send criticals when attacking", Category.EXPLOIT, 0);
+        super("PacketLogger", "Allways send criticals when attacking", Category.CLIENT, 0);
     }
     
     @EventTarget

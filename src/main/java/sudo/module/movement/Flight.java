@@ -7,6 +7,7 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 import sudo.module.Mod;
@@ -24,7 +25,7 @@ public class Flight extends Mod {
     }
 	
 	public NumberSetting speed = new NumberSetting("Speed", 0, 10, 2, 1);
-	public ModeSetting mode = new ModeSetting("Mode", "Static", "Static", "Vanilla");
+	public ModeSetting mode = new ModeSetting("Mode", "Static", "Static", "Vector", "Vanilla");
 	
 	int bypassTimer = 0;
 	
@@ -32,6 +33,7 @@ public class Flight extends Mod {
 		super("Flight", "Allows you to fly", Category.MOVEMENT, GLFW.GLFW_KEY_G);
 		addSettings(speed, mode);
 	}
+//	TODO remove -0.03125D from the Y velocity every 75 tick
 	
 	private static final Formatting Gray = Formatting.GRAY;
 	@Override
@@ -43,10 +45,7 @@ public class Flight extends Mod {
 		
         if (mode.getMode().equalsIgnoreCase("Vanilla")) {
         	mc.player.getAbilities().allowFlying = true;
-        	//mc.player.getAbilities().flying = true;
         	mc.player.getAbilities().setFlySpeed(((float) speed.getValueFloat()) / 10);
-		
-
         } else if (mode.getMode().equalsIgnoreCase("Static")) {
         	GameOptions go = mc.options;
         	float y = mc.player.getYaw();
@@ -80,6 +79,14 @@ public class Flight extends Mod {
             nz += ts * mx * -s;
             Vec3d nv3 = new Vec3d(nx, ny, nz);
             mc.player.setVelocity(nv3);
+        } else if (mode.is("Vector")) {
+			float yaw = (float) Math.toRadians(mc.player.getYaw());
+			if (mc.options.forwardKey.isPressed()) {
+				mc.player.setVelocity(
+						(-MathHelper.sin(yaw) * speed.getValue() / 30)*speed.getValue(), 
+						(((mc.player.getRotationVector().multiply(speed.getValue()).y /2) * speed.getValue()) / 60)*(speed.getValue()/2),
+						(MathHelper.cos(yaw) * speed.getValue() / 30)*speed.getValue());
+			}
         }
 		super.onTick();
 	}
