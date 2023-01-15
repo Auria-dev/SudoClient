@@ -62,6 +62,7 @@ public class ModuleManager {
 		modules.add(new CrystalAura());
 		modules.add(new FakePlayer());
 		modules.add(new AutoTotem());
+		modules.add(new AimAssist());
 		modules.add(new AutoArmor());
 		modules.add(new Surround());
 		modules.add(new Criticals());
@@ -89,10 +90,14 @@ public class ModuleManager {
 		modules.add(new BHop());
 		modules.add(new Step());
 
+		modules.add(new ItemViewModel());
 		modules.add(new FakeHacker());
+		modules.add(new NoOverlay());
+		modules.add(new NoRender());
 		modules.add(new NameTags());
 		modules.add(new TrueSight());
 		modules.add(new Fullbright());
+		modules.add(new BlockESP());
 		modules.add(new HoleESP());
 		modules.add(new Tracers());
 		modules.add(new Chams());

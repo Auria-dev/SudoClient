@@ -46,16 +46,3 @@ public class Client implements ModInitializer{
 		}
 	}
 }
-
-// "BlockRender",
-// "InGameHudMixin",
-// "KeyboardMixin",
-// "MinecraftClientMixin",
-// "MixinClientConnection",
-// "MouseMixin",
-// "PlayerMoveC2SPacketAccessor",
-// "SimpleOptionMixin",
-// "TitlescreenMixin",
-// "WorldRendererAccessor",
-// "WorldRendererMixin",
-// "XRayLighting"
