@@ -58,7 +58,15 @@ public class ModuleManager {
 		
 		return categoryModules;
 	}
+	//58 modules 16/01/2023
 	private void addModules() {
+		
+		modules.add(new PacketLogger());
+		modules.add(new LoadConfig());
+		modules.add(new SaveConfig());
+		modules.add(new ClickGuiMod());
+		modules.add(new HudModule());
+		
 		modules.add(new CrystalAura());
 		modules.add(new FakePlayer());
 		modules.add(new AutoTotem());
@@ -71,6 +79,12 @@ public class ModuleManager {
 		modules.add(new HoleTP());
 		modules.add(new Trigger());
 
+		modules.add(new ClientGMode());
+		modules.add(new VerticalPhase());
+		modules.add(new BoatPhase());
+		modules.add(new EntityFly());
+		modules.add(new FastXP());
+		
 		modules.add(new Example());
 		modules.add(new AutoWalk());
 		modules.add(new ElytraFly());
@@ -106,15 +120,9 @@ public class ModuleManager {
 
 		modules.add(new AutoRespawn());
 		modules.add(new ChestStealer());
+		modules.add(new ElytraReplace());
 		modules.add(new Scaffold());
 		modules.add(new Timer());
-		
-		modules.add(new BoatPhase());
-
-		modules.add(new PacketLogger());
-		modules.add(new LoadConfig());
-		modules.add(new SaveConfig());
-		modules.add(new ClickGuiMod());
-		modules.add(new HudModule());
+		modules.add(new Nuker());
 	}
 }

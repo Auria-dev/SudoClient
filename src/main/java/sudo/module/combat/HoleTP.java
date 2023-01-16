@@ -1,4 +1,4 @@
-package sudo.module.movement;
+package sudo.module.combat;
 
 
 import java.util.HashMap;
