@@ -22,7 +22,7 @@ import sudo.core.event.Event;
 
 public class EventSendPacket extends Event {
 
-	private Packet<?> packet;
+	public Packet<?> packet;
 	
 	public EventSendPacket(Packet<?> packet) {
 		this.packet = packet;

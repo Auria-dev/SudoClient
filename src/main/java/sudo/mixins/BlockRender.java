@@ -17,14 +17,14 @@ public class BlockRender {
     
     @Inject(method = "shouldDrawSide", at = @At("HEAD"), cancellable = true)
     private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction side, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
-        if (ModuleManager.INSTANCE.getModule(xray.class).isEnabled() && ModuleManager.INSTANCE.getModule(xray.class).mode.is("Vanilla")) {
+        if (ModuleManager.INSTANCE.getModule(xray.class).isEnabled()) {
             cir.setReturnValue(xray.blocks.contains(state.getBlock()));
             }
         }
 
         @Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
         public void isTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-            if (ModuleManager.INSTANCE.getModule(xray.class).isEnabled() && ModuleManager.INSTANCE.getModule(xray.class).mode.is("Vanilla")) {
+            if (ModuleManager.INSTANCE.getModule(xray.class).isEnabled()) {
                 cir.setReturnValue(!xray.blocks.contains(state.getBlock()));
             }
         }

@@ -12,11 +12,14 @@ import net.minecraft.util.math.Vec3d;
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
+import sudo.module.settings.ModeSetting;
 import sudo.utils.render.QuadColor;
 import sudo.utils.render.RenderUtils;
 
 public class HoleESP extends Mod {
 
+    public ModeSetting mode = new ModeSetting("Mode", "Flat", "Flat", "Cube");
+    
     public BooleanSetting hide = new BooleanSetting("Hide", false);
 
     public BooleanSetting bedrock = new BooleanSetting("Bedrock", true);
@@ -26,15 +29,15 @@ public class HoleESP extends Mod {
     public BooleanSetting out = new BooleanSetting("Outline", false);
     public BooleanSetting fill = new BooleanSetting("Fill", true);
 
-    public ColorSetting bedrockColor = new ColorSetting("Bedrock", new Color(30,235,30));
-    public ColorSetting obsidianColor = new ColorSetting("Obsidian", new Color(30,235,235));
-    public ColorSetting mixedColor = new ColorSetting("Mixed", new Color(127,0,127));
+    public ColorSetting bedrockColor = new ColorSetting("Bedrock", new Color(0xffca7af8));
+    public ColorSetting obsidianColor = new ColorSetting("Obsidian", new Color(0xff9168f8));
+    public ColorSetting mixedColor = new ColorSetting("Mixed", new Color(0xff686bf8));
 
     private Map<BlockPos, float[]> holes = new HashMap<>();
 
     public HoleESP() {
         super("HoleESP", "Render a box on safe holes", Category.RENDER,0);
-        addSettings(hide, bedrock, mixed, obi, out, fill, bedrockColor, obsidianColor, mixedColor);
+        addSettings(mode, hide, bedrock, mixed, obi, out, fill, bedrockColor, obsidianColor, mixedColor);
     }
 
     @Override
@@ -92,15 +95,21 @@ public class HoleESP extends Mod {
     @Override
     public void onWorldRender(MatrixStack matrices) {
         holes.forEach((pos, color) -> {
-            if (out.isEnabled()) {
-                RenderUtils.drawBoxOutline(
-                        new Box(Vec3d.of(pos), Vec3d.of(pos).add(1, 0, 1)).stretch(0, 1, 0),
-                        QuadColor.single(color[0], color[1], color[2], 1f),
-                        2);
-            }
-            if (fill.isEnabled()) {
-                RenderUtils.drawBoxFill(new Box(Vec3d.of(pos), Vec3d.of(pos).add(1, 0, 1)).stretch(0, 1, 0),
-                        QuadColor.single(color[0], color[1], color[2], 0.5f));
+        	if (mode.is("Cube")) {
+	            if (out.isEnabled()) {
+	                RenderUtils.drawBoxOutline(
+	                        new Box(Vec3d.of(pos), Vec3d.of(pos).add(1, 0, 1)).stretch(0, 1, 0), QuadColor.single(color[0], color[1], color[2], 1f), 2);
+	            }
+	            if (fill.isEnabled()) {
+	                RenderUtils.drawBoxFill(new Box(Vec3d.of(pos), Vec3d.of(pos).add(1, 0, 1)).stretch(0, 1, 0), QuadColor.single(color[0], color[1], color[2], 0.5f));
+	            }
+            } else if (mode.is("Flat")) {
+	            if (out.isEnabled()) {
+	                RenderUtils.drawBottomOutlineRect(new Box(Vec3d.of(pos), Vec3d.of(pos).add(1, 0, 1)).stretch(0, 1, 0), QuadColor.single(color[0], color[1], color[2], 1f), 2);
+	            }
+	            if (fill.isEnabled()) {
+	                RenderUtils.drawBottomFilledRect(new Box(Vec3d.of(pos), Vec3d.of(pos).add(1, 0, 1)).stretch(0, 1, 0), QuadColor.single(color[0], color[1], color[2], 0.5f));
+	            }
             }
         });
     }
