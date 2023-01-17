@@ -3,6 +3,7 @@ package sudo.utils.world;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.WorldChunk;
+import sudo.mixins.accessors.ChunkAccessor;
 
 import java.util.Iterator;
 import java.util.Map;

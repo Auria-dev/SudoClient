@@ -79,7 +79,6 @@ public class ModuleManager {
 		modules.add(new HoleTP());
 		modules.add(new Trigger());
 
-		modules.add(new ClientGMode());
 		modules.add(new VerticalPhase());
 		modules.add(new BoatPhase());
 		modules.add(new EntityFly());
