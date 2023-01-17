@@ -1,4 +1,4 @@
-package sudo.utils.world;
+package sudo.mixins.accessors;
 
 import java.util.Map;
 

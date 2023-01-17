@@ -21,6 +21,7 @@
     "MixinEntityRenderer",
     "SimpleOptionMixin",
     "ParticleManagerMixin",
+    "accessors.ChunkAccessor",
     "accessors.ClientPlayNetworkHandlerAccessor",
     "accessors.PlayerMoveC2SPacketAccessor",
     "accessors.IExplosionS2CPacketAccessor",

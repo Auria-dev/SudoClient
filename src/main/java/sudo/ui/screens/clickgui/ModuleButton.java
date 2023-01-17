@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.surge.animation.ColourAnimation;
-import me.surge.animation.Easing;
+//import me.surge.animation.ColourAnimation;
+//import me.surge.animation.Easing;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -17,11 +17,12 @@ import sudo.utils.text.IFont;
 
 public class ModuleButton {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
-	private ColourAnimation hoverAnim = new ColourAnimation(new Color(0xff2A2A2A), new Color(0xff1c1c1c), 300F, false, Easing.LINEAR);
-	private ColourAnimation enabledAnim = new ColourAnimation(new Color(0xff545454), new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
-	private ColourAnimation textEnabledAnim = new ColourAnimation(Color.WHITE, new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
+//	private ColourAnimation hoverAnim = new ColourAnimation(new Color(0xff2A2A2A), new Color(0xff1c1c1c), 300F, false, Easing.LINEAR);
+//	private ColourAnimation enabledAnim = new ColourAnimation(new Color(0xff545454), new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
+//	private ColourAnimation textEnabledAnim = new ColourAnimation(Color.WHITE, new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
 	GlyphPageFontRenderer textRend = IFont.CONSOLAS;
-
+	
+	float speed;
 	public Mod module;
 	public Frame parent;
 	public int offset;
@@ -56,18 +57,34 @@ public class ModuleButton {
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		hoverAnim.setState(isHovered(mouseX,mouseY));
-		enabledAnim.setState(module.isEnabled());
-		textEnabledAnim.setState(module.isEnabled());
+//		hoverAnim.setState(isHovered(mouseX,mouseY));
+//		enabledAnim.setState(module.isEnabled());
+//		textEnabledAnim.setState(module.isEnabled());
 		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, 0xff2A2A2A);
-		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, hoverAnim.getColour().getRGB());
+		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, isHovered(mouseX,mouseY) ? 0xff1c1c1c : 0xff2A2A2A);
+//		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, hoverAnim.getColour().getRGB());
+//		DrawableHelper.fill(matrices, 
+//				parent.x + parent.width - 5, 
+//				parent.y + offset+2, 
+//				parent.x + parent.width-2, 
+//				parent.y+offset+parent.height-2,
+//				enabledAnim.getColour().getRGB());
 		DrawableHelper.fill(matrices, 
 				parent.x + parent.width - 5, 
 				parent.y + offset+2, 
 				parent.x + parent.width-2, 
 				parent.y+offset+parent.height-2,
-				enabledAnim.getColour().getRGB());
-		textRend.drawString(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, textEnabledAnim.getColour().getRGB(), 1);
+				module.isEnabled() ? 0xff9D73E6 : 0xff545454);
+		
+		textRend.drawString(matrices, module.getName(), parent.x + 2 + speed, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, module.isEnabled() ? 0xff9D73E6 : Color.WHITE.getRGB(), 1);
+//		textRend.drawString(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, textEnabledAnim.getColour().getRGB(), 1);
+
+		if (isHovered(mouseX, mouseY)) {
+			speed+=0.3;
+		} else {
+			if (speed>0)speed-=0.3;
+		}
+		if (speed>2.0)speed=2;
 		
 		if (extended) {
 			for (Component component : components) {

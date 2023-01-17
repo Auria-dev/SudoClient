@@ -88,10 +88,9 @@ public class HoleTP extends Mod {
 	public void onWorldRender(MatrixStack matrices) {
 		holes.forEach((pos, color) -> {
 			if (pos.getSquaredDistance(mc.player.getPos())<range.getValue()) {
-//				if (cooldown < 0) {
+				if (mc.options != null && mc.options.sneakKey.isPressed()) {
 					mc.player.updatePosition(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
-//					cooldown=30;
-//				}
+				}
 			}
 		});
 		cooldown--;
