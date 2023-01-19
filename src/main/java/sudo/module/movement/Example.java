@@ -22,7 +22,7 @@ public class Example extends Mod {
 	
 	public Example() {
 		super("AAA-Example", "Just a test module", Category.MOVEMENT, 0);
-		addSettings(slider, bool, mode,coolor);
+		addSettings(slider, bool, mode, coolor, mode);
 	}
 	
 	@Override
