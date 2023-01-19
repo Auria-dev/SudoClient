@@ -88,6 +88,7 @@ public class ModuleManager {
 		modules.add(new AutoWalk());
 		modules.add(new ElytraFly());
 		modules.add(new FastStop());
+		modules.add(new Safewalk());
 		modules.add(new AirJump());
 		modules.add(new InvWalk());
 		modules.add(new Jetpack());

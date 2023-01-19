@@ -29,6 +29,7 @@ public class ModuleButton {
 	public List<Component> components;
 	public boolean extended;
 	public float extraOffset;
+	public float colorOffset;
 	
 	public ModuleButton(Mod module, Frame parent, int offset) {
 		this.module = module;
@@ -49,6 +50,7 @@ public class ModuleButton {
 				components.add(new Keybind(setting, this, setOffset));
 			} else if (setting instanceof ColorSetting) {
 				components.add(new ColorBox(setting, this, setOffset));
+
 			}
 			setOffset += parent.height;
 //			setOffset+=(setting instanceof ColorSetting ? parent.height * 10 : parent.height);

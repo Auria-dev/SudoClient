@@ -2,6 +2,8 @@ package sudo.utils.render;
 
 import java.awt.*;
 
+import sudo.module.ModuleManager;
+
 public class ColorUtils {
 
     public static Color hexToRgb(String hex) {
@@ -104,5 +106,36 @@ public class ColorUtils {
         Blue = Blue & 0x000000FF; //Mask out anything not blue.
 
         return 0xFF000000 | Red | Green | Blue; //0xFF000000 for 100% Alpha. Bitwise OR everything together.
+    }
+    
+    public static int getCuteColor(int index) {
+
+        int size = ModuleManager.INSTANCE.getEnabledModules().size();
+
+        int light_blue = new Color(91, 206, 250).getRGB();
+        int white = Color.WHITE.getRGB();
+        int pink = new Color(245, 169, 184).getRGB();
+
+        int part = (int) ((float) index / size * 5);
+
+
+        if (part == 0) {
+            return light_blue;
+        }
+        if (part == 1) {
+            return pink;
+        }
+        if (part == 2) {
+            return white;
+        }
+        if (part == 3) {
+            return pink;
+        }
+        if (part == 4) {
+            return light_blue;
+        }
+
+
+        return light_blue; //fail
     }
 }

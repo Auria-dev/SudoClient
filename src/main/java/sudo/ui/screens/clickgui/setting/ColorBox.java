@@ -29,12 +29,21 @@ public class ColorBox extends Component{
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+//		parent.parent.x, 
+//		parent.parent.y + parent.offset + offset, 
+//		parent.parent.x + parent.parent.width, 
+//		parent.parent.y+parent.offset+offset+parent.parent.height, 
         colorSet.name = colorSet.name;
         int sx = parent.parent.x +6,
-                sy = parent.parent.y + 12 + parent.offset+ offset,
+                sy = parent.parent.y + 12 + parent.offset + offset,
                 ex = parent.parent.x + 87,
-                ey = parent.parent.y + getHeight(120)+ parent.offset+ offset;
-        DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y+parent.offset+offset, parent.parent.x + parent.parent.width, parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 0xff1f1f1f);
+                ey = parent.parent.y + getHeight(122)+ parent.offset+ offset;
+        DrawableHelper.fill(matrices, 
+        		parent.parent.x, 
+        		parent.parent.y+parent.offset+offset, 
+        		parent.parent.x + parent.parent.width, 
+        		parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 
+        		0xff1f1f1f);
 		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 0xff9D73E6);
 
         textRend.drawString(matrices, colorSet.name, (int) sx, (int) sy - 12, -1, 1);
