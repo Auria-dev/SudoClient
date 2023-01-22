@@ -8,7 +8,6 @@ import net.minecraft.util.math.MathHelper;
 import sudo.module.settings.ColorSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
-import sudo.utils.render.ColorUtils;
 import sudo.utils.render.RenderUtils;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
@@ -63,17 +62,18 @@ public class ColorBox extends Component{
             textRend.drawString(matrices, "Right click to toggle color picker", mouseX + 2, mouseY - 10, -1, 1);
             RenderUtils.end2DRender();
         }
+        
         if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) + 17, sy - 12, sx + 27 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
             RenderUtils.setup2DRender(true);
             RenderUtils.end2DRender();
-            if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard()) && open) {
-                Color hexColor = ColorUtils.hexToRgb(mc.keyboard.getClipboard());
-                float[] vals = colorSet.rgbToHsv(hexColor.getRed(), hexColor.getGreen(), hexColor.getBlue(), hexColor.getAlpha());
-                colorSet.setHSV(vals[0], vals[1], vals[2]);
-                h = vals[0];
-                s = vals[1];
-                v = vals[2];
-            }
+//            if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard()) && open) {
+//                Color hexColor = ColorUtils.hexToRgb(mc.keyboard.getClipboard());
+//                float[] vals = colorSet.rgbToHsv(hexColor.getRed(), hexColor.getGreen(), hexColor.getBlue(), hexColor.getAlpha());
+//                colorSet.setHSV(vals[0], vals[1], vals[2]);
+//                h = vals[0];
+//                s = vals[1];
+//                v = vals[2];
+//            }
         }
 
         if (!open) {

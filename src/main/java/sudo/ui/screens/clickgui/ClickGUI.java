@@ -39,6 +39,7 @@ public class ClickGUI extends Screen {
 		for (Frame frame : frames) {
 			frame.render(matrices, mouseX, mouseY, delta);
 			frame.updatePosition(mouseX, mouseY);
+			
 		}
 		super.render(matrices, mouseX, mouseY, delta);
 	}

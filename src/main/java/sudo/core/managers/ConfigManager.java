@@ -3,11 +3,13 @@ package sudo.core.managers;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import net.minecraft.client.MinecraftClient;
+import sudo.Client;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.settings.BooleanSetting;
@@ -19,9 +21,17 @@ import sudo.module.settings.Setting;
 
 public class ConfigManager {
 	
+	@SuppressWarnings("resource")
     public static void saveConfig() {
-		@SuppressWarnings("resource")
+		File directory = new File(MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\");
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
+		
+		if (directory.mkdir()) {
+			Client.logger.info("Sudo config folder successfully created");
+		} else {
+			Client.logger.info("Sudo config folder found");
+		}
+		
         for (Mod module : ModuleManager.INSTANCE.getModules()) {
             try {
                 FileWriter writer = new FileWriter(path + module.getName() + ".json");
@@ -54,13 +64,21 @@ public class ConfigManager {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+//			Client.logger.info("Sudo config saved successfully");
         }
     }
     
 
+	@SuppressWarnings("resource")
     public static void loadConfig() {
-		@SuppressWarnings("resource")
+		File directory = new File(MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\");
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
+		if (directory.mkdir()) {
+			Client.logger.info("Sudo config folder did not exist. No config found.");
+		} else {
+			Client.logger.info("Sudo config folder found");
+		}
+		
         for (Mod module : ModuleManager.INSTANCE.getModules()) {
             try {
                 Gson gson = new Gson();

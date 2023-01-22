@@ -12,7 +12,7 @@ import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.SimpleFramebuffer;
-import net.minecraft.client.model.Model;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -30,6 +30,7 @@ public class RenderUtils {
 	public static MinecraftClient mc = MinecraftClient.getInstance();
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	
+    
 	public static void setupRender() {
 		RenderSystem.enableBlend();
 		//RenderSystem.defaultBlendFunc();
@@ -610,13 +611,11 @@ public class RenderUtils {
 			shader -> shader.setUniformValue("Radius", 8f));
 	
 	public static void blur(MatrixStack matrices, float fromX, float fromY, float toX, float toY, float Value) {
-		blur.setUniformValue("fromX", fromX);
-		blur.setUniformValue("fromY", fromY);
-		blur.setUniformValue("toX", toX);
-		blur.setUniformValue("toY", toY);
+		startScissor((int) fromX, (int) fromY, (int) toX, (int) toY);
 		blur.setUniformValue("Radius", Value);
 		blur.render(mc.getTickDelta());
 		blur.render(mc.getTickDelta());
+		endScissor();
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}
 	

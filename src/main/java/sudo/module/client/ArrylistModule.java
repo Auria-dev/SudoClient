@@ -7,16 +7,17 @@ import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
 import sudo.module.settings.ModeSetting;
 
-public class HudModule extends Mod{
-
+public class ArrylistModule extends Mod{
+	
 	public ModeSetting mode = new ModeSetting("Mode", "Original", "Original");
 //	public ModeSetting mode = new ModeSetting("Mode", "Original", "Original", "Glow", "Classic");
     public BooleanSetting cute = new BooleanSetting("Cute Colors", false);
-    public ColorSetting Arraycolor = new ColorSetting("ModList", new Color(0xff13294B));
-    public ColorSetting Arraycolor2 = new ColorSetting("SideCL", new Color(0xffff294B));
+    public ColorSetting Arraycolor = new ColorSetting("Color", new Color(0xff13294B));
+	public ModeSetting SortY = new ModeSetting("Sorting", "Normal", "Normal", "Reversed");
+	public ModeSetting SortX = new ModeSetting("Alignment", "Left", "Left", "Right");
 
-	public HudModule() {
-		super("Hud", "", Category.CLIENT, 0);
-		addSettings(mode, cute, Arraycolor);
+	public ArrylistModule() {
+		super("Arraylist", "", Category.CLIENT, 0);
+		addSettings(mode, SortX, SortY, cute, Arraycolor);
 	}
 }

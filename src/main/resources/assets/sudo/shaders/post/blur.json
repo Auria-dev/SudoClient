@@ -15,22 +15,6 @@
                 {
                     "name": "Radius",
                     "values": [ 20.0 ]
-                },
-                {
-                    "name": "fromX",
-                    "values": [ 0.0 ]
-                },
-                {
-                    "name": "fromY",
-                    "values": [ 0.0 ]
-                },
-                {
-                    "name": "toX",
-                    "values": [ 5.0 ]
-                },
-                {
-                    "name": "toY",
-                    "values": [ 5.0 ]
                 }
             ]
         },
@@ -46,22 +30,6 @@
                 {
                     "name": "Radius",
                     "values": [ 20.0 ]
-                },
-                {
-                    "name": "fromX",
-                    "values": [ 0.0 ]
-                },
-                {
-                    "name": "fromY",
-                    "values": [ 0.0 ]
-                },
-                {
-                    "name": "toX",
-                    "values": [ 5.0 ]
-                },
-                {
-                    "name": "toY",
-                    "values": [ 5.0 ]
                 }
             ]
         }

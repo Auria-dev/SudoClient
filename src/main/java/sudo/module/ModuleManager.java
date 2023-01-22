@@ -65,7 +65,8 @@ public class ModuleManager {
 		modules.add(new LoadConfig());
 		modules.add(new SaveConfig());
 		modules.add(new ClickGuiMod());
-		modules.add(new HudModule());
+		modules.add(new ArrylistModule());
+		modules.add(new Snake());
 		
 		modules.add(new CrystalAura());
 		modules.add(new FakePlayer());
@@ -76,6 +77,7 @@ public class ModuleManager {
 		modules.add(new Criticals());
 		modules.add(new Killaura());
 		modules.add(new Velocity());
+		modules.add(new AutoEZ());
 		modules.add(new HoleTP());
 		modules.add(new Trigger());
 
@@ -105,6 +107,7 @@ public class ModuleManager {
 		modules.add(new Step());
 
 		modules.add(new ItemViewModel());
+		modules.add(new ItemScanner());
 		modules.add(new FakeHacker());
 		modules.add(new NoOverlay());
 		modules.add(new NoRender());
