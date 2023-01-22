@@ -10,18 +10,10 @@ uniform vec2 InSize;
 uniform vec2 BlurDir;
 uniform float Radius;
 
-uniform float fromX;
-uniform float fromY;
-uniform float toX;
-uniform float toY;
-
 out vec4 fragColor;
 
 void main() {
-	if (texCoord.x < fromX/(InSize.x) || texCoord.x > toX/(InSize.x*2) || texCoord.y < fromY/(InSize.y) || texCoord.y > toY/(InSize.y*2)) {
-        fragColor = texture(DiffuseSampler, texCoord);
-        return;
-    }
+	
     vec4 blurred = vec4(0.0);
     float totalStrength = 0.0;
     float totalAlpha = 0.0;
