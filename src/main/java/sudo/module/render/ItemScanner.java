@@ -31,7 +31,8 @@ public class ItemScanner extends Mod {
 	public void onWorldRender(MatrixStack matrices) {
 		for (BlockEntity block : WorldUtils.blockEntities()) {
 		    if (block instanceof ChestBlockEntity) {
-		        ChestBlockEntity chest = (ChestBlockEntity) block;
+		        @SuppressWarnings("unused")
+				ChestBlockEntity chest = (ChestBlockEntity) block;
 		        
 		    }
 		}

@@ -9,9 +9,6 @@ import sudo.module.settings.NumberSetting;
 import java.awt.*;
 
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 
 public class Example extends Mod {
 
