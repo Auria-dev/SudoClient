@@ -9,6 +9,7 @@ import sudo.module.settings.ModeSetting;
 
 public class ArrylistModule extends Mod{
 	
+	public BooleanSetting show = new BooleanSetting("Show", true);
 	public ModeSetting mode = new ModeSetting("Mode", "Original", "Original");
 //	public ModeSetting mode = new ModeSetting("Mode", "Original", "Original", "Glow", "Classic");
     public BooleanSetting cute = new BooleanSetting("Cute Colors", false);
@@ -18,6 +19,6 @@ public class ArrylistModule extends Mod{
 
 	public ArrylistModule() {
 		super("Arraylist", "", Category.CLIENT, 0);
-		addSettings(mode, SortX, SortY, cute, Arraycolor);
+		addSettings(show, mode, SortX, SortY, cute, Arraycolor);
 	}
 }

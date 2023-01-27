@@ -4,17 +4,8 @@ import java.awt.Color;
 import java.util.Comparator;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import ladysnake.satin.api.managed.ManagedCoreShader;
-import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
@@ -28,10 +19,11 @@ public class Hud {
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	
 	public static void render(MatrixStack matrices, float tickDelta) {
-//		mc.textRenderer.drawWithShadow(matrices, "Sudo client", 5, 5, -1);
-//		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
-		renderArrayList(matrices);
+		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
+		if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).show.isEnabled())
+			renderArrayList(matrices);
 	}
+	
 	
 	@SuppressWarnings("unused")
 	public static void renderArrayList(MatrixStack matrices) {
