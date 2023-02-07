@@ -7,6 +7,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.settings.KeybindSetting;
 import sudo.module.settings.Setting;
+import sudo.utils.misc.Notification;
+import sudo.utils.misc.NotificationUtil;
 
 public class Mod {
 	protected MinecraftClient mc = MinecraftClient.getInstance();
@@ -45,9 +47,14 @@ public class Mod {
 	
 	public void toggle() {
 		this.enabled = !this.enabled;
-
-		if (enabled) onEnable();
-		else onDisable();
+		
+		if (enabled) {
+			onEnable(); NotificationUtil.send_notification(new Notification(name +" was enabled", 202, 122, 248));
+		}
+		else {
+			onDisable();			
+			NotificationUtil.send_notification(new Notification(name +" was disabled", 202, 122, 248));
+		}
 	}
 
     public void setEnabled(boolean enabled) {

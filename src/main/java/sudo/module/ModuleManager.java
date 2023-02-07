@@ -62,6 +62,7 @@ public class ModuleManager {
 	private void addModules() {
 		
 		modules.add(new PacketLogger());
+		modules.add(new Notifications());
 		modules.add(new LoadConfig());
 		modules.add(new SaveConfig());
 		modules.add(new ClickGuiMod());
@@ -72,6 +73,7 @@ public class ModuleManager {
 		modules.add(new FakePlayer());
 		modules.add(new AutoTotem());
 		modules.add(new AimAssist());
+		modules.add(new TargetHud());
 		modules.add(new AutoArmor());
 		modules.add(new Surround());
 		modules.add(new Criticals());

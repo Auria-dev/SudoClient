@@ -5,7 +5,7 @@ import sudo.module.settings.BooleanSetting;
 
 public class Sprint extends Mod {
 
-	BooleanSetting smart = new BooleanSetting("Smart", false);
+	BooleanSetting smart = new BooleanSetting("Smart", true);
 
     public Sprint() {
         super("Sprint", "Automatically sprints for you", Category.MOVEMENT, 0);
