@@ -23,6 +23,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+import sudo.mixins.accessors.FrustramAccessor;
 import sudo.mixins.accessors.WorldRendererAccessor;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
@@ -54,6 +55,18 @@ public class RenderUtils {
 	@SuppressWarnings("resource")
 	public static Frustum getFrustum() {
 		return ((WorldRendererAccessor) MinecraftClient.getInstance().worldRenderer).getFrustum();
+	}
+	
+	public static boolean isOnScreen2d(Vec3d pos) {
+        return pos != null && (pos.z > -1 && pos.z < 1);
+    }
+	
+	public static double distanceTo(double x1, double x2) {
+		return x2 - x1;
+	}
+
+	public static double slowDownTo(double x1, double x2, float smooth) {
+		return (x2 - x1) / smooth;
 	}
 	
 	public static void line(Vec3d start, Vec3d end, Color color, MatrixStack matrices) {
@@ -444,6 +457,66 @@ public class RenderUtils {
 		matrixstack.multiply(new Quaternion(new Vec3f(0, 1, 0), 0, true));
 		matrixstack.translate(-x, -y, -z);
 	}
+	
+	public static boolean isPointVisible(double x, double y, double z) {
+		FrustramAccessor frustum = (FrustramAccessor) getFrustum();
+		Vector4f[] frustumCoords = frustum.getHomogeneousCoordinates();
+		Vector4f pos = new Vector4f((float) (x - frustum.getX()), (float) (y - frustum.getY()), (float) (z - frustum.getZ()), 1f);
+
+		for (int i = 0; i < 6; ++i) {
+			if (frustumCoords[i].dotProduct(pos) <= 0f) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, LineColor color, float width) {
+		if (!isPointVisible(x1, y1, z1) && !isPointVisible(x2, y2, z2)) {
+			return;
+		}
+
+		setup3DRender(true);
+
+		MatrixStack matrices = matrixFrom(x1, y1, z1);
+
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+
+		// Line
+		RenderSystem.disableDepthTest();
+		RenderSystem.disableCull();
+		RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
+		RenderSystem.lineWidth(width);
+
+		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
+		Vertexer1.vertexLine(matrices, buffer, 0f, 0f, 0f, (float) (x2 - x1), (float) (y2 - y1), (float) (z2 - z1), color);
+		tessellator.draw();
+
+		RenderSystem.enableCull();
+		RenderSystem.enableDepthTest();
+		end3DRender();
+	}
+	
+	public static void drawCircle(MatrixStack matrices, Vec3d pos, float partialTicks, double rad, double height, int color) {
+        double lastX = 0;
+		double lastZ = rad;
+		for (int angle = 0; angle <= 360; angle += 6) {
+			float cos = MathHelper.cos((float) Math.toRadians(angle));
+			float sin = MathHelper.sin((float) Math.toRadians(angle));
+
+			double x = rad * sin;
+			double z = rad * cos;
+			drawLine(
+					pos.x + lastX, pos.y, pos.z + lastZ,
+					pos.x + x, pos.y, pos.z + z,
+					LineColor.single(color), 2);
+
+			lastX = x;
+			lastZ = z;
+		}
+    }
 	
 	public static void drawText(Text text, double x, double y, double z, double scale, boolean fill) {
 		drawText(text, x, y, z, 0, 0, scale, fill);

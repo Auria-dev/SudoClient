@@ -8,7 +8,6 @@
   "client": [
     "BlockRender",
     "XRayLighting",
-    "RenderEntityDispatcherMixin",
     "MouseMixin",
     "MinecraftClientMixin",
     "KeyboardMixin",
@@ -21,12 +20,15 @@
     "MixinEntityRenderer",
     "SimpleOptionMixin",
     "ParticleManagerMixin",
+    "RenderEntityDispatcherMixin",
+    "ClientPlayerEntityMixin",
     "accessors.ChunkAccessor",
     "accessors.ClientPlayNetworkHandlerAccessor",
     "accessors.PlayerMoveC2SPacketAccessor",
     "accessors.IExplosionS2CPacketAccessor",
     "accessors.IEntityVelocityUpdateS2CPacketAccessor",
-    "accessors.WorldRendererAccessor"
+    "accessors.WorldRendererAccessor",
+    "accessors.FrustramAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
