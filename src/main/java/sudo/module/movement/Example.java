@@ -1,5 +1,8 @@
 package sudo.module.movement;
 
+import sudo.Client;
+import sudo.core.event.EventTarget;
+import sudo.events.EventMotionUpdate;
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
@@ -39,5 +42,10 @@ public class Example extends Mod {
 	@Override
 	public void onWorldRender(MatrixStack matrices) {
 		super.onWorldRender(matrices);
+	}
+
+	@EventTarget
+	public void onMotionUpdate(EventMotionUpdate event) {
+		Client.logger.info("Motion");
 	}
 }

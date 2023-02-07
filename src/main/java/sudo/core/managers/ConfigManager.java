@@ -29,7 +29,7 @@ public class ConfigManager {
 		if (directory.mkdir()) {
 			Client.logger.info("Sudo config folder successfully created");
 		} else {
-			Client.logger.info("Sudo config folder found");
+			
 		}
 		
         for (Mod module : ModuleManager.INSTANCE.getModules()) {
