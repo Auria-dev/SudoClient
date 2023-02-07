@@ -26,7 +26,7 @@ public class HoleESP extends Mod {
     public BooleanSetting mixed = new BooleanSetting("Mixed", true);
     public BooleanSetting obi = new BooleanSetting("Obsidian", true);
 
-    public BooleanSetting out = new BooleanSetting("Outline", false);
+    public BooleanSetting out = new BooleanSetting("Outline", true);
     public BooleanSetting fill = new BooleanSetting("Fill", true);
 
     public ColorSetting bedrockColor = new ColorSetting("Bedrock", new Color(0xffca7af8));

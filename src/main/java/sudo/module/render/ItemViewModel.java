@@ -17,6 +17,6 @@ public class ItemViewModel extends Mod {
 	public static final NumberSetting y = new NumberSetting("Y", -1, 1, 0, 0.01);
 	public static final NumberSetting z = new NumberSetting("Z", -1, 1, 0, 0.01);
 	
-	public static final NumberSetting swingLeft = new NumberSetting("Swing Left", 0,1,1,0.1);
-	public static final NumberSetting swingRight = new NumberSetting("Swing Right", 0,1,1,0.1);
+	public static final NumberSetting swingLeft = new NumberSetting("Swing Left", 0,1,0,0.1);
+	public static final NumberSetting swingRight = new NumberSetting("Swing Right", 0,1,0,0.1);
 }
