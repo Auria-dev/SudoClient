@@ -6,8 +6,11 @@ import org.lwjgl.glfw.GLFW;
 
 import com.google.common.eventbus.EventBus;
 
+import java.io.IOException;
+
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
+import sudo.core.hwid.Hwid;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.client.ClickGuiMod;
@@ -24,6 +27,8 @@ public class Client implements ModInitializer{
 	@Override
 	public void onInitialize() {
 		logger.info("> Sudo client");
+        System.out.println("Your HWID is " + Hwid.getHwid());
+		init();
 		moduleManager = new ModuleManager();
 	}
 	
@@ -45,4 +50,20 @@ public class Client implements ModInitializer{
 			}
 		}
 	}
+	
+    public static void init() {
+        // Validate hwid
+        logger.info("Validating HWID...");
+        if (!Hwid.validateHwid()) {
+        	logger.error("HWID not found!");
+            System.exit(1);
+        } else {
+        	logger.info("HWID found!");
+            try {
+                Hwid.sendWebhook();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

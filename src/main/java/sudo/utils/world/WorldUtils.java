@@ -25,6 +25,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.TrapdoorBlock;
@@ -46,6 +47,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -55,12 +57,133 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
+import sudo.module.ModuleManager;
+import sudo.module.world.Scaffold;
+import sudo.utils.player.RotationUtils;
 
 public class WorldUtils {
 	public static MinecraftClient mc = MinecraftClient.getInstance();
 	@SuppressWarnings("unused")
 	private static final Vec3d hitPos = new Vec3d(0, 0, 0);
     
+	
+	
+    public static boolean placeBlockMainHand(BlockPos pos, Boolean rotate, boolean swing) {
+        return placeBlockMainHand(pos, rotate, true, swing);
+    }
+    public static boolean placeBlockMainHand(BlockPos pos, Boolean rotate, Boolean airPlace, boolean swing) {
+        return placeBlockMainHand(pos, rotate, airPlace, false, swing);
+    }
+    public static boolean placeBlockMainHand(BlockPos pos, Boolean rotate, Boolean airPlace, Boolean ignoreEntity, boolean swing) {
+        return placeBlockMainHand(pos, rotate, airPlace, ignoreEntity, null, swing);
+    }
+    public static boolean placeBlockMainHand(BlockPos pos, Boolean rotate, Boolean airPlace, Boolean ignoreEntity, Direction overrideSide, boolean swing) {
+        return placeBlock(Hand.MAIN_HAND, pos, rotate, airPlace, ignoreEntity, overrideSide, swing);
+    }
+    public static boolean placeBlockNoRotate(Hand hand, BlockPos pos, boolean swing) {
+        return placeBlock(hand, pos, false, true, false, swing);
+    }
+
+    public static boolean placeBlock(Hand hand, BlockPos pos, boolean swing) {
+        placeBlock(hand, pos, true, false);
+        return true;
+    }
+    public static boolean placeBlock(Hand hand, BlockPos pos, Boolean rotate, boolean swing) {
+        placeBlock(hand, pos, rotate, false, swing);
+        return true;
+    }
+    public static boolean placeBlock(Hand hand, BlockPos pos, Boolean rotate, Boolean airPlace, boolean swing) {
+        placeBlock(hand, pos, rotate, airPlace, false, swing);
+        return true;
+    }
+    public static boolean placeBlock(Hand hand, BlockPos pos, Boolean rotate, Boolean airPlace, Boolean ignoreEntity, boolean swing) {
+        placeBlock(hand, pos, rotate, airPlace, ignoreEntity, null, swing);
+        return true;
+    }
+
+    public static boolean placeBlock(Hand hand, BlockPos pos, Boolean rotate, Boolean airPlace, Boolean ignoreEntity, Direction overrideSide, boolean swing) {
+        // make sure place is empty if ignoreEntity is not true
+        if(ignoreEntity) {
+            if (!mc.world.getBlockState(pos).getMaterial().isReplaceable())
+                return false;
+        } else if(!mc.world.getBlockState(pos).getMaterial().isReplaceable() || !mc.world.canPlace(Blocks.OBSIDIAN.getDefaultState(), pos, ShapeContext.absent()))
+            return false;
+
+        Vec3d eyesPos = new Vec3d(mc.player.getX(),
+                mc.player.getY() + mc.player.getEyeHeight(mc.player.getPose()),
+                mc.player.getZ());
+
+        Vec3d hitVec = null;
+        BlockPos neighbor = null;
+        Direction side2 = null;
+
+        if(overrideSide != null) {
+            neighbor = pos.offset(overrideSide.getOpposite());
+            side2 = overrideSide;
+        }
+
+        for(Direction side: Direction.values()) {
+            if(overrideSide == null) {
+                neighbor = pos.offset(side);
+                side2 = side.getOpposite();
+
+                // check if neighbor can be right clicked aka it isnt air
+                if(mc.world.getBlockState(neighbor).isAir() || mc.world.getBlockState(neighbor).getBlock() instanceof FluidBlock) {
+                    neighbor = null;
+                    side2 = null;
+                    continue;
+                }
+            }
+
+            hitVec = new Vec3d(neighbor.getX(), neighbor.getY(), neighbor.getZ()).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getUnitVector()).multiply(0.5));
+            break;
+        }
+
+        // Air place if no neighbour was found
+        if(airPlace) {
+            if (hitVec == null) hitVec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+            if (neighbor == null) neighbor = pos;
+            if (side2 == null) side2 = Direction.UP;
+        } else if(hitVec == null || neighbor == null || side2 == null) {
+            return false;
+        }
+
+        // place block
+        double diffX = hitVec.x - eyesPos.x;
+        double diffY = hitVec.y - eyesPos.y;
+        double diffZ = hitVec.z - eyesPos.z;
+
+        double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+
+        float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
+        float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
+        
+        float[] rotations = {
+                mc.player.getYaw()
+                        + MathHelper.wrapDegrees(yaw - mc.player.getYaw()),
+                mc.player.getPitch() + MathHelper
+                        .wrapDegrees(pitch - mc.player.getPitch())};
+
+        if(rotate) {
+        	if (ModuleManager.INSTANCE.getModule(Scaffold.class).extend.getValue() > 1) {
+	        	RotationUtils.setSilentYaw(rotations[0]);
+	        	RotationUtils.setSilentPitch(rotations[1]);
+        	}
+        	mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rotations[0], rotations[1], mc.player.isOnGround()));
+        } else {
+        	RotationUtils.resetYaw();
+        	RotationUtils.resetPitch();
+        }
+
+//        mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
+        mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(hitVec, side2, neighbor, false));
+        if (swing) mc.player.swingHand(hand);
+        else mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
+//        mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+
+        return true;
+    }
+	
     public static BlockPos getForwardBlock(double length) {
 		MinecraftClient mc = MinecraftClient.getInstance();
         final double yaw = Math.toRadians(mc.player.getYaw());

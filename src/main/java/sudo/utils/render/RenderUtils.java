@@ -379,6 +379,10 @@ public class RenderUtils {
 		end3DRender();
 	}
 	
+	public static void drawBoxOutline(BlockPos blockPos, QuadColor color, float lineWidth, Direction... excludeDirs) {
+		drawBoxOutline(new Box(blockPos), color, lineWidth, excludeDirs);
+	}
+	
 	public static void drawFilledBox(MatrixStack matrixStack, Box bb, Color color, boolean draw) {
 		Matrix4f matrix4f = matrixStack.peek().getPositionMatrix();
 		Color color1 = color;

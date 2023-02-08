@@ -8,7 +8,8 @@ import sudo.module.client.Notifications;
 public class NotificationUtil {
 
     private static final ArrayList<Notification> active_notifications = new ArrayList<>();
-
+    
+    
     public static void send_notification (Notification message) {
         active_notifications.add(0, message);
     }
@@ -18,7 +19,7 @@ public class NotificationUtil {
     }
 
     public static void update () {
-        active_notifications.removeIf(notification -> (System.currentTimeMillis() - notification.getTimeCreated()) > 3000);
+        active_notifications.removeIf(notification -> (System.currentTimeMillis() - notification.getTimeCreated()) > 2000);
 
         int maxnotifications = ModuleManager.INSTANCE.getModule(Notifications.class).maxNotif.getValueInt();
         if (maxnotifications < active_notifications.size()) {

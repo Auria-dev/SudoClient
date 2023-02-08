@@ -10,15 +10,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import sudo.module.Mod;
+import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ModeSetting;
 
 public class Surround extends Mod{
-	
+
 	ModeSetting block = new ModeSetting("Mode", "Obsidian", "Obsidian", "Bedrock", "CobbleStone");
+	BooleanSetting tp = new BooleanSetting("TP", true);
 
 	public Surround() {
 		super("Surround", "Surrounds u with blocks", Category.COMBAT, 0);
-		addSetting(block);
+		addSettings(block, tp);
 	}
 	
 	int obiSlot;
@@ -56,7 +58,7 @@ public class Surround extends Mod{
         }
         if (obiSlot == -1) {onDisable(); return;}
         for (BlockPos pos : positions) {
-            if (!mc.world.getBlockState(pos).getMaterial().isReplaceable()) continue;
+            if (!mc.world.getBlockState(pos).getMaterial().isReplaceable()) continue; 
             for (Direction direction : Direction.values()) {
                 if (!mc.world.getBlockState(pos.offset(direction)).getMaterial().isReplaceable()) {
                     mc.player.getInventory().selectedSlot = obiSlot;
@@ -70,6 +72,7 @@ public class Surround extends Mod{
     
     @Override
     public void onEnable() {
+        mc.player.updatePosition((int) mc.player.getX()+0.5, (int)  mc.player.getY(), (int)  mc.player.getZ()+0.5);
     	super.onEnable();
     }
     @Override
