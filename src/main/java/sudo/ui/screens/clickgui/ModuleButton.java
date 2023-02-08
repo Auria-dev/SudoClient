@@ -12,14 +12,16 @@ import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.Mod;
 import sudo.module.settings.*;
 import sudo.ui.screens.clickgui.setting.*;
+import sudo.utils.surge.animation.ColorAnimation;
+import sudo.utils.surge.animation.Easing;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
 
 public class ModuleButton {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
-//	private ColourAnimation hoverAnim = new ColourAnimation(new Color(0xff2A2A2A), new Color(0xff1c1c1c), 300F, false, Easing.LINEAR);
-//	private ColourAnimation enabledAnim = new ColourAnimation(new Color(0xff545454), new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
-//	private ColourAnimation textEnabledAnim = new ColourAnimation(Color.WHITE, new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
+	private ColorAnimation hoverAnim = new ColorAnimation(new Color(0xff2A2A2A), new Color(0xff1c1c1c), 300F, false, Easing.LINEAR);
+	private ColorAnimation enabledAnim = new ColorAnimation(new Color(0xff545454), new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
+	private ColorAnimation textEnabledAnim = new ColorAnimation(Color.WHITE, new Color(0xff9D73E6), 100F, false, Easing.LINEAR);
 	GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	
 	float speed;
@@ -59,11 +61,11 @@ public class ModuleButton {
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-//		hoverAnim.setState(isHovered(mouseX,mouseY));
-//		enabledAnim.setState(module.isEnabled());
-//		textEnabledAnim.setState(module.isEnabled());
+		hoverAnim.setState(isHovered(mouseX,mouseY));
+		enabledAnim.setState(module.isEnabled());
+		textEnabledAnim.setState(module.isEnabled());
 		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, 0xff2A2A2A);
-		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, isHovered(mouseX,mouseY) ? 0xff1c1c1c : 0xff2A2A2A);
+		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, hoverAnim.getColor().getRGB());
 //		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, hoverAnim.getColour().getRGB());
 //		DrawableHelper.fill(matrices, 
 //				parent.x + parent.width - 5, 
@@ -76,9 +78,9 @@ public class ModuleButton {
 				parent.y + offset+2, 
 				parent.x + parent.width-2, 
 				parent.y+offset+parent.height-2,
-				module.isEnabled() ? 0xff9D73E6 : 0xff545454);
+				enabledAnim.getColor().getRGB());
 		
-		textRend.drawString(matrices, module.getName(), parent.x + 2 + speed, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, module.isEnabled() ? 0xff9D73E6 : Color.WHITE.getRGB(), 1);
+		textRend.drawString(matrices, module.getName(), parent.x + 2 + speed, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, textEnabledAnim.getColor().getRGB(), 1);
 //		textRend.drawString(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, textEnabledAnim.getColour().getRGB(), 1);
 
 		if (isHovered(mouseX, mouseY)) {

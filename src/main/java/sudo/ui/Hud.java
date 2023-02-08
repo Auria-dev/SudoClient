@@ -22,13 +22,15 @@ import sudo.utils.misc.Notification;
 import sudo.utils.misc.NotificationUtil;
 import sudo.utils.render.ColorUtils;
 import sudo.utils.render.RenderUtils;
+import sudo.utils.surge.animation.BoundedAnimation;
+import sudo.utils.surge.animation.Easing;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
 
 public class Hud {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
-	
+
 	public static void render(MatrixStack matrices, float tickDelta) {
 		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
 		
@@ -156,8 +158,11 @@ public class Hud {
         return playerListEntry.getLatency();
     }
     
+    static BoundedAnimation SlidIn = new BoundedAnimation(0f, 120f, 100f, false, Easing.LINEAR);
+    
 	public static void Notifs(MatrixStack matrices) {
 
+		boolean anim=false;
 		int sWidth = mc.getWindow().getScaledWidth();
 		int sHeight = mc.getWindow().getScaledHeight();
 		
@@ -166,14 +171,20 @@ public class Hud {
 		TimerUtil afterTimer = new TimerUtil();
 		notifications = NotificationUtil.get_notifications();
 		
-		int renderY = sHeight-55;
-		
-		for (Notification n : notifications) {;
-			int messageWidth = (int) (textRend.getStringWidth(n.getMessage()));
-			RenderUtils.renderRoundedQuad(matrices, new Color(0,0,0,180), sWidth-messageWidth-25, renderY+22, sWidth+50, renderY+38, 3, 50);
-			textRend.drawString(matrices, n.getMessage(), sWidth-messageWidth-23, renderY + 22, -1, 0.85f);
-			RenderUtils.startScissor(sWidth-messageWidth-25, renderY+15, sWidth+50, renderY+38);
-			DrawableHelper.fill(matrices, (int) (sWidth-(afterTimer.lastMS - n.getTimeCreated()) / animation(0, sWidth - messageWidth ,0.028,0)), renderY + 34, sWidth, renderY+36, new Color(n.getR(), n.getG(), n.getB(), 190).getRGB());
+		int renderY = sHeight-55;    
+		for (Notification n : notifications) {
+			if (System.currentTimeMillis()-n.getTimeCreated()>1 && System.currentTimeMillis()-n.getTimeCreated()<2) anim=false; 
+			else if (System.currentTimeMillis()-n.getTimeCreated()<=1800) anim=true; 
+			
+
+			SlidIn.setState(anim);
+//			Client.logger.info(SlidIn.getAnimationValue());
+//			Client.logger.info(anim);
+			
+			RenderUtils.renderRoundedQuad(matrices, new Color(0,0,0,180), sWidth-SlidIn.getAnimationValue(), renderY+22, sWidth+50, renderY+38, 3, 50);
+			textRend.drawString(matrices, n.getMessage(), sWidth+2-SlidIn.getAnimationValue(), renderY + 22, -1, 0.85f);
+			RenderUtils.startScissor((int) (sWidth-SlidIn.getAnimationValue()), renderY+22, sWidth+50, renderY+38);
+			DrawableHelper.fill(matrices, (int) (sWidth-(afterTimer.lastMS - n.getTimeCreated()) / animation(0, 125, 0.121,0)), renderY + 34, sWidth, renderY+36, new Color(n.getR(), n.getG(), n.getB(), 190).getRGB());
 			RenderUtils.endScissor();
 			renderY -= 18;
 		}
