@@ -59,16 +59,31 @@ public class ModuleManager {
 		return categoryModules;
 	}
 	//58 modules 16/01/2023
+	//69 modules 09/02/2023
 	private void addModules() {
-		
-		modules.add(new PacketLogger());
-		modules.add(new Notifications());
-		modules.add(new LoadConfig());
-		modules.add(new SaveConfig());
-		modules.add(new ClickGuiMod());
-		modules.add(new ArrylistModule());
-		modules.add(new Snake());
-		
+
+		//movement
+		modules.add(new Example());
+		modules.add(new AutoWalk());
+		modules.add(new Safewalk());
+		modules.add(new ElytraFly());
+		modules.add(new FastStop());
+		modules.add(new AirJump());
+		modules.add(new InvWalk());
+		modules.add(new NoSlow());
+		modules.add(new Jetpack());
+		modules.add(new BoatFly());
+		modules.add(new ClickTP());
+		modules.add(new Speed());
+		modules.add(new NoFall());
+		modules.add(new Spider());
+		modules.add(new Sprint());
+		modules.add(new Strafe());
+		modules.add(new Flight());
+		modules.add(new Jesus());
+		modules.add(new BHop());
+		modules.add(new Step());
+		//combat
 		modules.add(new CrystalAura());
 		modules.add(new FakePlayer());
 		modules.add(new AutoTotem());
@@ -82,52 +97,47 @@ public class ModuleManager {
 		modules.add(new AutoEZ());
 		modules.add(new HoleTP());
 		modules.add(new Trigger());
-
-		modules.add(new VerticalPhase());
-		modules.add(new BoatPhase());
-		modules.add(new EntityFly());
-		modules.add(new FastXP());
-		
-		modules.add(new Example());
-		modules.add(new AutoWalk());
-		modules.add(new ElytraFly());
-		modules.add(new FastStop());
-		modules.add(new Safewalk());
-		modules.add(new AirJump());
-		modules.add(new InvWalk());
-		modules.add(new Jetpack());
-		modules.add(new BoatFly());
-		modules.add(new ClickTP());
-		modules.add(new Speed());
-		modules.add(new NoFall());
-		modules.add(new Spider());
-		modules.add(new Sprint());
-		modules.add(new Strafe());
-		modules.add(new Flight());
-		modules.add(new Jesus());
-		modules.add(new BHop());
-		modules.add(new Step());
-
+		modules.add(new Reach());
+		//render
 		modules.add(new ItemViewModel());
+		modules.add(new NoCameraClip());
 		modules.add(new ItemScanner());
+		modules.add(new Notifications());
 		modules.add(new FakeHacker());
+		modules.add(new NameTags());
 		modules.add(new NoOverlay());
 		modules.add(new NoRender());
-		modules.add(new NameTags());
 		modules.add(new TrueSight());
-		modules.add(new Fullbright());
 		modules.add(new BlockESP());
+		modules.add(new Fullbright());
 		modules.add(new HoleESP());
 		modules.add(new Tracers());
 		modules.add(new Chams());
+		modules.add(new Cape());
 		modules.add(new xray());
 		modules.add(new ESP());
-
+		//exploit
+		modules.add(new VerticalPhase());
+		modules.add(new NoLevitation());
+		modules.add(new BoatPhase());
+		modules.add(new EntityFly());
+		modules.add(new FastXP());
+		//world
 		modules.add(new AutoRespawn());
-		modules.add(new ChestStealer());
 		modules.add(new ElytraReplace());
+		modules.add(new ChestStealer());
+		modules.add(new FastBreak());
 		modules.add(new Scaffold());
 		modules.add(new Timer());
 		modules.add(new Nuker());
+		//client
+		modules.add(new PacketLogger());
+		modules.add(new LoadConfig());
+		modules.add(new SaveConfig());
+		modules.add(new ClickGuiMod());
+		modules.add(new ArrylistModule());
+		modules.add(new Snake());
+		
+
 	}
 }

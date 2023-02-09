@@ -4,17 +4,16 @@ import sudo.module.Mod;
 import sudo.module.settings.ISimpleOption;
 
 public class Fullbright extends Mod {
-
+	
     public Fullbright() {
         super("Fullbright", "night vision", Category.RENDER, 0);
     }
     
-    @SuppressWarnings("unchecked")
-    
+	@SuppressWarnings("unchecked")
 	@Override
     public void onTick() {
         if (this.isEnabled()) {
-            ((ISimpleOption<Double>) (Object) mc.options.getGamma()).setValueUnrestricted(100.0d);
+        	((ISimpleOption<Double>) (Object) mc.options.getGamma()).setValueUnrestricted(100.0d);
 	    }
 	}
     
