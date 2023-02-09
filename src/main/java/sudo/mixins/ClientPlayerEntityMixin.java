@@ -6,11 +6,15 @@ import sudo.events.EventMotionUpdate;
 import sudo.events.EventMove;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
+import sudo.module.exploit.NoLevitation;
+import sudo.module.movement.NoSlow;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.ClientPlayerTickable;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -24,6 +28,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.authlib.GameProfile;
 
@@ -131,4 +136,17 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 			this.autoJumpEnabled = mc.options.getAutoJump().getValue();
 		}
 	}
+	
+	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z", ordinal = 0), method = "tickMovement()V")
+		private boolean wurstIsUsingItem(ClientPlayerEntity player) {
+			if(ModuleManager.INSTANCE.getModule(NoSlow.class).isEnabled()) return false;
+			return player.isUsingItem();
+		}
+	
+	@Override
+	public boolean hasStatusEffect(StatusEffect effect) {
+		if(effect == StatusEffects.LEVITATION && ModuleManager.INSTANCE.getModule(NoLevitation.class).isEnabled()) return false;
+		return super.hasStatusEffect(effect);
+	}
+	
 }

@@ -55,7 +55,7 @@ public class ConfigManager {
 	                	writer.write("\n    \"" + colorSet.getName() + "\": \"" + colorSet.getHex() + "\",");
 	                }
 	                if (setting instanceof KeybindSetting) {
-	                	writer.write("\n    \"" + ((KeybindSetting) setting).getName() + "\": " + ((KeybindSetting) setting).getKey() + ",");
+	                	writer.write("\n    \"keybind\": " + ((KeybindSetting) setting).getKey() + ",");
 	                }
         		}
 				writer.write("\n    \"description\": \"" + module.getDescription() + "\"");
@@ -73,18 +73,21 @@ public class ConfigManager {
     public static void loadConfig() {
 		File directory = new File(MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\");
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
+		
 		if (directory.mkdir()) {
-			Client.logger.info("Sudo config folder did not exist. No config found.");
+			Client.logger.info("Config folder does not exist. No config was loaded.");
 		} else {
-			Client.logger.info("Sudo config folder found");
+			Client.logger.info("Cconfig folder found");
 		}
 		
-        for (Mod module : ModuleManager.INSTANCE.getModules()) {
+		for (Mod module : ModuleManager.INSTANCE.getModules()) {
             try {
                 Gson gson = new Gson();
                 FileReader reader = new FileReader(path + module.getName() + ".json");
                 JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
                 module.setEnabled(jsonObject.get("enabled").getAsBoolean());
+                module.setKey(jsonObject.get("keybind").getAsInt()); //this sets the keybind but does not visually update the keybind.
+                
                 for (Setting setting : module.getSetting()) {
                     if (setting instanceof BooleanSetting) {
                         ((BooleanSetting) setting).setEnabled(jsonObject.get(((BooleanSetting) setting).getName()).getAsBoolean());
@@ -100,11 +103,10 @@ public class ConfigManager {
                     	((ColorSetting) setting).setRGB(color[0], color[1], color[2], color[3]);
                     }
                 }
-                module.setDescription(jsonObject.get("description").getAsString());
                 reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
+	}
 }

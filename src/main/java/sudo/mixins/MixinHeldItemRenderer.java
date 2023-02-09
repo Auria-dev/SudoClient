@@ -39,7 +39,7 @@ public class MixinHeldItemRenderer {
     @SuppressWarnings("static-access")
 	@Inject(at = @At("INVOKE"), method = "renderFirstPersonItem")
     private void renderFirstPersonItem(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo info) {
-        if (ModuleManager.INSTANCE.getModule(ItemViewModel.class).isEnabled()) matrices.translate(ModuleManager.INSTANCE.getModule(ItemViewModel.class).x.getValue()/2, ModuleManager.INSTANCE.getModule(ItemViewModel.class).y.getValue()/2, ModuleManager.INSTANCE.getModule(ItemViewModel.class).z.getValue()/2);
+        if (ModuleManager.INSTANCE.getModule(ItemViewModel.class).isEnabled()) matrices.translate(ModuleManager.INSTANCE.getModule(ItemViewModel.class).x.getValue()/10, ModuleManager.INSTANCE.getModule(ItemViewModel.class).y.getValue()/10, ModuleManager.INSTANCE.getModule(ItemViewModel.class).z.getValue()/10);
 
     }
 

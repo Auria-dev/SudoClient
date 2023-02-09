@@ -45,7 +45,7 @@ public class Flight extends Mod {
 		
         if (mode.getMode().equalsIgnoreCase("Vanilla")) {
         	mc.player.getAbilities().allowFlying = true;
-        	mc.player.getAbilities().setFlySpeed(((float) speed.getValueFloat()) / 10);
+        	mc.player.getAbilities().setFlySpeed(((float) speed.getValueFloat()) / 100);
         } else if (mode.getMode().equalsIgnoreCase("Static")) {
         	GameOptions go = mc.options;
         	float y = mc.player.getYaw();
@@ -95,6 +95,7 @@ public class Flight extends Mod {
 	public void onDisable() {
 		if ((getGameMode(mc.player) == GameMode.CREATIVE)) {
 			mc.player.getAbilities().allowFlying = true;
+        	mc.player.getAbilities().setFlySpeed(0.05f);
 			mc.player.getAbilities().flying = false;
 		} else {
 			mc.player.getAbilities().allowFlying = false;

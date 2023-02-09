@@ -9,12 +9,13 @@ public class KeybindSetting extends Setting {
         super(name);
         this.key = defaultKey;
     }
-    public int getKey() {
-    	return key;
-    }
 
     public void setKey(int key) {
     	this.key = key;
+    }
+
+    public int getKey() {
+    	return key;
     }
 
     public void toggle() {

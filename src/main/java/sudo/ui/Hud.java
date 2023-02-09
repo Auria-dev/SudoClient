@@ -56,6 +56,7 @@ public class Hud {
 		List<Mod> enabled = ModuleManager.INSTANCE.getEnabledModules();
 		if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortY.is("Normal")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
 		else if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortY.is("Reversed")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())));
+		else enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
 		
 		for (Mod mod : enabled) {
 			int fWidth = (int) textRend.getStringWidth(mod.getDisplayName());
@@ -64,13 +65,40 @@ public class Hud {
 			int fromX = xOffset+(sWidth-4) - fWidth-2   +1;
 			int fromY = yOffset+(fHeight*index)-1;
 			int toX = xOffset+(sWidth-2)+1;
-			int toY = yOffset+(fHeight*index)+fHeight;
+			int toY = yOffset+(fHeight*index)+fHeight-1;
 			
 			if (mod.isEnabled()) {
 				
-				RenderUtils.renderRoundedShadow(matrices, ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY, 1, 500, 4);
-				RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor(), fromX, fromY+1, toX, toY, 1, 500);
-				
+//				RenderUtils.renderRoundedShadow(matrices, new Color(200, 0, 200, 95), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY+1, toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), toY, 1, 500, 4);
+//				RenderUtils.renderRoundedQuad(matrices, new Color(200, 0, 200, 95), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY+1, toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), toY, 1, 500);
+				if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).glow.isEnabled()) {
+					RenderUtils.renderRoundedShadow(matrices, 
+							
+							new Color(
+									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getRed(), 
+									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getGreen(), 
+									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getBlue(), 
+									95), 
+							fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), 
+							fromY+1, 
+							toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), 
+							toY, 
+							
+							1, 500, 4);
+					RenderUtils.renderRoundedQuad(matrices, 
+							new Color(ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getRed(), 
+									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getGreen(), 
+									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getBlue(), 
+									95), 
+							fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), 
+							fromY+1, 
+							toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), 
+							toY, 
+							
+							1, 500);
+				}
+//				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 130), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY+1, toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), toY, 1, 500);
+//				
 //				RenderUtils.blur(matrices, fromX, fromY+1, toX-fromX, toY-fromY, 8f);
 				index++;
 			}
@@ -82,16 +110,19 @@ public class Hud {
 
 			int fromX = xOffset+(sWidth-4) - fWidth-2   +1;
 			int fromY = yOffset+(fHeight*index)-1;
-			int toX = xOffset+(sWidth-2)+1   +1;
-			int toY = yOffset+(fHeight*index)+fHeight;
+			int toX = xOffset+(sWidth-2);
+			int toY = yOffset+(fHeight*index)+fHeight-1;
 			
 			if (mod.isEnabled()) {
-//				DrawableHelper.fill(matrices, fromX, fromY+1, toX-1, toY, 0x90000000);
-				if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).cute.isEnabled()) {
-					textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX, fromY, ColorUtils.getCuteColor(index), 1);
-				} else {
-					textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX, fromY, -1, 1);
-				}
+				if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).background.isEnabled()) 
+					DrawableHelper.fill(matrices, 
+							fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), 
+							fromY, 
+							toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), 
+							toY, 0x90000000);
+				
+				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY-0.8, ModuleManager.INSTANCE.getModule(ArrylistModule.class).cute.isEnabled() ? ColorUtils.getCuteColor(index) : -1, 1);
+				
 
 //				DrawableHelper.fill(matrices, fromX, fromY+1, toX-1, toY, 8f);
 //				RenderUtils.renderRoundedQuad(matrices, new Color(10, 10, 10, 100), fromX, fromY, toX, toY, 1, 500);
