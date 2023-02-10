@@ -33,7 +33,7 @@ public class ColorBox extends Component{
 //		parent.parent.x + parent.parent.width, 
 //		parent.parent.y+parent.offset+offset+parent.parent.height, 
         colorSet.name = colorSet.name;
-        int sx = parent.parent.x +6,
+        int sx = parent.parent.x +5,
                 sy = parent.parent.y + 12 + parent.offset + offset,
                 ex = parent.parent.x + 87,
                 ey = parent.parent.y + getHeight(122)+ parent.offset+ offset;
