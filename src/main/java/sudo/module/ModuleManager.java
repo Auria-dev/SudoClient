@@ -63,7 +63,7 @@ public class ModuleManager {
 	private void addModules() {
 
 		//movement
-		modules.add(new Example());
+		modules.add(new AAAExample());
 		modules.add(new AutoWalk());
 		modules.add(new Safewalk());
 		modules.add(new ElytraFly());

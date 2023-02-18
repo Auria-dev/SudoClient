@@ -44,15 +44,23 @@ public class Mod {
 		for (Setting setting : settings) addSetting(setting);
 	}
 	
+	public List<Setting> getSettings() {
+		return settings;
+	}
+	
+	 public Setting getSettingByIndex(int i) {
+        return (Setting)this.getSettings().get(i);
+    }
 	
 	public void toggle() {
 		this.enabled = !this.enabled;
 		
 		if (enabled) {
-			onEnable(); NotificationUtil.send_notification(new Notification(name +" was enabled", 202, 122, 248));
+			onEnable(); 
+			NotificationUtil.send_notification(new Notification(name +" was enabled", 202, 122, 248));
 		}
 		else {
-			onDisable();			
+			onDisable(); 
 			NotificationUtil.send_notification(new Notification(name +" was disabled", 202, 122, 248));
 		}
 	}
@@ -103,5 +111,4 @@ public class Mod {
 			this.name = name;
 		}
 	}
-	
 }
