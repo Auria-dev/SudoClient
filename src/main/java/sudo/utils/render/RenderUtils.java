@@ -12,6 +12,7 @@ import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.SimpleFramebuffer;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -526,6 +527,50 @@ public class RenderUtils {
 		drawText(text, x, y, z, 0, 0, scale, fill);
 	}
 	
+	
+	public static void drawWorldText(String string, double x, double y, double z, double scale, int color, boolean background) {
+		drawWorldText(string, x, y, z, 0, 0, scale, false, color, background);
+	}
+
+	@SuppressWarnings("resource")
+	public static void drawWorldText(String string, double x, double y, double z, double offX, double offY, double scale, boolean shadow, int color, boolean background) {
+		MatrixStack matrices = matrixFrom(x, y, z);
+
+		Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
+		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
+		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+
+		matrices.translate(offX, offY, 0);
+		matrices.scale(-0.025f * (float) scale, -0.025f * (float) scale, 1);
+
+		int halfWidth = (int) (textRend.getStringWidth(string) / 2);
+		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+
+		if(shadow) {
+			matrices.push();
+			matrices.translate(1, 1, 0);
+			textRend.drawString(matrices, string, -halfWidth, 0f, 0x202020, 1);
+			immediate.draw();
+			matrices.pop();
+		}
+
+		if(background) {
+			float backgroundOpacity = MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F);
+			int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
+
+			int xF = (int) (-textRend.getStringWidth(string) / 2);
+			DrawableHelper.fill(matrices, xF - 1, -2, (int) (textRend.getStringWidth(string) / 2 + 3), (int) (textRend.getFontHeight() + 1), backgroundColor);
+		}
+//		textRend.draw(matrices, Text.of(text), -halfWidth, 0f, 1);
+        mc.textRenderer.draw(matrices, Text.of(string), -halfWidth, 0f, 1);
+		immediate.draw();
+
+		RenderSystem.disableBlend();
+	}
+	
 	public static Vec3d getInterpolationOffset(Entity e) {
 		if (MinecraftClient.getInstance().isPaused()) {
 			return Vec3d.ZERO;
@@ -556,15 +601,15 @@ public class RenderUtils {
 		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
 		
 		if (fill) {
-		@SuppressWarnings("resource")
-		int opacity = (int) (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.6F) * 255.0F) << 24;
-		mc.textRenderer.draw(text, -halfWidth, 0f, 553648127, false, matrices.peek().getPositionMatrix(), immediate, true, opacity, 0xf000f0);
-		immediate.draw();
+			@SuppressWarnings("resource")
+			int opacity = (int) (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.6F) * 255.0F) << 24;
+			mc.textRenderer.draw(text, -halfWidth, 0f, 553648127, false, matrices.peek().getPositionMatrix(), immediate, true, opacity, 0xf000f0);
+			immediate.draw();
 		} else {
-		matrices.push();
-		matrices.translate(1, 1, 0);
-		immediate.draw();
-		matrices.pop();
+			matrices.push();
+			matrices.translate(1, 1, 0);
+			immediate.draw();
+			matrices.pop();
 		}
 		mc.textRenderer.draw(text, -halfWidth, 0f, -1, false, matrices.peek().getPositionMatrix(), immediate, true, 0, 0xf000f0);
 		immediate.draw();

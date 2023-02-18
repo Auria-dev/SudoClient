@@ -103,6 +103,7 @@ public class ModuleManager {
 		modules.add(new NoCameraClip());
 		modules.add(new ItemScanner());
 		modules.add(new Notifications());
+		modules.add(new PlayerEntityModule());
 		modules.add(new FakeHacker());
 		modules.add(new NameTags());
 		modules.add(new NoOverlay());
