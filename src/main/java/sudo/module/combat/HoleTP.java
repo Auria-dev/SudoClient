@@ -6,6 +6,7 @@ import java.util.Map;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
@@ -23,16 +24,8 @@ public class HoleTP extends Mod {
 	float[] obsidianColor = new float[] {30f, 235f, 235f};
 	float[] mixedColor  = new float[] {127f, 0f, 127f};
 	
-	//i fucking hate float[] colors never again
-	//i wasted 3 hours finding those colors
-	//HOW TF DID I NOT REALISE THIS WAS FKIN CMYK 
-	
-// 255,0,0 = Cyan
-// 0,255,0 = Pink
-// 0,0,255 = Yellow
-	
 	public HoleTP() {
-		super("HoleTP", "Render a box on safe holes", Category.COMBAT, 0);
+		super("HoleTP", "TP the players to the nearest safe hole", Category.COMBAT, 0);
 		addSettings(bedrock, mixed, obi, range);
 	}
 	
@@ -84,6 +77,7 @@ public class HoleTP extends Mod {
 		super.onTick();
 	}
 	int cooldown = 30;
+	
 	@Override
 	public void onWorldRender(MatrixStack matrices) {
 		holes.forEach((pos, color) -> {
@@ -95,7 +89,15 @@ public class HoleTP extends Mod {
 		});
 		cooldown--;
 	}
-	
+	@Override
+	public void onEnable() {
+		mc.inGameHud.getChatHud().addMessage(Text.literal("[Sudo] Press the sneak key to TP to the nearest safe hole"));
+		super.onEnable();
+	}
+	@Override
+	public void onDisable() {
+		super.onDisable();
+	}
 	private BlockPos[] neighbours(BlockPos pos) {
 		return new BlockPos[] {
 				pos.west(), pos.east(), pos.south(), pos.north(), pos.down()
