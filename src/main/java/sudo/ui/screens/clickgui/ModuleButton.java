@@ -42,6 +42,7 @@ public class ModuleButton {
 		
 		int setOffset = parent.height;
 		for (Setting setting : module.getSetting()) {
+
 			if (setting instanceof BooleanSetting) {
 				components.add(new CheckBox(setting, this, setOffset));
 			} else if (setting instanceof ModeSetting) {
@@ -55,24 +56,16 @@ public class ModuleButton {
 
 			}
 			setOffset += parent.height;
-//			setOffset+=(setting instanceof ColorSetting ? parent.height * 10 : parent.height);
-			//setOffset += parent.height*(setting instanceof ColorSetting ? (extraOffset=6.2f) : (extraOffset=1f));
 		}
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		
 		hoverAnim.setState(isHovered(mouseX,mouseY));
 		enabledAnim.setState(module.isEnabled());
 		textEnabledAnim.setState(module.isEnabled());
 		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, 0xff2A2A2A);
 		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, hoverAnim.getColor().getRGB());
-//		DrawableHelper.fill(matrices, parent.x, parent.y + offset, parent.x + parent.width, parent.y+offset+parent.height, hoverAnim.getColour().getRGB());
-//		DrawableHelper.fill(matrices, 
-//				parent.x + parent.width - 5, 
-//				parent.y + offset+2, 
-//				parent.x + parent.width-2, 
-//				parent.y+offset+parent.height-2,
-//				enabledAnim.getColour().getRGB());
 		DrawableHelper.fill(matrices, 
 				parent.x + parent.width - 5, 
 				parent.y + offset+2, 
@@ -81,7 +74,6 @@ public class ModuleButton {
 				enabledAnim.getColor().getRGB());
 		
 		textRend.drawString(matrices, module.getName(), parent.x + 2 + speed, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, textEnabledAnim.getColor().getRGB(), 1);
-//		textRend.drawString(matrices, module.getName(), parent.x + 2, parent.y+(parent.height/2)-(mc.textRenderer.fontHeight/2) + offset+1-3.5, textEnabledAnim.getColour().getRGB(), 1);
 
 		if (isHovered(mouseX, mouseY)) {
 			speed+=0.3;
