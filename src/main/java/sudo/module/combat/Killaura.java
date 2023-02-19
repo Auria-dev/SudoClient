@@ -4,73 +4,22 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
-
 import com.google.common.collect.Lists;
-
-//import dev.hypnotic.config.friends.FriendManager;
-//import dev.hypnotic.event.EventTarget;
-//import dev.hypnotic.event.events.EventMotionUpdate;
-//import dev.hypnotic.event.events.EventRender3D;
-//import dev.hypnotic.event.events.EventSendPacket;
-//import dev.hypnotic.mixin.PlayerMoveC2SPacketAccessor;
-//import dev.hypnotic.module.Category;
-//import dev.hypnotic.module.Mod;
-//import dev.hypnotic.module.ModuleManager;
-//import dev.hypnotic.module.player.Scaffold;
-//import dev.hypnotic.module.render.OldBlock;
-//import dev.hypnotic.settings.settingtypes.BooleanSetting;
-//import dev.hypnotic.settings.settingtypes.ColorSetting;
-//import dev.hypnotic.settings.settingtypes.ModeSetting;
-//import dev.hypnotic.settings.settingtypes.NumberSetting;
-//import dev.hypnotic.utils.ColorUtils;
-//import dev.hypnotic.utils.RotationUtils;
-//import dev.hypnotic.utils.Timer;
-//import dev.hypnotic.utils.player.PlayerUtils;
-//import dev.hypnotic.utils.render.RenderUtils;
 
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.mob.Monster;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Items;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
-import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.hit.HitResult.Type;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import sudo.core.event.EventTarget;
-import sudo.events.EventMotionUpdate;
 import sudo.events.EventRender3D;
-import sudo.events.EventSendPacket;
-import sudo.mixins.accessors.PlayerMoveC2SPacketAccessor;
 import sudo.module.Mod;
-import sudo.module.ModuleManager;
 import sudo.module.settings.BooleanSetting;
-import sudo.module.settings.ColorSetting;
 import sudo.module.settings.ModeSetting;
 import sudo.module.settings.NumberSetting;
-import sudo.module.world.Scaffold;
-import sudo.utils.world.Timer;
-import sudo.utils.player.PlayerUtils;
 import sudo.utils.player.RotationUtils;
-import sudo.utils.render.ColorUtils;
 import sudo.utils.render.RenderUtils;
 
 public class Killaura extends Mod {
@@ -96,6 +45,7 @@ public class Killaura extends Mod {
 	}
 
 	private static final Formatting Gray = Formatting.GRAY;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public final List<LivingEntity> targets = (List)Lists.newArrayList();
 
 	@Override
@@ -169,6 +119,7 @@ public class Killaura extends Mod {
 		RotationUtils.resetYaw();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void onWorldRender(MatrixStack matrices) {
 		final List<LivingEntity> targets = (List)Lists.newArrayList();
