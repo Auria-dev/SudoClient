@@ -354,6 +354,10 @@ public class RenderUtils {
 		end3DRender();
 	}
 	
+	public static void drawBoxFill(BlockPos blockPos, QuadColor color, Direction... excludeDirs) {
+		drawBoxFill(new Box(blockPos), color, excludeDirs);
+	}
+	
 	public static void drawBoxOutline(Box box, QuadColor color, float lineWidth, Direction... excludeDirs) {
 		if (!getFrustum().isVisible(box)) {
 			return;
