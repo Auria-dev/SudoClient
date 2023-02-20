@@ -25,6 +25,11 @@ public class Keybind extends Component {
 			binding.toggle();
 			isBinding = true;
 		}
+		
+		if (isHovered(mouseX, mouseY) && isBinding==true && button == 1) {
+			binding.toggle();
+			isBinding=false;
+		}
 		super.mouseClicked(mouseX, mouseY, button);
 	}
 	
