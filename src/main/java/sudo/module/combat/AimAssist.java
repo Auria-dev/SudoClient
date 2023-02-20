@@ -1,6 +1,5 @@
 package sudo.module.combat;
 
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -35,10 +34,8 @@ public class AimAssist extends Mod {
 			}
 			
 			if (target != null) {
-
 				mc.player.setYaw(newYAW());
 				mc.player.setPitch(newPITCH());
-
 			}
 		}
 		
