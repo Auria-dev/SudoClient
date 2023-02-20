@@ -109,7 +109,6 @@ public class Frame {
 	
 	public void updateButton() {
 		int offset = height;
-		
 		for (ModuleButton button : buttons) {
 			button.offset = offset;
 			offset += height;

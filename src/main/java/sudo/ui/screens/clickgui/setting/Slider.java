@@ -26,13 +26,12 @@ public class Slider extends Component {
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset, parent.parent.x + parent.parent.width, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff1f1f1f);
-		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff9D73E6);
+		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, (int) (parent.parent.y+parent.offset+offset+parent.parent.height-3.5), 0xff9D73E6);
 
 		double diff = Math.min(parent.parent.width, Math.max(0, mouseX - parent.parent.x));
 		int renderWidth = (int) (parent.parent.width * (numSet.getValue() - numSet.getMin()) / (numSet.getMax() - numSet.getMin()));
 		
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset+parent.parent.height-3, parent.parent.x + parent.parent.width-2, parent.parent.y+parent.offset+offset+parent.parent.height-1, 0xff545454);
-		
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset+parent.parent.height-3, parent.parent.x + renderWidth, parent.parent.y+parent.offset+offset+parent.parent.height-1, 0xff9D73E6);
 		
 		if (sliding) {

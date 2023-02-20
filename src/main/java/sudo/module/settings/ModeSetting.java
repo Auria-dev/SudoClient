@@ -53,6 +53,15 @@ public class ModeSetting extends Setting {
 		}
 	}
 	
+	public void cycleBack() {
+		if (index>0 && index <= modes.size()) {
+			index--;
+			mode = modes.get(index);
+		} else if (index==0) {
+			index=0;
+		}
+	}
+	
 	public boolean is(String mode) {
 		return this.mode == mode;
 	}
