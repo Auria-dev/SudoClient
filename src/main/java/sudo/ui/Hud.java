@@ -27,14 +27,17 @@ import sudo.utils.surge.animation.Easing;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
 
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 public class Hud {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 
+	private static ArrylistModule arrayModule = ModuleManager.INSTANCE.getModule(ArrylistModule.class);
+	
 	public static void render(MatrixStack matrices, float tickDelta) {
 		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
 		
-		if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).show.isEnabled())
+		if (arrayModule.show.isEnabled())
 			renderArrayList(matrices);
 		if (ModuleManager.INSTANCE.getModule(TargetHud.class).isEnabled())
 			renderTargetHud(matrices);
@@ -42,20 +45,19 @@ public class Hud {
 			Notifs(matrices);
 	}
 	
-	
 	@SuppressWarnings("unused")
 	public static void renderArrayList(MatrixStack matrices) {
 		int x, y = 0;
 		int xOffset = -3;
-		int yOffset = 5;
+		int yOffset = 6;
 		
 		int index = 0;
 		int sWidth = mc.getWindow().getScaledWidth();
 		int sHeight = mc.getWindow().getScaledHeight();
 		
 		List<Mod> enabled = ModuleManager.INSTANCE.getEnabledModules();
-		if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortY.is("Normal")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
-		else if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortY.is("Reversed")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())));
+		if (arrayModule.SortY.is("Normal")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
+		else if (arrayModule.SortY.is("Reversed")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())));
 		else enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
 		
 		for (Mod mod : enabled) {
@@ -67,43 +69,27 @@ public class Hud {
 			int toX = xOffset+(sWidth-2)+1;
 			int toY = yOffset+(fHeight*index)+fHeight-1;
 			
+			int fromX2=fromX + (arrayModule.SortX.is("Left") ? (fWidth-100) : 0);
+			int fromY2=fromY+1;
+			int toX2=toX - (arrayModule.SortX.is("Left") ? (100-fWidth) : 0);
+			int toY2=toY;
+			
+			
 			if (mod.isEnabled()) {
-				
-//				RenderUtils.renderRoundedShadow(matrices, new Color(200, 0, 200, 95), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY+1, toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), toY, 1, 500, 4);
-//				RenderUtils.renderRoundedQuad(matrices, new Color(200, 0, 200, 95), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY+1, toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), toY, 1, 500);
-				if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).glow.isEnabled()) {
-					RenderUtils.renderRoundedShadow(matrices, 
-							
-							new Color(
-									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getRed(), 
-									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getGreen(), 
-									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getBlue(), 
-									95), 
-							fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), 
-							fromY+1, 
-							toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), 
-							toY, 
-							
-							1, 500, 4);
+				if (arrayModule.glow.isEnabled()) {
+					RenderUtils.renderRoundedShadow(matrices,
+							new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
+							fromX2, fromY2, toX2, toY2, 1, 500, 4);
 					RenderUtils.renderRoundedQuad(matrices, 
-							new Color(ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getRed(), 
-									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getGreen(), 
-									ModuleManager.INSTANCE.getModule(ArrylistModule.class).Arraycolor.getColor().getBlue(), 
-									95), 
-							fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), 
-							fromY+1, 
-							toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), 
-							toY, 
-							
-							1, 500);
+							new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
+							fromX2, fromY2, toX2, toY2, 1, 500);
 				}
-//				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 130), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY+1, toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), toY, 1, 500);
-//				
-//				RenderUtils.blur(matrices, fromX, fromY+1, toX-fromX, toY-fromY, 8f);
+//				RenderUtils.blur(matrices, fromX, fromY, toX-fromX, toY-fromY, 8f);
 				index++;
 			}
 		}
 		index=0;
+		
 		for (Mod mod : enabled) {
 			int fWidth = (int) textRend.getStringWidth(mod.getDisplayName());
 			int fHeight = (int) textRend.getFontHeight();
@@ -113,26 +99,57 @@ public class Hud {
 			int toX = xOffset+(sWidth-2);
 			int toY = yOffset+(fHeight*index)+fHeight-1;
 			
+			int lastWidth;
+			
+			if (index-1 >= 0) lastWidth = textRend.getStringWidth(enabled.get(index-1).getDisplayName());
+			else lastWidth = sWidth;
+			
+			int fromX2 = fromX + (arrayModule.SortX.is("Left") ? (fWidth-100) : 0);
+			float fromY2 = fromY-0.8f;
+			int toX2=toX - (arrayModule.SortX.is("Left") ? (100-fWidth) : 0);
+			int toY2=toY;
+			
+			Color arrayColor = new Color(255,0,0);
+			Color outlineColor = new Color(255,255,255);
 			if (mod.isEnabled()) {
-				if (ModuleManager.INSTANCE.getModule(ArrylistModule.class).background.isEnabled()) 
-					DrawableHelper.fill(matrices, 
-							fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), 
-							fromY, 
-							toX - (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (100-fWidth) : 0), 
-							toY, 0x90000000);
+				if (arrayModule.background.isEnabled())
+					DrawableHelper.fill(matrices, fromX2, fromY, toX2, toY2, 0x90000000);
 				
-				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX + (ModuleManager.INSTANCE.getModule(ArrylistModule.class).SortX.is("Left") ? (fWidth-100) : 0), fromY-0.8, ModuleManager.INSTANCE.getModule(ArrylistModule.class).cute.isEnabled() ? ColorUtils.getCuteColor(index) : -1, 1);
+				switch (arrayModule.mode.getSelected()) {
+					case "Pulse": 
+						arrayColor = ColorUtils.mixColorsAnimated(index, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor());
+						outlineColor = arrayModule.pulseColor.getColor();
+						break;
+					case "Cute": 
+						arrayColor = ColorUtils.getCuteColor(index);
+						outlineColor = ColorUtils.getCuteColor(index);
+						break;
+					default: 
+						arrayColor = new Color(255,255,255);
+						outlineColor = new Color(255,255,255);
+						break;
+				}
 				
+				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX2, fromY2, arrayColor.getRGB(), 1);
+//				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX + (arrayModule.SortX.is("Left") ? (fWidth-100) : 0), fromY-0.8, 
+//						arrayModule. ? ColorUtils.getCuteColor(index) : ColorUtils.mixColorsAnimated(index, 1, new Color(255, 0, 0), new Color(140, 0, 0)).getRGB(), 1);
+				
+				if (arrayModule.outline.isEnabled()) {
+					DrawableHelper.fill(matrices, fromX2, (int)fromY2+1, fromX2-1, toY2,  outlineColor.getRGB());
+					DrawableHelper.fill(matrices, toX2+1, (int)fromY2+1, toX2, toY2+1,  outlineColor.getRGB());
 
-//				DrawableHelper.fill(matrices, fromX, fromY+1, toX-1, toY, 8f);
-//				RenderUtils.renderRoundedQuad(matrices, new Color(10, 10, 10, 100), fromX, fromY, toX, toY, 1, 500);
-//				DrawableHelper.fill(matrices, toX, fromY+1, toX-1, toY,ModuleManager.INSTANCE.getModule(HudModule.class).Arraycolor2.getColor().getRGB());
-//				DrawableHelper.fill(matrices, toX, fromY+1, toX-2, toY, ColorUtils.rainbow(10, 0.8f, 1, 200*index));
+					if (index == enabled.size()-1) {
+						DrawableHelper.fill(matrices, fromX2-1, toY2, toX2, toY2+1,  outlineColor.getRGB()); //lines from the roots
+					} if (index == enabled.size()-enabled.size()) {
+						DrawableHelper.fill(matrices, fromX2-1, (int)fromY2, toX2+1, (int)fromY2+1,  outlineColor.getRGB()); //lines from the skies
+					} else {
+						DrawableHelper.fill(matrices, fromX2, (int)fromY2, toX2-lastWidth-4, (int)fromY2+1, outlineColor.getRGB()); //lines from the lands between
+					}
+				}
 				index++;
 			}
 		}
 	}
-	
 
 	static PlayerEntity target = null;
 	
@@ -177,8 +194,6 @@ public class Hud {
 				textRend.drawString(matrices, "Ping " + getPing(target) + "ms", fromX+25+offsetX, fromY+27+offsetY, -1, 1);
 			}
 		}
-		
-		
 	}
 	
     public static int getPing(PlayerEntity player) {
@@ -209,8 +224,6 @@ public class Hud {
 			
 
 			SlidIn.setState(anim);
-//			Client.logger.info(SlidIn.getAnimationValue());
-//			Client.logger.info(anim);
 			
 			RenderUtils.renderRoundedQuad(matrices, new Color(0,0,0,180), sWidth-SlidIn.getAnimationValue(), renderY+22, sWidth+50, renderY+38, 3, 50);
 			textRend.drawString(matrices, n.getMessage(), sWidth+2-SlidIn.getAnimationValue(), renderY + 22, -1, 0.85f);
@@ -232,6 +245,4 @@ public class Hud {
 		}
 		return current + progress;
 	}
-    
-    
 }

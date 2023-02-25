@@ -27,6 +27,7 @@ public class ModeSetting extends Setting {
 	}
 	
     public String getSelected() {
+    	selected=this.mode;
         return selected;
     }
 	public void setMode(String mode) {
