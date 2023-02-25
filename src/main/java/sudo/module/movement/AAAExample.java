@@ -1,7 +1,6 @@
 package sudo.module.movement;
 
 import sudo.Client;
-import sudo.core.event.EventTarget;
 import sudo.events.EventMotionUpdate;
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
@@ -10,6 +9,8 @@ import sudo.module.settings.ModeSetting;
 import sudo.module.settings.NumberSetting;
 
 import java.awt.*;
+
+import com.google.common.eventbus.Subscribe;
 
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -38,7 +39,7 @@ public class AAAExample extends Mod {
 	}
 	@Override
 	public void onTick() {
-		
+		if (mc.options.sneakKey.isPressed() && mc.player.isSprinting() && mc.player.isOnGround()) mc.player.addVelocity(0, 1, 0);
 		super.onTick();
 	}
 	
@@ -48,7 +49,7 @@ public class AAAExample extends Mod {
 		super.onWorldRender(matrices);
 	}
 
-	@EventTarget
+	@Subscribe
 	public void onMotionUpdate(EventMotionUpdate event) {
 		Client.logger.info("MotionUpdate");
 	}

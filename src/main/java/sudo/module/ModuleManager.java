@@ -103,6 +103,7 @@ public class ModuleManager {
 		modules.add(new NoCameraClip());
 		modules.add(new ItemScanner());
 		modules.add(new Notifications());
+		modules.add(new PlayerEntityModule());
 		modules.add(new FakeHacker());
 		modules.add(new NameTags());
 		modules.add(new NoOverlay());
@@ -110,6 +111,7 @@ public class ModuleManager {
 		modules.add(new TrueSight());
 		modules.add(new BlockESP());
 		modules.add(new Fullbright());
+		modules.add(new CityESP());
 		modules.add(new HoleESP());
 		modules.add(new Tracers());
 		modules.add(new Chams());

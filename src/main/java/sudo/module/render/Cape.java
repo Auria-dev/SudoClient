@@ -7,7 +7,7 @@ import sudo.module.settings.ModeSetting;
 
 public class Cape extends Mod {
 
-	public ModeSetting mode = new ModeSetting("Texture", "Sudo", "Sudo", "Old");
+	public ModeSetting mode = new ModeSetting("Texture", "Sudo", "Sudo", "2016");
 	
 	public Cape() {
 		super("Cape", "Renders a custom cape on you", Category.RENDER, 0);
@@ -16,7 +16,7 @@ public class Cape extends Mod {
 	
 	public Identifier getTexture(PlayerEntity player) {
 		if (this.isEnabled() && (player == mc.player)) {
-			return mode.is("Sudo") ? new Identifier("sudo", "images/cape.png") : new Identifier("sudo", "images/oldcape.png");
+			return mode.is("Sudo") ? new Identifier("sudo", "images/cape.png") : new Identifier("sudo", "images/2016.png");
 		} else {
 			return null;
 		}

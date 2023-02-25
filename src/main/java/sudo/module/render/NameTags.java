@@ -10,7 +10,6 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 import sudo.module.settings.BooleanSetting;
@@ -46,7 +45,8 @@ public class NameTags extends Mod {
         popped = 0;
     }
 
-    @Subscribe
+    @SuppressWarnings("unused")
+	@Subscribe
     public void onWorldRender(MatrixStack matrices) {
         for (Entity entity : mc.world.getEntities()) {
             Vec3d rPos = entity.getPos().subtract(RenderUtils.getInterpolationOffset(entity)).add(0, entity.getHeight() + 0.50, 0);
@@ -55,8 +55,10 @@ public class NameTags extends Mod {
             if (entity instanceof PlayerEntity) {
                 if (entity == mc.player || ((PlayerEntity) entity).isDead()) continue;
 
-                RenderUtils.drawText(Text.of(" "+getPlayerInfo((PlayerEntity) entity)+" "), rPos.x, rPos.y, rPos.z, scale.getValue() * size, background.isEnabled());
-
+//                RenderUtils.drawText(Text.of(" "+getPlayerInfo((PlayerEntity) entity)+" "), rPos.x, rPos.y, rPos.z, scale.getValue() * size, background.isEnabled());
+//                String text = Text.of(" "+getPlayerInfo((PlayerEntity) entity)+" ");
+                RenderUtils.drawWorldText(getPlayerInfo((PlayerEntity) entity)+"", entity.getX(), entity.getY() + entity.getHeight() + 0.5f, entity.getZ(), scale.getValueFloat(), -1, true);
+                
             }
         }
     }

@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
+import sudo.core.altmanager.AltManager;
 import sudo.core.hwid.Hwid;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
@@ -22,6 +23,7 @@ public class Client implements ModInitializer{
 	public static Logger logger = LogManager.getLogger(Client.class);
 	private MinecraftClient mc = MinecraftClient.getInstance();
 	public static ModuleManager moduleManager = null;
+	public static AltManager altManager = null;
 	public static final EventBus EventBus = new EventBus();
 
 	@Override
@@ -30,6 +32,7 @@ public class Client implements ModInitializer{
         System.out.println("Your HWID is " + Hwid.getHwid());
 		init();
 		moduleManager = new ModuleManager();
+		altManager = new AltManager();
 	}
 	
 	public void onKeyPress(int key, int action) {
