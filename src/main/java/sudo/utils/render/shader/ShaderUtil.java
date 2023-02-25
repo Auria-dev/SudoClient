@@ -41,12 +41,12 @@ public class ShaderUtil {
                     fragmentShaderID = createShader(new ByteArrayInputStream(roundedRectGradient.getBytes()), GL_FRAGMENT_SHADER);
                     break;
                 default:
-                    fragmentShaderID = createShader(mc.getResourceManager().getResource(new Identifier("hypnotic", fragmentShaderLoc)).get().getInputStream(), GL_FRAGMENT_SHADER);
+                    fragmentShaderID = createShader(mc.getResourceManager().getResource(new Identifier("sudo", fragmentShaderLoc)).get().getInputStream(), GL_FRAGMENT_SHADER);
                     break;
             }
             glAttachShader(program, fragmentShaderID);
 
-            int vertexShaderID = createShader(mc.getResourceManager().getResource(new Identifier("hypnotic", vertexShaderLoc)).get().getInputStream(), GL_VERTEX_SHADER);
+            int vertexShaderID = createShader(mc.getResourceManager().getResource(new Identifier("sudo", vertexShaderLoc)).get().getInputStream(), GL_VERTEX_SHADER);
             glAttachShader(program, vertexShaderID);
 
 
@@ -212,5 +212,4 @@ public class ShaderUtil {
             "    gl_FragColor = vec4(color.rgb, smoothedAlpha);// mix(quadColor, shadowColor, 0.0);\n" +
             "\n" +
             "}";
-
 }

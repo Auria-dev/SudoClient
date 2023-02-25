@@ -27,4 +27,5 @@ public class TargetHud extends Mod {
 	public void onDisable() {
 		super.onDisable();
 	}
+	
 }

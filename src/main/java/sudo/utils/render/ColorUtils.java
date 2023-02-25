@@ -127,16 +127,15 @@ public class ColorUtils {
         return 0xFF000000 | Red | Green | Blue; //0xFF000000 for 100% Alpha. Bitwise OR everything together.
     }
     
-    public static int getCuteColor(int index) {
+    public static Color getCuteColor(int index) {
 
         int size = ModuleManager.INSTANCE.getEnabledModules().size();
 
-        int light_blue = new Color(91, 206, 250).getRGB();
-        int white = Color.WHITE.getRGB();
-        int pink = new Color(245, 169, 184).getRGB();
+        Color light_blue = new Color(91, 206, 250);
+        Color white = Color.WHITE;
+        Color pink = new Color(245, 169, 184);
 
         int part = (int) ((float) index / size * 5);
-
 
         if (part == 0) {
             return light_blue;
@@ -154,7 +153,38 @@ public class ColorUtils {
             return light_blue;
         }
 
-
         return light_blue; //fail
+    }
+    
+    public static Color mixColors(final Color color1, final Color color2, final double percent) {
+        final double inverse_percent = 1.0 - percent;
+        final int red = (int) (color1.getRed() * percent + color2.getRed() * inverse_percent);
+        final int green = (int) (color1.getGreen() * percent + color2.getGreen() * inverse_percent);
+        final int blue = (int) (color1.getBlue() * percent + color2.getBlue() * inverse_percent);
+        return new Color(red, green, blue);
+    }
+    
+    public static Color blend2colors(final Color color1, final Color color2, double offset) {
+        final float hue = System.currentTimeMillis();
+
+        offset += hue;
+
+        if (offset > 1) {
+            final double left = offset % 1;
+            final int off = (int) offset;
+            offset = off % 2 == 0 ? left : 1 - left;
+        }
+        final double inversePercent = 1 - offset;
+
+        final int red = (int) (color1.getRed() * inversePercent + color2.getRed() * offset);
+        final int green = (int) (color1.getGreen() * inversePercent + color2.getGreen() * offset);
+        final int blue = (int) (color1.getBlue() * inversePercent + color2.getBlue() * offset);
+        return new Color(red, green, blue);
+    }
+    
+    public static Color mixColorsAnimated(float colorOffset, final float timeMultiplier, final Color color1, final Color color2) {
+        final double timer = (System.currentTimeMillis() / 1E+8 * timeMultiplier) * 4E+5;
+        final double factor = (Math.sin(timer + colorOffset * 0.55f) + 1) * 0.5f;
+        return mixColors(color1, color2, factor);
     }
 }
