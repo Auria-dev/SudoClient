@@ -16,6 +16,7 @@ import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
 import sudo.module.client.Notifications;
+import sudo.module.combat.Killaura;
 import sudo.module.combat.TargetHud;
 import sudo.module.render.PlayerEntityModule;
 import sudo.utils.TimerUtil;
@@ -35,6 +36,7 @@ public class Hud {
 
 	private static ArrylistModule arrayModule = ModuleManager.INSTANCE.getModule(ArrylistModule.class);
 	
+	@SuppressWarnings("static-access")
 	public static void render(MatrixStack matrices, float tickDelta) {
 		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
 		
@@ -46,6 +48,9 @@ public class Hud {
 			Notifs(matrices);
 		if (ModuleManager.INSTANCE.getModule(PlayerEntityModule.class).isEnabled())
 			RenderUtils.drawEntity(30, 75, 30, mc.player.getPitch(), mc.player.getYaw(), mc.player);
+		
+		if (ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() && ModuleManager.INSTANCE.getModule(Killaura.class).target != null)
+			textRend.drawString(matrices, Killaura.target.getEntityName(), 10, 10, -1, 1);
 	}
 	
 	@SuppressWarnings("unused")

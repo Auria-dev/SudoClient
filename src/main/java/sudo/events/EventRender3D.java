@@ -1,6 +1,5 @@
 package sudo.events;
 
-
 import net.minecraft.client.util.math.MatrixStack;
 
 public class EventRender3D extends Event {

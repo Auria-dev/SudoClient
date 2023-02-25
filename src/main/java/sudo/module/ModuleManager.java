@@ -84,6 +84,7 @@ public class ModuleManager {
 		modules.add(new BHop());
 		modules.add(new Step());
 		//combat
+		modules.add(new TargetStrafe());
 		modules.add(new CrystalAura());
 		modules.add(new FakePlayer());
 		modules.add(new AutoTotem());
