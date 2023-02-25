@@ -71,6 +71,9 @@ public class ConfigManager {
 
 	@SuppressWarnings("resource")
     public static void loadConfig() {
+		for (Mod module : ModuleManager.INSTANCE.getModules()) {
+			module.setEnabled(false);
+		}
 		File directory = new File(MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\");
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
 		
@@ -94,6 +97,8 @@ public class ConfigManager {
                     }
                     if (setting instanceof ModeSetting) {
                         ((ModeSetting) setting).setMode(jsonObject.get(((ModeSetting) setting).getName()).getAsString());
+                        ((ModeSetting) setting).cycle();
+                        ((ModeSetting) setting).cycleBack();
                     }
                     if (setting instanceof NumberSetting) {
                         ((NumberSetting) setting).setValue(jsonObject.get(((NumberSetting) setting).getName()).getAsDouble());

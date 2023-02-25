@@ -28,10 +28,6 @@ public class ColorBox extends Component{
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-//		parent.parent.x, 
-//		parent.parent.y + parent.offset + offset, 
-//		parent.parent.x + parent.parent.width, 
-//		parent.parent.y+parent.offset+offset+parent.parent.height, 
         colorSet.name = colorSet.name;
         int sx = parent.parent.x +5,
                 sy = parent.parent.y + 12 + parent.offset + offset,
@@ -66,26 +62,12 @@ public class ColorBox extends Component{
         if (hovered(mouseX, mouseY, sx + 3 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()) + 17, sy - 12, sx + 27 + (int)textRend.getStringWidth(colorSet.name + colorSet.getRGB()), sy - 4)) {
             RenderUtils.setup2DRender(true);
             RenderUtils.end2DRender();
-//            if (lmDown && colorSet.getColor() != ColorUtils.hexToRgb(mc.keyboard.getClipboard()) && open) {
-//                Color hexColor = ColorUtils.hexToRgb(mc.keyboard.getClipboard());
-//                float[] vals = colorSet.rgbToHsv(hexColor.getRed(), hexColor.getGreen(), hexColor.getBlue(), hexColor.getAlpha());
-//                colorSet.setHSV(vals[0], vals[1], vals[2]);
-//                h = vals[0];
-//                s = vals[1];
-//                v = vals[2];
-//            }
         }
 
         if (!open) {
             return;
         }
 
-		/*
-		 * RenderUtils.fill(matrices, parent.parent.x + parent.parent.width+1, sy-2,
-		 * parent.parent.x + parent.parent.width+9, sy - 10, new Color(0, 0, 0,
-		 * 200).getRGB());
-		 */
-        
         RenderUtils.fill(matrices, sx, sy, ex, ey, -1);
         int satColor = MathHelper.hsvToRgb(colorSet.hue, 1f, 1f);
         int red = satColor >> 16 & 255;
@@ -129,22 +111,6 @@ public class ColorBox extends Component{
         int briY = (int) (ey - (ey - sy) * colorSet.bri);
         int satX = (int) (sx + (ex - sx) * colorSet.sat);
 
-
-		/*
-		 * //Set hex codes if (hovered(mouseX, mouseY, parent.parent.x +
-		 * parent.parent.width, sy - 10, parent.parent.x + parent.parent.width + 9, sy -
-		 * 4) && open) { RenderUtils.setup2DRender(true); RenderUtils.fill(matrices,
-		 * mouseX, mouseY+3, mouseX +
-		 * textRend.getStringWidth("Sets the hex color to your current clipboard") + 6,
-		 * mouseY - 9, new Color(0, 0, 0, 200).getRGB()); textRend.drawString(matrices,
-		 * "Sets the hex color to your current clipboard", mouseX + 2, mouseY - 10, -1,
-		 * 1); RenderUtils.end2DRender(); if (lmDown && colorSet.getColor() !=
-		 * ColorUtils.hexToRgb(mc.keyboard.getClipboard()) && open) { Color hexColor =
-		 * ColorUtils.hexToRgb(mc.keyboard.getClipboard()); float[] vals =
-		 * colorSet.rgbToHsv(hexColor.getRed(), hexColor.getGreen(), hexColor.getBlue(),
-		 * hexColor.getAlpha()); colorSet.setHSV(vals[0], vals[1], vals[2]); h =
-		 * vals[0]; s = vals[1]; v = vals[2]; } }
-		 */
         sx = ex + 5;
         ex = ex + 12;
 

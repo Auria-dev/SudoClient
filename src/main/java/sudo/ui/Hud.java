@@ -17,6 +17,7 @@ import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
 import sudo.module.client.Notifications;
 import sudo.module.combat.TargetHud;
+import sudo.module.render.PlayerEntityModule;
 import sudo.utils.TimerUtil;
 import sudo.utils.misc.Notification;
 import sudo.utils.misc.NotificationUtil;
@@ -43,6 +44,8 @@ public class Hud {
 			renderTargetHud(matrices);
 		if (ModuleManager.INSTANCE.getModule(Notifications.class).enabled.isEnabled()) 
 			Notifs(matrices);
+		if (ModuleManager.INSTANCE.getModule(PlayerEntityModule.class).isEnabled())
+			RenderUtils.drawEntity(30, 75, 30, mc.player.getPitch(), mc.player.getYaw(), mc.player);
 	}
 	
 	@SuppressWarnings("unused")
@@ -175,8 +178,8 @@ public class Hud {
 			}
 			
 			
-			int offsetX = 0;
-			int offsetY = 0;
+			int offsetX = 30;
+			int offsetY = 15;
 			
 			int fromX = 5+sWidth/2;
 			int fromY = 5+sHeight/2;
@@ -189,7 +192,7 @@ public class Hud {
 				RenderUtils.drawEntity(fromX+13+offsetX, toY-4+offsetY, 20, target.getPitch(), 180, target);
 				textRend.drawString(matrices, target.getName().getString(), (int) fromX+25+offsetX, (int) 10+sHeight/2-2+offsetY, -1, 1);
 				DrawableHelper.fill(matrices, fromX+25+offsetX, fromY+45+offsetY, toX-2+offsetX, toY-3+offsetY, 0xff252525);
-				DrawableHelper.fill(matrices,  fromX+25+offsetX, fromY+45+offsetY, (fromX+25) + (int) (target.getHealth()*4.1)+1+offsetX, toY-3+offsetY, 0xff2ad87f);
+				DrawableHelper.fill(matrices,  fromX+25+offsetX, fromY+45+offsetY, (fromX+25) + (int) (target.getHealth()*4.1)+1+offsetX, toY-3+offsetY, 0xffdb00ff);
 				textRend.drawString(matrices, (int) target.getHealth() + " | " + (target.isOnGround() ? "OnGround" : "InAir") , fromX+25+offsetX, fromY+15+offsetY, -1, 1);
 				textRend.drawString(matrices, "Ping " + getPing(target) + "ms", fromX+25+offsetX, fromY+27+offsetY, -1, 1);
 			}

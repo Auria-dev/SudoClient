@@ -34,7 +34,7 @@ public class BlockESP extends Mod {
 	            		block instanceof HopperBlockEntity ||
 	            		block instanceof ShulkerBoxBlockEntity ||
 	            		block instanceof SmokerBlockEntity) {
-	            	if (block instanceof ChestBlockEntity || block instanceof EnderChestBlockEntity) {
+	            	if (block instanceof ChestBlockEntity) {
 	            		RenderUtils.drawBoxFill(
 		            			new Box(
 		            					block.getPos().getX()+0.06, 
@@ -44,16 +44,18 @@ public class BlockESP extends Mod {
 		            					block.getPos().getY()+0.88, 
 		            					block.getPos().getZ()+0.94),
 		            			QuadColor.single(1f, 0f, 0f, 0.5f));
-	            	}else if (block instanceof HopperBlockEntity) {
-//	            		RenderUtils.drawBoxFill(
-//		            			new Box(
-//		            					block.getPos().getX()+0.25, 
-//		            					block.getPos().getY()+0, 
-//		            					block.getPos().getZ()+0.22,
-//		            					block.getPos().getX()+0.75, 
-//		            					block.getPos().getY()+0.625, 
-//		            					block.getPos().getZ()+0.75),
-//		            			QuadColor.single(1f, 0f, 0f, 0.5f));
+	            	}else if (block instanceof EnderChestBlockEntity) {
+	            		RenderUtils.drawBoxFill(
+		            			new Box(
+		            					block.getPos().getX()+0.06, 
+		            					block.getPos().getY(), 
+		            					block.getPos().getZ()+0.06,
+		            					block.getPos().getX()+0.94, 
+		            					block.getPos().getY()+0.88, 
+		            					block.getPos().getZ()+0.94),
+		            			QuadColor.single(1f, 0f, 1f, 0.5f));
+	            	}
+	            	else if (block instanceof HopperBlockEntity) {
 	            		RenderUtils.drawBoxFill(
 		            			new Box(
 		            					block.getPos().getX()+0, 
@@ -64,7 +66,8 @@ public class BlockESP extends Mod {
 		            					block.getPos().getZ()+1),
 		            			QuadColor.single(1f, 0f, 0f, 0.5f));
 	            		
-	            	}else RenderUtils.drawBoxFill(
+	            	}else if (block instanceof ShulkerBoxBlockEntity)  {
+	            		RenderUtils.drawBoxFill(
 	            			new Box(
 	            					block.getPos().getX(), 
 	            					block.getPos().getY(), 
@@ -72,7 +75,28 @@ public class BlockESP extends Mod {
 	            					block.getPos().getX()+1, 
 	            					block.getPos().getY()+1, 
 	            					block.getPos().getZ()+1),
-	            			QuadColor.single(1f, 0f, 0f, 0.5f));
+	            			QuadColor.single(1f, 0f, 1f, 0.5f));
+	            	} else if (block instanceof SmokerBlockEntity || block instanceof FurnaceBlockEntity || block instanceof BlastFurnaceBlockEntity){ 
+	            		RenderUtils.drawBoxFill(
+	            			new Box(
+	            					block.getPos().getX(), 
+	            					block.getPos().getY(), 
+	            					block.getPos().getZ(),
+	            					block.getPos().getX()+1, 
+	            					block.getPos().getY()+1, 
+	            					block.getPos().getZ()+1),
+	            			QuadColor.single(0.5f, 0.5f, 0.5f, 0.5f));
+	            	} else { 
+	            		RenderUtils.drawBoxFill(
+		            			new Box(
+		            					block.getPos().getX(), 
+		            					block.getPos().getY(), 
+		            					block.getPos().getZ(),
+		            					block.getPos().getX()+1, 
+		            					block.getPos().getY()+1, 
+		            					block.getPos().getZ()+1),
+		            			QuadColor.single(1f, 0f, 0f, 0.5f));
+		            	}
 	            }
 	        }
 	  }
