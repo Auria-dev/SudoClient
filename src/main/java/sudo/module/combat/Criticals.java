@@ -23,6 +23,7 @@ public class Criticals extends Mod {
         instance = this;
         addSetting(critical);
     }
+    
     @Subscribe
     public void sendPacket(EventSendPacket event) {
         if (event.getPacket() instanceof PlayerInteractEntityC2SPacket packet) {
@@ -68,13 +69,12 @@ public class Criticals extends Mod {
 
     @Override
     public void onTick() {
-        this.setDisplayName("Criticals" + Gray + "["+critical.getMode()+"] ");
+        this.setDisplayName("Criticals" + Gray + " ["+critical.getMode()+"] ");
         if(critical.is("Jump")) {
-
+        	
         }
         super.onTick();
     }
 
     public static Criticals instance;
-
 }

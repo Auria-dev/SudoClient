@@ -11,6 +11,7 @@
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
+    "GameRender3D",
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
