@@ -53,14 +53,13 @@ public class ModuleButton {
 				components.add(new Keybind(setting, this, setOffset));
 			} else if (setting instanceof ColorSetting) {
 				components.add(new ColorBox(setting, this, setOffset));
-
 			}
 			setOffset += parent.height;
 		}
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		
+//		offset = 0;
 		hoverAnim.setState(isHovered(mouseX,mouseY));
 		enabledAnim.setState(module.isEnabled());
 		textEnabledAnim.setState(module.isEnabled());
@@ -84,6 +83,7 @@ public class ModuleButton {
 		
 		if (extended) {
 			for (Component component : components) {
+				parent.updateButton();
 				component.render(matrices, mouseX, mouseY, delta);
 				parent.updateButton();
 			}

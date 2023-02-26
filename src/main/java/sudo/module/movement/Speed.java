@@ -2,8 +2,6 @@ package sudo.module.movement;
 
 import net.minecraft.util.math.Vec3d;
 import sudo.module.Mod;
-import sudo.module.combat.Killaura;
-import sudo.module.combat.TargetStrafe;
 import sudo.module.settings.ModeSetting;
 import sudo.module.settings.NumberSetting;
 
@@ -42,11 +40,6 @@ public class Speed extends Mod {
 				mc.player.addVelocity(0, -0.5, 0);
 			}
 		}
-    	if (Killaura.target != null) {
-//    		if (TargetStrafe.canStrafe()) {
-        		TargetStrafe.strafe(speed.getValue(), Killaura.target, true, false);
-//        	}
-        }
 	}
 	@Override
 	public void onEnable() {

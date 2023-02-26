@@ -22,7 +22,7 @@ public class AAAExample extends Mod {
 	public ColorSetting coolor = new ColorSetting("Color", new Color(255,25,25));
 	
 	public AAAExample() {
-		super("AAA-Example", "Just a test module", Category.MOVEMENT, 0);
+		super("ExampleModule", "Just a test module", Category.MOVEMENT, 0);
 		addSettings(slider, bool, mode, coolor, mode);
 	}
 	
@@ -39,7 +39,7 @@ public class AAAExample extends Mod {
 	}
 	@Override
 	public void onTick() {
-		if (mc.options.sneakKey.isPressed() && mc.player.isSprinting() && mc.player.isOnGround()) mc.player.addVelocity(0, 1, 0);
+		this.setDisplayName("ExampleModule");
 		super.onTick();
 	}
 	

@@ -508,7 +508,7 @@ public class RenderUtils {
 		end3DRender();
 	}
 	
-	public static void drawCircle(MatrixStack matrices, Vec3d pos, float partialTicks, double rad, double height, int color) {
+	public static void drawCircle(MatrixStack matrices, Vec3d pos, double rad, double height, int color) {
         double lastX = 0;
 		double lastZ = rad;
 		for (int angle = 0; angle <= 360; angle += 6) {
@@ -780,11 +780,11 @@ public class RenderUtils {
 			shader -> shader.setUniformValue("Radius", 8f));
 	
 	public static void blur(MatrixStack matrices, float fromX, float fromY, float toX, float toY, float Value) {
-		startScissor((int) fromX, (int) fromY, (int) toX, (int) toY);
+//		startScissor((int) fromX, (int) fromY, (int) toX, (int) toY);
 		blur.setUniformValue("Radius", Value);
 		blur.render(mc.getTickDelta());
 		blur.render(mc.getTickDelta());
-		endScissor();
+//		endScissor();
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}
 	

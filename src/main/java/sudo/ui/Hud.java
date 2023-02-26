@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.PlayerListEntry;
@@ -15,8 +17,8 @@ import net.minecraft.util.hit.HitResult;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.client.Notifications;
-import sudo.module.combat.Killaura;
 import sudo.module.combat.TargetHud;
 import sudo.module.render.PlayerEntityModule;
 import sudo.utils.TimerUtil;
@@ -36,7 +38,6 @@ public class Hud {
 
 	private static ArrylistModule arrayModule = ModuleManager.INSTANCE.getModule(ArrylistModule.class);
 	
-	@SuppressWarnings("static-access")
 	public static void render(MatrixStack matrices, float tickDelta) {
 		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
 		
@@ -48,9 +49,6 @@ public class Hud {
 			Notifs(matrices);
 		if (ModuleManager.INSTANCE.getModule(PlayerEntityModule.class).isEnabled())
 			RenderUtils.drawEntity(30, 75, 30, mc.player.getPitch(), mc.player.getYaw(), mc.player);
-		
-		if (ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() && ModuleManager.INSTANCE.getModule(Killaura.class).target != null)
-			textRend.drawString(matrices, Killaura.target.getEntityName(), 10, 10, -1, 1);
 	}
 	
 	@SuppressWarnings("unused")
@@ -92,7 +90,6 @@ public class Hud {
 							new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
 							fromX2, fromY2, toX2, toY2, 1, 500);
 				}
-//				RenderUtils.blur(matrices, fromX, fromY, toX-fromX, toY-fromY, 8f);
 				index++;
 			}
 		}
@@ -197,7 +194,7 @@ public class Hud {
 				RenderUtils.drawEntity(fromX+13+offsetX, toY-4+offsetY, 20, target.getPitch(), 180, target);
 				textRend.drawString(matrices, target.getName().getString(), (int) fromX+25+offsetX, (int) 10+sHeight/2-2+offsetY, -1, 1);
 				DrawableHelper.fill(matrices, fromX+25+offsetX, fromY+45+offsetY, toX-2+offsetX, toY-3+offsetY, 0xff252525);
-				DrawableHelper.fill(matrices,  fromX+25+offsetX, fromY+45+offsetY, (fromX+25) + (int) (target.getHealth()*4.1)+1+offsetX, toY-3+offsetY, 0xffdb00ff);
+				DrawableHelper.fill(matrices,  fromX+25+offsetX, fromY+45+offsetY, (fromX+25) + (int) (target.getHealth()*4.1)+1+offsetX, toY-3+offsetY, ColorUtils.mixColorsAnimated(1, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor()).getRGB());
 				textRend.drawString(matrices, (int) target.getHealth() + " | " + (target.isOnGround() ? "OnGround" : "InAir") , fromX+25+offsetX, fromY+15+offsetY, -1, 1);
 				textRend.drawString(matrices, "Ping " + getPing(target) + "ms", fromX+25+offsetX, fromY+27+offsetY, -1, 1);
 			}

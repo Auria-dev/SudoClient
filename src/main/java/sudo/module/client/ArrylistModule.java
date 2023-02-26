@@ -18,7 +18,7 @@ public class ArrylistModule extends Mod{
 	public BooleanSetting background = new BooleanSetting("Background", true);
 	public BooleanSetting outline = new BooleanSetting("Outline", false);
 	public BooleanSetting glow = new BooleanSetting("Glow", true);
-    public ColorSetting glowcolor = new ColorSetting("Glow color", new Color(0xffec03fb));
+    public ColorSetting glowcolor = new ColorSetting("Glow color", new Color(100,0,0));
 	
 	public ArrylistModule() {
 		super("Arraylist", "", Category.CLIENT, 0);
