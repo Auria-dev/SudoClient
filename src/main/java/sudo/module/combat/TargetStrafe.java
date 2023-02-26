@@ -11,7 +11,6 @@ import sudo.events.EventRender3D;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.movement.Flight;
-import sudo.module.movement.Speed;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.NumberSetting;
 import sudo.utils.player.PlayerUtils;
@@ -25,7 +24,7 @@ public class TargetStrafe extends Mod {
     public static NumberSetting radius = new NumberSetting("Radius", 0.5, 5, 3, 0.1);
     public static BooleanSetting spacebar = new BooleanSetting("Spacebar", false);
     public static BooleanSetting thirdPerson = new BooleanSetting("Third Person", false);
-    public BooleanSetting rainbow = new BooleanSetting("Rainbow", false);
+    public static BooleanSetting rainbow = new BooleanSetting("Rainbow", false);
     
 	public TargetStrafe() {
 		super("TargetStrafe", "", Category.COMBAT, 0);
@@ -41,6 +40,9 @@ public class TargetStrafe extends Mod {
     			mc.options.setPerspective(Perspective.FIRST_PERSON);
     		
     	}
+    	if (Killaura.target != null) {
+    		TargetStrafe.strafe(0.8f, Killaura.target, true, false);
+    	}
     	super.onTick();
     }
 
@@ -55,7 +57,13 @@ public class TargetStrafe extends Mod {
 		super.onDisable();
 	}
 	
-    @SuppressWarnings("static-access")
+	@Override
+	public void onWorldRender(MatrixStack matrices) {
+		if (Killaura.target != null && (Killaura.target != mc.player && mc.player.distanceTo(Killaura.target) <= Killaura.range.getValue() && Killaura.target.isAlive() && mc.player.isAlive()))
+			drawCircle(matrices, Killaura.target, radius.getValue(), 100);
+		super.onWorldRender(matrices);
+	}
+	
 	@EventTarget
     public final void onRender3D(EventRender3D event) {
     	Client.logger.info("EventRender3D");
@@ -65,13 +73,12 @@ public class TargetStrafe extends Mod {
     		this.setDisplayName("TargetStrafe " + ColorUtils.gray + "None");
         if (ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() && Killaura.target != null) {
         	LivingEntity target = Killaura.target;
-            drawCircle(event.getMatrices(), target, event.getTickDelta(), radius.getValue(), 0.1);
+            drawCircle(event.getMatrices(), target, radius.getValue(), 0.1);
         }
     }
-	
-
+    
     public static void strafe(double moveSpeed, LivingEntity target,  boolean direction, boolean flight) {
-    	if (Killaura.target!=null) {
+		if (Killaura.target != null && (Killaura.target != mc.player && mc.player.distanceTo(Killaura.target) <= Killaura.range.getValue() && Killaura.target.isAlive() && mc.player.isAlive())) {
 	    	try {
 		        double direction1 = direction ? 1 : -1;
 		        float[] rotations = RotationUtils.getRotations(target);
@@ -90,14 +97,24 @@ public class TargetStrafe extends Mod {
 	
     public static boolean canStrafe() {
     	if (Killaura.target == null) return false;
-        return Killaura.target != null && !Killaura.target.isDead() && (spacebar.isEnabled() ? ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() && Killaura.target != null && PlayerUtils.isMoving() && ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled() && (ModuleManager.INSTANCE.getModule(Flight.class).isEnabled() ? true : mc.options.jumpKey.isPressed()) : ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() && Killaura.target != null && PlayerUtils.isMoving() && ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled());
+        return Killaura.target != null 
+        		&& !Killaura.target.isDead() 
+        		&& (spacebar.isEnabled() ? ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() 
+        				&& Killaura.target != null 
+        				&& PlayerUtils.isMoving() 
+        				&& ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled() 
+        				&& (ModuleManager.INSTANCE.getModule(Flight.class).isEnabled() ? true : mc.options.jumpKey.isPressed()) : ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() 
+        				&& Killaura.target != null 
+        				&& PlayerUtils.isMoving() 
+        				&& ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled()
+        			);
     }
     
-    private void drawCircle(MatrixStack matrices, Entity entity, float partialTicks, double rad, double height) {
-    	boolean canSee = ModuleManager.INSTANCE.getModule(Speed.class).isEnabled() || ModuleManager.INSTANCE.getModule(Flight.class).isEnabled();
+    private void drawCircle(MatrixStack matrices, Entity entity, double rad, double height) {
+    	boolean canSee = true;
     	if (!canSee) {
     		return;
     	}
-    	RenderUtils.drawCircle(matrices, entity.getPos(), partialTicks, rad, height, -1);
+    	RenderUtils.drawCircle(matrices, entity.getPos(), rad, height, rainbow.isEnabled() ? ColorUtils.rainbow(2f, 1f, 1f) : -1);
     }
 }

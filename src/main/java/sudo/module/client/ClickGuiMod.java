@@ -7,14 +7,14 @@ import sudo.module.settings.NumberSetting;
 public class ClickGuiMod extends Mod {
 
     public static ClickGuiMod INSTANCE;
+    public BooleanSetting pause = new BooleanSetting("Pause", false);
     public BooleanSetting blur = new BooleanSetting("Blur", false);
-    public NumberSetting blurIntensity = new NumberSetting("Blur intensity", 2, 50, 8, 1);
-//    public ColorSetting color = new ColorSetting("Color", new Color(157,115,230));
+    public NumberSetting blurIntensity = new NumberSetting("Blur intensity", 1, 50, 8, 1);
     
     
     public ClickGuiMod() {
         super("ClickGui", "description", Category.CLIENT, 0);
         INSTANCE = this;
-        addSettings(blur, blurIntensity);
+        addSettings(pause, blur, blurIntensity);
     }
 }

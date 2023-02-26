@@ -51,24 +51,18 @@ public class Flight extends Mod {
         	float y = mc.player.getYaw();
         	int mx = 0, my = 0, mz = 0;
  
-        	if (go.jumpKey.isPressed()) {
+        	if (go.jumpKey.isPressed()) 
         		my++;
-        	}
-        	if (go.backKey.isPressed()) {
+        	if (go.backKey.isPressed()) 
         		mz++;
-        	}
-        	if (go.leftKey.isPressed()) {
+        	if (go.leftKey.isPressed()) 
         		mx--;
-        	}
-        	if (go.rightKey.isPressed()) {
+        	if (go.rightKey.isPressed()) 
         		mx++;
-        	}
-        	if (go.sneakKey.isPressed()) {
+        	if (go.sneakKey.isPressed())
         		my--;
-        	}
-        	if (go.forwardKey.isPressed()) {
+        	if (go.forwardKey.isPressed())
         		mz--;
-        	}
         	double ts = speed.getValueFloat() / 2;
             double s = Math.sin(Math.toRadians(y));
             double c = Math.cos(Math.toRadians(y));

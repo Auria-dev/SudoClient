@@ -42,6 +42,7 @@ public class Killaura extends Mod {
     public static ModeSetting rotationmode = new ModeSetting("Rotation", "Silent", "Silent", "Legit");
     public static NumberSetting range = new NumberSetting("Range", 3, 6, 4, 0.1);
     public static BooleanSetting cooldown = new BooleanSetting("Cooldown", true);
+	public static BooleanSetting crits = new BooleanSetting("Criticals", false);
     public static BooleanSetting swing = new BooleanSetting("Swing", true);
     public static ModeSetting priority = new ModeSetting("Priority", "Distance", "Distance", "Health");
 
@@ -57,7 +58,7 @@ public class Killaura extends Mod {
 
     public Killaura() {
         super("Killaura", "Automatically attacks living entities for you", Category.COMBAT, 0);
-        addSettings(rotationmode, range, priority, cooldown, swing, trigger, players, animals, monsters, passives, invisibles);
+        addSettings(rotationmode, range, priority, crits, cooldown, swing, trigger, players, animals, monsters, passives, invisibles);
     }
     
     public void onTick() {
@@ -96,7 +97,7 @@ public class Killaura extends Mod {
                 	target = (LivingEntity)targets.get(0);
                     if (target != null) {
 						
-						this.setDisplayName("Killaura " + ColorUtils.gray + (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString())+ "  ");
+						this.setDisplayName("Killaura " + ColorUtils.gray + (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString())+ "  ");
 						if (canAttack(target) && !target.isInvulnerable()) {
 							float yaw = RotationUtils.getRotations(target)[0];
 							float pitch = RotationUtils.getRotations(target)[1];
@@ -111,12 +112,13 @@ public class Killaura extends Mod {
 							}
 							
 							if (cooldown.isEnabled() ? mc.player.getAttackCooldownProgress(0.5F) == 1 : true) {
-								double posX = mc.player.getX();
-								double posY = mc.player.getY();
-								double posZ = mc.player.getZ();
-							    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY + 0.0633, posZ, false));
-							    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY, posZ, false));
-							    
+								if (crits.isEnabled()) {
+									double posX = mc.player.getX();
+									double posY = mc.player.getY();
+									double posZ = mc.player.getZ();
+								    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY + 0.0633, posZ, false));
+								    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY, posZ, false));
+								}
 								mc.interactionManager.attackEntity(mc.player, target);
 								if (swing.isEnabled()) mc.player.swingHand(Hand.MAIN_HAND);
 								else mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));

@@ -17,7 +17,7 @@ public class Reach extends Mod{
 
     @Override
 	public void onTick() {
-		this.setDisplayName("Reach" + Gray + " [R:"+reach.getValue()+"]");
+		this.setDisplayName("Reach" + Gray + " [R:"+reach.getValue()+"] ");
     }
     
     @Override
