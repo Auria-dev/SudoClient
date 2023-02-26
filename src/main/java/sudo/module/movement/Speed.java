@@ -12,7 +12,7 @@ public class Speed extends Mod {
 	
 	
 	public Speed() {
-		super("Speed", "Walk, but faster", Category.MOVEMENT, 0);
+		super("Speed", "Makes the player run faster", Category.MOVEMENT, 0);
 		addSettings(mode, speed);
 	}
 	

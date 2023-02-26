@@ -9,7 +9,7 @@ import sudo.module.Mod;
 public class PacketLogger extends Mod {
 	
     public PacketLogger() {
-        super("PacketLogger", "Allways send criticals when attacking", Category.CLIENT, 0);
+        super("PacketLogger", "Logs packet in the console", Category.CLIENT, 0);
     }
     
     @EventTarget

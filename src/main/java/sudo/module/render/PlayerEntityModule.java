@@ -5,7 +5,7 @@ import sudo.module.Mod;
 public class PlayerEntityModule extends Mod {
 	
 	public PlayerEntityModule() {
-		super("PlayerEntity", "Renders a custom cape on you", Category.RENDER, 0);
+		super("PlayerEntity", "Renders the player entity on the top left of the screen like in bedrock edition", Category.RENDER, 0);
 	}
 	
 	@Override

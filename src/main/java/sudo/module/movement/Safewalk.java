@@ -11,7 +11,7 @@ public class Safewalk extends Mod {
 	private boolean sneaking;
 	
 	public Safewalk() {
-		super("Safewalk", "shift on side of blocks", Category.MOVEMENT, 0);
+		super("Safewalk", "Prevents the player from falling off the side of blocks", Category.MOVEMENT, 0);
 		addSetting(sneak);
 	}
 	

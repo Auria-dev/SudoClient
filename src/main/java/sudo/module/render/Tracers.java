@@ -31,7 +31,7 @@ public class Tracers extends Mod {
 	public ColorSetting color = new ColorSetting("Color", new Color(255, 0, 0));
 	
 	public Tracers() {
-		super("Tracers", "Draws a line from the cursor to every entities", Category.RENDER, 0);
+		super("Tracers", "Draws a line from the cursor to selected entities", Category.RENDER, 0);
 		addSettings(players, monsters, items, passives, invisibles, color);
 	}
     

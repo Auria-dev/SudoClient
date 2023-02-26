@@ -23,11 +23,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.hit.HitResult.Type;
+import net.minecraft.util.math.Vec3d;
 import sudo.events.EventSendPacket;
 import sudo.mixins.accessors.PlayerMoveC2SPacketAccessor;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.settings.BooleanSetting;
+import sudo.module.settings.ColorSetting;
 import sudo.module.settings.ModeSetting;
 import sudo.module.settings.NumberSetting;
 import sudo.module.world.Scaffold;
@@ -47,18 +49,22 @@ public class Killaura extends Mod {
     public static ModeSetting priority = new ModeSetting("Priority", "Distance", "Distance", "Health");
 
 	public BooleanSetting trigger = new BooleanSetting("Trigger", false);
+	
 	public BooleanSetting players = new BooleanSetting("Players", true);
 	public BooleanSetting animals = new BooleanSetting("Animals", false);
 	public BooleanSetting monsters = new BooleanSetting("Monsters", false);
 	public BooleanSetting passives = new BooleanSetting("Passives", false);
 	public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
+
+	public BooleanSetting esp = new BooleanSetting("Esp", true);
+	public ColorSetting espColor = new ColorSetting("Esp", new Color(200,0,0));
 	
 	public static LivingEntity target;
 	private float smoothYaw, smoothPitch;
 
     public Killaura() {
-        super("Killaura", "Automatically attacks living entities for you", Category.COMBAT, 0);
-        addSettings(rotationmode, range, priority, crits, cooldown, swing, trigger, players, animals, monsters, passives, invisibles);
+        super("Killaura", "Automatically attacks entities for you", Category.COMBAT, 0);
+        addSettings(rotationmode, range, priority, crits, cooldown, swing, trigger, players, animals, monsters, passives, invisibles, esp,espColor);
     }
     
     public void onTick() {
@@ -133,10 +139,33 @@ public class Killaura extends Mod {
         }
     
     }
-    
+
+	double anim = 0;
+	double anim2 = 0;
+	boolean dir = false;
+	boolean filler = false;
+	
     @Override
     public void onWorldRender(MatrixStack matrices) {
-    	if (target!=null) RenderUtils.renderOutlineRect(target, new Color(ColorUtils.rainbow(400f, 1f, 1f)), matrices);
+		if (target != null ) {
+
+			if (anim > 200) {
+				dir = false;
+			}
+			if (anim < 0) {
+				dir = true;
+			}
+			if (dir) {
+				anim+=3;
+			} else {
+				anim-=3;
+			}
+	    	if (esp.isEnabled()) RenderUtils.drawCircle(matrices, new Vec3d(target.getX(), target.getY() + anim / 100, target.getZ()), 0.6f, 1, espColor.getColor().getRGB());
+		} else {
+			anim = 0;
+		}
+//    	RenderUtils.renderOutlineRect(target, new Color(ColorUtils.rainbow(400f, 1f, 1f)), matrices);
+    	
     	super.onWorldRender(matrices);
     }
     

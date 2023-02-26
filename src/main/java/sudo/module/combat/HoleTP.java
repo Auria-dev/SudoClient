@@ -25,7 +25,7 @@ public class HoleTP extends Mod {
 	float[] mixedColor  = new float[] {127f, 0f, 127f};
 	
 	public HoleTP() {
-		super("HoleTP", "TP the players to the nearest safe hole", Category.COMBAT, 0);
+		super("HoleTP", "TP the players to the nearest safe hole (shift to TP)", Category.COMBAT, 0);
 		addSettings(bedrock, mixed, obi, range);
 	}
 	

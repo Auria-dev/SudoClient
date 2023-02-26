@@ -5,7 +5,7 @@ import sudo.module.Mod;
 public class NoCameraClip extends Mod {
 
 	public NoCameraClip() {
-		super("NoCameraClip", "", Category.RENDER, 0);
+		super("NoCameraClip", "Allows the third person camera to to through blocks", Category.RENDER, 0);
 	}
 	
 	@Override

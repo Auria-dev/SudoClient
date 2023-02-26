@@ -16,7 +16,7 @@ public class ElytraFly extends Mod {
 	public NumberSetting speed = new NumberSetting("Speed", 0, 10, 2, 1);
 
 	public ElytraFly() {
-		super("ElytraFly", "zoomer", Category.MOVEMENT, 0);
+		super("ElytraFly", "Allows you to fly without rockets", Category.MOVEMENT, 0);
 		addSettings(mode, speed);
 	}
 

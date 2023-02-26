@@ -11,7 +11,7 @@ public class BoatFly extends Mod {
 
 	
 	public BoatFly() {
-		super("BoatFly", "Allows flight if in a boat", Category.MOVEMENT, 0);
+		super("BoatFly", "Allows the player to fly when in a boat", Category.MOVEMENT, 0);
 	}
 	
 	

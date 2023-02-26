@@ -6,7 +6,7 @@ import sudo.module.settings.ISimpleOption;
 public class Fullbright extends Mod {
 	
     public Fullbright() {
-        super("Fullbright", "night vision", Category.RENDER, 0);
+        super("Fullbright", "Sets the brightness to maximum", Category.RENDER, 0);
     }
     
 	@SuppressWarnings("unchecked")

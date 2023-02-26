@@ -73,7 +73,7 @@ public class CrystalAura extends Mod {
 	public NumberSetting range = new NumberSetting("Range", 0, 6, 4.5, 0.1);
 	
 	public CrystalAura() {
-		super("CrystalAura", "kill the people with funny crytsals", Category.COMBAT, 0);
+		super("CrystalAura", "Automatically places and breakes crystals near players to kill them", Category.COMBAT, 0);
 		addSettings(explode, antiWeak, antiSuicide, aps, attackDelay, minHp, place, cps, autoSwitch, switchBack, oneDotTwelve, blacklistSet, raycast, minDamage, minRatio, placeDelay, sameTick, rotate, range);
 	}
 

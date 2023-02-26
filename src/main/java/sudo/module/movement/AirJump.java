@@ -5,7 +5,7 @@ import sudo.module.Mod;
 public class AirJump extends Mod {
 
 	public AirJump() {
-		super("AirJump", "Auto sprint", Category.MOVEMENT, 0);
+		super("AirJump", "Allows the player to jump while in the air", Category.MOVEMENT, 0);
 	}
 	
 	@Override

@@ -30,7 +30,7 @@ public class NameTags extends Mod {
     NumberSetting scale = new NumberSetting("Scale", 0.5, 2, 1.1, .1);
 
     public NameTags() {
-        super("NameTags", "description", Category.RENDER, 0);
+        super("NameTags", "Nametags through walls", Category.RENDER, 0);
         addSettings(background,health,pops,ping,formatting,scale);
         get = this;
     }

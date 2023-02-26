@@ -248,7 +248,7 @@ public class RenderUtils {
 	}
 	public static void drawOutlineCircle(MatrixStack matrices, double xx, double yy, double radius, Color color) {
 		RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
-		RenderUtils.bindTexture(new Identifier("hypnotic", "textures/outlinecircle.png"));
+		RenderUtils.bindTexture(new Identifier("sudo", "textures/outlinecircle.png"));
 		RenderSystem.enableBlend();
 		RenderUtils.drawTexture(matrices, (float) xx,(float) yy, (float)radius, (float)radius, 0, 0, (float)radius,(float) radius,(float) radius,(float) radius);
 		RenderSystem.disableBlend();

@@ -7,7 +7,7 @@ public class BHop extends Mod {
 	public ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla", "Velocity");
 
 	public BHop() {
-		super("BHop", "BHop hack", Category.MOVEMENT, 0);
+		super("BHop", "Makes the player bunny hop (makes you go faster)", Category.MOVEMENT, 0);
 		addSetting(mode);
 	}
 	

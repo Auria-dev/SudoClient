@@ -11,7 +11,7 @@ import sudo.utils.world.InventoryUtils;
 public class AutoArmor extends Mod {
 
 	public AutoArmor() {
-		super("AutoArmor", "Equips armor for you", Category.COMBAT, 0);
+		super("AutoArmor", "Automatically equips armor for you", Category.COMBAT, 0);
 	}
 	
 	@Override

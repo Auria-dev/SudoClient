@@ -11,7 +11,7 @@ public class AimAssist extends Mod {
 	static PlayerEntity target = null;
 	
 	public AimAssist() {
-		super("AimAssist", "Helps you aim", Category.COMBAT, 0);
+		super("AimAssist", "Automatically aims for you", Category.COMBAT, 0);
 	}
 	
 	

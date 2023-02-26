@@ -15,7 +15,7 @@ public class CityESP extends Mod {
 
 	public ColorSetting color = new ColorSetting("Color", new Color(0xffFF1464));
 	public CityESP() {
-		super("CityESP", "Shows blocks that you can break to city players", Category.RENDER, 0);
+		super("CityESP", "Highlight blocks to break to city players", Category.RENDER, 0);
 		addSetting(color);
 	}
 	

@@ -12,10 +12,8 @@ public class AutoTotem extends Mod {
 
 	List<Entity> entities;
 	
-	
-	
 	public AutoTotem() {
-		super("AutoTotem", "Puts totem in offhand", Category.COMBAT, 0);
+		super("AutoTotem", "Automatically puts a totem in your offhand", Category.COMBAT, 0);
 	}
 	@Override
 	public void onTick() {

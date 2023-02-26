@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.PlayerListEntry;
@@ -17,9 +15,8 @@ import net.minecraft.util.hit.HitResult;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
-import sudo.module.client.ClickGuiMod;
-import sudo.module.client.Notifications;
 import sudo.module.combat.TargetHud;
+import sudo.module.render.Notifications;
 import sudo.module.render.PlayerEntityModule;
 import sudo.utils.TimerUtil;
 import sudo.utils.misc.Notification;

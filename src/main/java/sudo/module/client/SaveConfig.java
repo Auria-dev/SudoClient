@@ -6,7 +6,7 @@ import sudo.module.Mod;
 public class SaveConfig extends Mod {
 	
     public SaveConfig() {
-        super("SaveConfig", "Allways send criticals when attacking", Category.CLIENT, 0);
+        super("SaveConfig", "Saves the current enabled modules & their settings", Category.CLIENT, 0);
     }
     
     @Override

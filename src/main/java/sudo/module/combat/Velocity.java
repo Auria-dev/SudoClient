@@ -15,7 +15,7 @@ public class Velocity extends Mod {
     public NumberSetting vertical = new NumberSetting("Vertical", -100, 200, 0, 1);
 
     public Velocity() {
-        super("Velocity", "Customize the knockback you get", Category.COMBAT, 0);
+        super("Velocity", "Modify the players knockback", Category.COMBAT, 0);
         addSettings(horizontal, vertical);
         get = this;
     }

@@ -6,7 +6,7 @@ import sudo.module.Mod;
 public class LoadConfig extends Mod {
 	
     public LoadConfig() {
-        super("LoadConfig", "Allways send criticals when attacking", Category.CLIENT, 0);
+        super("LoadConfig", "Load config", Category.CLIENT, 0);
     }
     
     @Override

@@ -8,7 +8,7 @@ public class ItemViewModel extends Mod {
     public static ItemViewModel INSTANCE;
 
     public ItemViewModel() {
-    	super("ItemViewModel", "Customize your hands", Category.RENDER, 0); 
+    	super("ItemViewModel", "Customize the held items position", Category.RENDER, 0); 
     	addSettings(x,y,z,swingLeft,swingRight);
     	 INSTANCE = this;
     }

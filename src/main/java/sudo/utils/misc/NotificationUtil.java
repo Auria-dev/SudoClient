@@ -3,7 +3,7 @@ package sudo.utils.misc;
 import java.util.ArrayList;
 
 import sudo.module.ModuleManager;
-import sudo.module.client.Notifications;
+import sudo.module.render.Notifications;
 
 public class NotificationUtil {
 
