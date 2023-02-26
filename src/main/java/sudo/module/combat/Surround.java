@@ -19,7 +19,7 @@ public class Surround extends Mod{
 	BooleanSetting tp = new BooleanSetting("TP", true);
 
 	public Surround() {
-		super("Surround", "Surrounds u with blocks", Category.COMBAT, 0);
+		super("Surround", "Surrounds you with blocks to prevent explosion damage", Category.COMBAT, 0);
 		addSettings(block, tp);
 	}
 	

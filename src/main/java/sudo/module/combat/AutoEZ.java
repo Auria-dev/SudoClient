@@ -10,7 +10,7 @@ public class AutoEZ extends Mod {
 
 	
 	public AutoEZ() {
-		super("AutoEZ", "auto sends EZ in chat", Category.COMBAT, 0);
+		super("AutoEZ", "Automatically sends EZ in chat", Category.COMBAT, 0);
 		addSettings();
 	}
 	

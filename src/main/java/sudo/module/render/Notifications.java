@@ -1,4 +1,4 @@
-package sudo.module.client;
+package sudo.module.render;
 
 import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;

@@ -9,7 +9,7 @@ public class Reach extends Mod{
 	public NumberSetting reach = new NumberSetting("Slider",  4, 7, 5, 0.5);
 	
     public Reach() {
-        super("Reach", "Long arms", Category.COMBAT, 0);
+        super("Reach", "Extends the players reach", Category.COMBAT, 0);
         addSettings(reach);
     }    
     

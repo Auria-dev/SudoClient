@@ -11,7 +11,7 @@ public class NoRender extends Mod  {
 	public BooleanSetting explosion = new BooleanSetting("Explosion", true);
 	
 	public NoRender() {
-		super("NoRender", "Basically no explosions", Category.RENDER, 0);
+		super("NoRender", "Remove certain particles", Category.RENDER, 0);
 		addSettings(explosion);
 	}
 

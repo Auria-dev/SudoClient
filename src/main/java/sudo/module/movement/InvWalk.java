@@ -17,7 +17,7 @@ public class InvWalk extends Mod{
 	public static InvWalk INSTANCE = new InvWalk();
 
 	public InvWalk() {
-		super("InvWalk", "Say no to slow", Category.MOVEMENT, 0);
+		super("InvWalk", "Allows the player to move when the inventory is opened", Category.MOVEMENT, 0);
 	}
 	
 	 @Override

@@ -9,7 +9,7 @@ import sudo.module.Mod;
 public class Trigger extends Mod{
 	
 	public Trigger() {
-		super("Trigger", "Automaticly attack the entity you are looking at", Category.COMBAT, 0);
+		super("Trigger", "Automaticly attack entities when looking at them", Category.COMBAT, 0);
 	}
 	
 	

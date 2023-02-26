@@ -4,7 +4,7 @@ import sudo.module.Mod;
 
 public class Jetpack extends Mod {
 	public Jetpack() {
-		super("Jetpack", "Allows flight if in a boat", Category.MOVEMENT, 0);
+		super("Jetpack", "Gives the player a jetpack (hold space)", Category.MOVEMENT, 0);
 	}
 	
 	

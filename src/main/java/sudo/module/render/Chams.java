@@ -17,7 +17,7 @@ public class Chams extends Mod{
     public BooleanSetting hostile = new BooleanSetting("Hostile", true);
 
     public Chams() {
-        super("Chams", "Basically better esp",Category.RENDER, 0);
+        super("Chams", "Render players through walls",Category.RENDER, 0);
         addSettings(players,crystals,passive,hostile);
         get = this;
     }

@@ -46,7 +46,7 @@ public class ESP extends Mod {
 
 	
 	public ESP() {
-		super("ESP", "Get entities visual position", Category.RENDER, 0);
+		super("ESP", "Get the visual position of entities", Category.RENDER, 0);
 		addSettings(mode, health, players,monsters,passives,invisibles,items, color);
 	}
 	

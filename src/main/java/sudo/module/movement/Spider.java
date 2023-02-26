@@ -11,7 +11,7 @@ public class Spider extends Mod {
 
 	
 	public Spider() {
-		super("Spider", "Climb walls", Category.MOVEMENT, 0);
+		super("Spider", "Allows the player to climb walls", Category.MOVEMENT, 0);
 	}
 	
 	@Override

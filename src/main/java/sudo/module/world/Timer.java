@@ -12,7 +12,7 @@ public class Timer extends Mod {
 	public NumberSetting speed = new NumberSetting("Speed",  0.2, 10, 1, 0.1);
 	
     public Timer() {
-        super("Timer", "Modifies the amount of TPS client side", Category.WORLD, 0);
+        super("Timer", "Modifies the game speed (client side)", Category.WORLD, 0);
         addSetting(speed);
     }
 

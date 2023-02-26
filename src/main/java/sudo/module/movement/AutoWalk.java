@@ -6,7 +6,7 @@ import sudo.module.Mod;
 public class AutoWalk extends Mod{
 
 	public AutoWalk() {
-		super("AutoWalk", "Automatically makes you walk", Category.MOVEMENT, 0);
+		super("AutoWalk", "Automatically makes you walk forward", Category.MOVEMENT, 0);
 	}
 	
 	@Override

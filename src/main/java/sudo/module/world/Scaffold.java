@@ -28,11 +28,11 @@ import sudo.utils.player.RotationUtils;
 
 public class Scaffold extends Mod {
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Extend", "Extend", "Rotation");
+	public ModeSetting mode = new ModeSetting("Mode", "Rotation", "Rotation", "Extend");
 	public NumberSetting extend = new NumberSetting("Extend",  0, 5, 3, 1);
 	
     public Scaffold() {
-        super("Scaffold", "fuck you bedlessnoobs", Category.WORLD, GLFW.GLFW_KEY_L);
+        super("Scaffold", "Automatically places block under the players feet", Category.WORLD, GLFW.GLFW_KEY_L);
         addSettings(mode, extend);
     }
     

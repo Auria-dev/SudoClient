@@ -9,7 +9,7 @@ public class Step extends Mod {
 	NumberSetting height = new NumberSetting("Height", 1, 6, 2, 1.0);
 
     public Step() {
-        super("Step", "Tall legs", Category.MOVEMENT, 0);
+        super("Step", "Gives the player the ability to climb set ammount of block", Category.MOVEMENT, 0);
         addSetting(height);
     }
     private static final Formatting Gray = Formatting.GRAY;

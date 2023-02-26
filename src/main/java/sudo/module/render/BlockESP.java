@@ -17,7 +17,7 @@ public class BlockESP extends Mod {
 	float[] color  = new float[] {127f, 0f, 127f};
 	
 	public BlockESP() {
-		super("BlockESP", "Allows you to see storage shit better", Category.RENDER, 0);
+		super("BlockESP", "Highlights storage blocks", Category.RENDER, 0);
        this.width = new NumberSetting("Width", 0.0, 20.0, 2.0, 1.0);
 	}
 	

@@ -27,7 +27,7 @@ public class Strafe extends Mod {
 	public ModeSetting mode = new ModeSetting("Mode", "Static", "Static", "Vanilla");
 		
 	public Strafe() {
-		super("Strafe", "Moves, but better", Category.MOVEMENT, GLFW.GLFW_KEY_V);
+		super("Strafe", "Strafe module", Category.MOVEMENT, GLFW.GLFW_KEY_V);
 		addSettings(speed, mode);
 	}
 	

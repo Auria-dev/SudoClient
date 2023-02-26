@@ -16,7 +16,7 @@ public class FakePlayer extends Mod {
 	private PlayerEntity playerEntity;
 	
 	public FakePlayer() {
-		super("FakePlayer", "Spawns a fake player to test combat modules on", Category.COMBAT, 0);
+		super("FakePlayer", "Creates a fake player to test combat modules", Category.COMBAT, 0);
 	}
 
 	@Override

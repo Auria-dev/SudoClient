@@ -21,7 +21,7 @@ public class ArrylistModule extends Mod{
     public ColorSetting glowcolor = new ColorSetting("Glow color", new Color(100,0,0));
 	
 	public ArrylistModule() {
-		super("Arraylist", "", Category.CLIENT, 0);
+		super("Arraylist", "Customize the Arraylist", Category.CLIENT, 0);
 		addSettings(show, mode, textColor, pulseColor, SortX, SortY, background, outline, glow, glowcolor);
 	}
 	

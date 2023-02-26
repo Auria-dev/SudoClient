@@ -5,7 +5,7 @@ import sudo.module.Mod;
 public class NoSlow extends Mod {
 
 	public NoSlow() {
-		super("NoSlow", "Prevent the player from slowing down", Category.MOVEMENT, 0);
+		super("NoSlow", "Prevent the player from slowing down when eating", Category.MOVEMENT, 0);
 	}
 
 	@Override

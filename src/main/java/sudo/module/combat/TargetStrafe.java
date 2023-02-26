@@ -25,10 +25,12 @@ public class TargetStrafe extends Mod {
     public static BooleanSetting spacebar = new BooleanSetting("Spacebar", false);
     public static BooleanSetting thirdPerson = new BooleanSetting("Third Person", false);
     public static BooleanSetting rainbow = new BooleanSetting("Rainbow", false);
+
+    public static NumberSetting speed = new NumberSetting("Speed", 0.1, 2, 0.8, 0.1);
     
 	public TargetStrafe() {
-		super("TargetStrafe", "", Category.COMBAT, 0);
-        addSettings(radius, spacebar, rainbow, thirdPerson);
+		super("TargetStrafe", "Strafe arround the current Killaura target", Category.COMBAT, 0);
+        addSettings(radius, spacebar, rainbow, thirdPerson, speed);
 	}
 	
     @Override
@@ -41,7 +43,7 @@ public class TargetStrafe extends Mod {
     		
     	}
     	if (Killaura.target != null) {
-    		TargetStrafe.strafe(0.8f, Killaura.target, true, false);
+    		TargetStrafe.strafe(speed.getValueFloat(), Killaura.target, true, false);
     	}
     	super.onTick();
     }

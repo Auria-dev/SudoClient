@@ -9,7 +9,7 @@ public class TargetHud extends Mod {
 	public static NumberSetting shadow = new NumberSetting("Shadow", 0, 10, 2, 1);
 	
 	public TargetHud() {
-		super("TargetHud", "Targethud module", Category.COMBAT, 0);
+		super("TargetHud", "Get informations about the current target", Category.COMBAT, 0);
 		addSettings(round, shadow);
 	}
 

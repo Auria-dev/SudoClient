@@ -13,7 +13,7 @@ public class ClickGuiMod extends Mod {
     
     
     public ClickGuiMod() {
-        super("ClickGui", "description", Category.CLIENT, 0);
+        super("ClickGui", "Customize the ClickGUI", Category.CLIENT, 0);
         INSTANCE = this;
         addSettings(pause, blur, blurIntensity);
     }

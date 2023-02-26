@@ -19,7 +19,7 @@ public class xray extends Mod {
     public static ArrayList<Block> blocks = new ArrayList<>();
     public ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla", "Sodium"); //Sodium
     public xray() {
-        super("Xray", "See ores through blocks", Category.RENDER, GLFW.GLFW_KEY_X);
+        super("Xray", "Only renders ore blocks", Category.RENDER, GLFW.GLFW_KEY_X);
         addSetting(mode);
         Registry.BLOCK.forEach(block -> {
             if (isGoodBlock(block)) blocks.add(block);

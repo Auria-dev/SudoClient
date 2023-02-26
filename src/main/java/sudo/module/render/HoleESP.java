@@ -36,7 +36,7 @@ public class HoleESP extends Mod {
     private Map<BlockPos, float[]> holes = new HashMap<>();
 
     public HoleESP() {
-        super("HoleESP", "Render a box on safe holes", Category.RENDER,0);
+        super("HoleESP", "Highlights safe holes", Category.RENDER,0);
         addSettings(mode, hide, bedrock, mixed, obi, out, fill, bedrockColor, obsidianColor, mixedColor);
     }
 
