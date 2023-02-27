@@ -10,6 +10,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.Mod;
+import sudo.module.ModuleManager;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.settings.*;
 import sudo.ui.screens.clickgui.setting.*;
 import sudo.utils.surge.animation.ColorAnimation;
@@ -87,6 +89,14 @@ public class ModuleButton {
 				component.render(matrices, mouseX, mouseY, delta);
 				parent.updateButton();
 			}
+		}
+		
+		if (ModuleManager.INSTANCE.getModule(ClickGuiMod.class).description.isEnabled() && isHovered(mouseX, mouseY)) {
+			DrawableHelper.fill(matrices, mc.getWindow().getScaledWidth()-textRend.getStringWidth(module.getDescription())-7, mc.getWindow().getScaledHeight()-textRend.getFontHeight()-2, mc.getWindow().getScaledWidth()-textRend.getStringWidth(module.getDescription())-5, mc.getWindow().getScaledHeight()-1, 
+					new Color(157, 115, 230).getRGB());
+			DrawableHelper.fill(matrices, mc.getWindow().getScaledWidth()-textRend.getStringWidth(module.getDescription())-5, mc.getWindow().getScaledHeight()-textRend.getFontHeight()-2, mc.getWindow().getScaledWidth()-1, mc.getWindow().getScaledHeight()-1, 
+					0xff1f1f1f);
+			textRend.drawString(matrices, module.getDescription(), mc.getWindow().getScaledWidth()-textRend.getStringWidth(module.getDescription())-4, mc.getWindow().getScaledHeight()-textRend.getFontHeight()-2, -1, 1);
 		}
 	}
 	

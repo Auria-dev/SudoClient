@@ -16,8 +16,8 @@ public class ArrylistModule extends Mod{
 	public ModeSetting SortY = new ModeSetting("Sorting", "Normal", "Normal", "Reversed");
 	public ModeSetting SortX = new ModeSetting("Alignment", "Right", "Right", "Left");
 	public BooleanSetting background = new BooleanSetting("Background", true);
-	public BooleanSetting outline = new BooleanSetting("Outline", false);
-	public BooleanSetting glow = new BooleanSetting("Glow", true);
+	public BooleanSetting outline = new BooleanSetting("Outline", true);
+	public BooleanSetting glow = new BooleanSetting("Glow", false);
     public ColorSetting glowcolor = new ColorSetting("Glow color", new Color(100,0,0));
 	
 	public ArrylistModule() {

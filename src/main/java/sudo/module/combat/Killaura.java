@@ -1,9 +1,11 @@
 package sudo.module.combat;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
+
+import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
@@ -36,17 +38,21 @@ import sudo.module.world.Scaffold;
 import sudo.utils.player.RotationUtils;
 import sudo.utils.render.ColorUtils;
 import sudo.utils.render.RenderUtils;
+import sudo.utils.world.Timer;
 
 
 public class Killaura extends Mod {
-    public static ArrayList<String> modes = new ArrayList<>();
-
     public static ModeSetting rotationmode = new ModeSetting("Rotation", "Silent", "Silent", "Legit");
+    public static ModeSetting sorting = new ModeSetting("Sort", "Distance", "Distance", "Health");
     public static NumberSetting range = new NumberSetting("Range", 3, 6, 4, 0.1);
+    
+	public NumberSetting minAps = new NumberSetting("Minimum APS", 1, 20, 10, 1);
+	public NumberSetting maxAps = new NumberSetting("Maximum APS", 1, 20, 15, 1);
+	public BooleanSetting random = new BooleanSetting("Random Delay", false);
+	
     public static BooleanSetting cooldown = new BooleanSetting("Cooldown", true);
 	public static BooleanSetting crits = new BooleanSetting("Criticals", false);
     public static BooleanSetting swing = new BooleanSetting("Swing", true);
-    public static ModeSetting priority = new ModeSetting("Priority", "Distance", "Distance", "Health");
 
 	public BooleanSetting trigger = new BooleanSetting("Trigger", false);
 	
@@ -60,14 +66,16 @@ public class Killaura extends Mod {
 	public ColorSetting espColor = new ColorSetting("Esp", new Color(200,0,0));
 	
 	public static LivingEntity target;
+	private static Timer attackTimer = new Timer();
 	private float smoothYaw, smoothPitch;
 
     public Killaura() {
-        super("Killaura", "Automatically attacks entities for you", Category.COMBAT, 0);
-        addSettings(rotationmode, range, priority, crits, cooldown, swing, trigger, players, animals, monsters, passives, invisibles, esp,espColor);
+        super("Killaura", "Automatically attacks entities for you", Category.COMBAT, GLFW.GLFW_KEY_K);
+        addSettings(rotationmode, sorting, range, minAps,maxAps,random, cooldown, crits, swing, trigger, players,animals,monsters,passives,invisibles, esp,espColor);
     }
     
     public void onTick() {
+		if (maxAps.getValue() <= minAps.getValue()) maxAps.setValue(minAps.getValue() + 1);
         if (this.isEnabled()) {
             if (mc.world != null && mc.world.getEntities() != null) {
 				List<LivingEntity> targets = Lists.<LivingEntity>newArrayList();
@@ -79,7 +87,7 @@ public class Killaura extends Mod {
                     }
                 }
                 
-                //remove target
+                //remove target if not good target
                 if (target != null && mc.player.distanceTo(target) > range.getValue()) {
 					targets.remove(target);
 					target = null;
@@ -90,7 +98,7 @@ public class Killaura extends Mod {
 				}
                 
                 //sort target
-                switch(priority.getSelected()) {
+                switch(sorting.getSelected()) {
 					case "Distance": 
 						targets.sort(Comparator.comparingDouble(entity -> mc.player.distanceTo(entity)));
 						break;
@@ -116,8 +124,9 @@ public class Killaura extends Mod {
 							    mc.player.setYaw(yaw);
 							    mc.player.setPitch(pitch); 
 							}
-							
-							if (cooldown.isEnabled() ? mc.player.getAttackCooldownProgress(0.5F) == 1 : true) {
+							long aps = minAps.getValue() < 20 ? new Random().nextInt((int) (maxAps.getValue() - minAps.getValue())) + (int) minAps.getValue() : 20;
+							if (cooldown.isEnabled() && random.isEnabled() && mc.player.getAttackCooldownProgress(0.5F) != 1) attackTimer.reset();
+							if(cooldown.isEnabled() ? mc.player.getAttackCooldownProgress(0.5F) == 1 && (random.isEnabled() ? attackTimer.hasTimeElapsed(new Random().nextInt(300 - 100) + 100, true) : true) : attackTimer.hasTimeElapsed((long) (1000L / aps), true)){
 								if (crits.isEnabled()) {
 									double posX = mc.player.getX();
 									double posY = mc.player.getY();
@@ -164,8 +173,6 @@ public class Killaura extends Mod {
 		} else {
 			anim = 0;
 		}
-//    	RenderUtils.renderOutlineRect(target, new Color(ColorUtils.rainbow(400f, 1f, 1f)), matrices);
-    	
     	super.onWorldRender(matrices);
     }
     

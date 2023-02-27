@@ -120,7 +120,7 @@ public class Hud {
 				switch (arrayModule.mode.getSelected()) {
 					case "Pulse": 
 						arrayColor = ColorUtils.mixColorsAnimated(index, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor());
-						outlineColor = arrayModule.pulseColor.getColor();
+						outlineColor = ColorUtils.mixColorsAnimated(index, 1, arrayModule.pulseColor.getColor(), arrayModule.textColor.getColor());
 						break;
 					case "Cute": 
 						arrayColor = ColorUtils.getCuteColor(index);
@@ -133,19 +133,20 @@ public class Hud {
 				}
 				
 				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX2, fromY2, arrayColor.getRGB(), 1);
-//				textRend.drawStringWithShadow(matrices, mod.getDisplayName(), fromX + (arrayModule.SortX.is("Left") ? (fWidth-100) : 0), fromY-0.8, 
-//						arrayModule. ? ColorUtils.getCuteColor(index) : ColorUtils.mixColorsAnimated(index, 1, new Color(255, 0, 0), new Color(140, 0, 0)).getRGB(), 1);
 				
 				if (arrayModule.outline.isEnabled()) {
-					DrawableHelper.fill(matrices, fromX2, (int)fromY2+1, fromX2-1, toY2,  outlineColor.getRGB());
-					DrawableHelper.fill(matrices, toX2+1, (int)fromY2+1, toX2, toY2+1,  outlineColor.getRGB());
+					DrawableHelper.fill(matrices, fromX2, (int)fromY2, fromX2-1, toY2,  outlineColor.getRGB());
+					DrawableHelper.fill(matrices, toX2+1, (int)fromY2+1, toX2, toY2,  outlineColor.getRGB());
 
 					if (index == enabled.size()-1) {
-						DrawableHelper.fill(matrices, fromX2-1, toY2, toX2, toY2+1,  outlineColor.getRGB()); //lines from the roots
+						DrawableHelper.fill(matrices, fromX2-1, toY2, toX2+1, toY2+1,  outlineColor.getRGB()); //lines from the roots
 					} if (index == enabled.size()-enabled.size()) {
 						DrawableHelper.fill(matrices, fromX2-1, (int)fromY2, toX2+1, (int)fromY2+1,  outlineColor.getRGB()); //lines from the skies
 					} else {
-						DrawableHelper.fill(matrices, fromX2, (int)fromY2, toX2-lastWidth-4, (int)fromY2+1, outlineColor.getRGB()); //lines from the lands between
+						if (arrayModule.SortX.is("Left"))
+							DrawableHelper.fill(matrices, fromX2+lastWidth+ (arrayModule.SortY.is("Normal")?4:3), (int)fromY2+1, fWidth+fromX2+4, (int)fromY2+2, outlineColor.getRGB()); //lines from the lands between
+						else
+							DrawableHelper.fill(matrices, fromX2, (int)fromY2, toX2-lastWidth-4, (int)fromY2+1, outlineColor.getRGB()); //lines from the lands between
 					}
 				}
 				index++;
@@ -230,7 +231,7 @@ public class Hud {
 			RenderUtils.renderRoundedQuad(matrices, new Color(0,0,0,180), sWidth-SlidIn.getAnimationValue(), renderY+22, sWidth+50, renderY+38, 3, 50);
 			textRend.drawString(matrices, n.getMessage(), sWidth+2-SlidIn.getAnimationValue(), renderY + 22, -1, 0.85f);
 			RenderUtils.startScissor((int) (sWidth-SlidIn.getAnimationValue()), renderY+22, sWidth+50, renderY+38);
-			DrawableHelper.fill(matrices, (int) (sWidth-(afterTimer.lastMS - n.getTimeCreated()) / animation(0, 125, 0.121,0)), renderY + 34, sWidth, renderY+36, new Color(n.getR(), n.getG(), n.getB(), 190).getRGB());
+			DrawableHelper.fill(matrices, (int) (sWidth-(afterTimer.lastMS - n.getTimeCreated()) / animation(0, 125, 0.121,0)), renderY + 34, sWidth, renderY+36, ColorUtils.mixColorsAnimated(renderY/18, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor()).getRGB());
 			RenderUtils.endScissor();
 			renderY -= 18;
 		}
