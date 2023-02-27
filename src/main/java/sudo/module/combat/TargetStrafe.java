@@ -1,5 +1,7 @@
 package sudo.module.combat;
 
+import java.awt.Color;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,6 +14,7 @@ import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.movement.Flight;
 import sudo.module.settings.BooleanSetting;
+import sudo.module.settings.ColorSetting;
 import sudo.module.settings.NumberSetting;
 import sudo.utils.player.PlayerUtils;
 import sudo.utils.player.RotationUtils;
@@ -19,22 +22,26 @@ import sudo.utils.render.ColorUtils;
 import sudo.utils.render.RenderUtils;
 
 public class TargetStrafe extends Mod {
+	private boolean shouldInvertSpeed = false;
+	
 	private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static NumberSetting radius = new NumberSetting("Radius", 0.5, 5, 3, 0.1);
     public static BooleanSetting spacebar = new BooleanSetting("Spacebar", false);
     public static BooleanSetting thirdPerson = new BooleanSetting("Third Person", false);
-    public static BooleanSetting rainbow = new BooleanSetting("Rainbow", false);
-
     public static NumberSetting speed = new NumberSetting("Speed", 0.1, 2, 0.8, 0.1);
+
+    public static BooleanSetting rainbow = new BooleanSetting("Rainbow", false);
+    public static ColorSetting color = new ColorSetting("Color", new Color(255, 0, 255));
     
 	public TargetStrafe() {
 		super("TargetStrafe", "Strafe arround the current Killaura target", Category.COMBAT, 0);
-        addSettings(radius, spacebar, rainbow, thirdPerson, speed);
+        addSettings(radius, spacebar, thirdPerson, speed, rainbow, color);
 	}
 	
     @Override
     public void onTick() {
+    	if (mc.player.horizontalCollision) shouldInvertSpeed = !shouldInvertSpeed;
     	if (thirdPerson.isEnabled() && ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled()) {
     		if (Killaura.target != null && canStrafe())
     			mc.options.setPerspective(Perspective.THIRD_PERSON_BACK);
@@ -43,7 +50,9 @@ public class TargetStrafe extends Mod {
     		
     	}
     	if (Killaura.target != null) {
-    		TargetStrafe.strafe(speed.getValueFloat(), Killaura.target, true, false);
+    		if (spacebar.isEnabled()) {
+    			if (mc.options.jumpKey.isPressed()) TargetStrafe.strafe(speed.getValueFloat(), Killaura.target, shouldInvertSpeed, false);
+    		} else TargetStrafe.strafe(speed.getValueFloat(), Killaura.target, shouldInvertSpeed, false);
     	}
     	super.onTick();
     }
@@ -80,7 +89,7 @@ public class TargetStrafe extends Mod {
     }
     
     public static void strafe(double moveSpeed, LivingEntity target,  boolean direction, boolean flight) {
-		if (Killaura.target != null && (Killaura.target != mc.player && mc.player.distanceTo(Killaura.target) <= Killaura.range.getValue() && Killaura.target.isAlive() && mc.player.isAlive())) {
+		if (mc.player != null && Killaura.target != null && (Killaura.target != mc.player && mc.player.distanceTo(Killaura.target) <= Killaura.range.getValue() && Killaura.target.isAlive() && mc.player.isAlive())) {
 	    	try {
 		        double direction1 = direction ? 1 : -1;
 		        float[] rotations = RotationUtils.getRotations(target);
@@ -101,14 +110,10 @@ public class TargetStrafe extends Mod {
     	if (Killaura.target == null) return false;
         return Killaura.target != null 
         		&& !Killaura.target.isDead() 
-        		&& (spacebar.isEnabled() ? ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() 
-        				&& Killaura.target != null 
-        				&& PlayerUtils.isMoving() 
-        				&& ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled() 
-        				&& (ModuleManager.INSTANCE.getModule(Flight.class).isEnabled() ? true : mc.options.jumpKey.isPressed()) : ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() 
-        				&& Killaura.target != null 
-        				&& PlayerUtils.isMoving() 
-        				&& ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled()
+        		&& (spacebar.isEnabled() ?
+        				ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() && Killaura.target != null && PlayerUtils.isMoving() && ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled() 
+        				&& (ModuleManager.INSTANCE.getModule(Flight.class).isEnabled() ? true : mc.options.jumpKey.isPressed()) : 
+        					ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled() && Killaura.target != null && PlayerUtils.isMoving() && ModuleManager.INSTANCE.getModule(TargetStrafe.class).isEnabled()
         			);
     }
     
@@ -117,6 +122,6 @@ public class TargetStrafe extends Mod {
     	if (!canSee) {
     		return;
     	}
-    	RenderUtils.drawCircle(matrices, entity.getPos(), rad, height, rainbow.isEnabled() ? ColorUtils.rainbow(2f, 1f, 1f) : -1);
+    	RenderUtils.drawCircle(matrices, entity.getPos(), rad, height, rainbow.isEnabled() ? ColorUtils.rainbow(2f, 1f, 1f) : color.getColor().getRGB());
     }
 }

@@ -42,7 +42,7 @@ public class ClickGUI extends Screen {
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		DrawableHelper.fillGradient(matrices, 0, 0, mc.getWindow().getWidth(), mc.getWindow().getHeight(), 0x60f803ff, 0x60ff03af, 0);
+		if (ModuleManager.INSTANCE.getModule(ClickGuiMod.class).background.isEnabled()) DrawableHelper.fillGradient(matrices, 0, 0, mc.getWindow().getWidth(), mc.getWindow().getHeight(), 0x35f803ff, 0x60ff03af, 0);
 		if (ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blur.isEnabled()) {
 			RenderUtils.blur(matrices, 0, 0, mc.getWindow().getScaledWidth()*4, mc.getWindow().getScaledHeight()*4, (float) ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blurIntensity.getValueFloat());
 		}
@@ -51,7 +51,6 @@ public class ClickGUI extends Screen {
 		for (Frame frame : frames) {
 			frame.render(matrices, mouseX, mouseY, delta);
 			frame.updatePosition(mouseX, mouseY);
-			
 		}
 		super.render(matrices, mouseX, mouseY, delta);
 	}
