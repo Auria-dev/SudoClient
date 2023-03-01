@@ -111,7 +111,7 @@ public class Killaura extends Mod {
                 	target = (LivingEntity)targets.get(0);
                     if (target != null) {
 						
-						this.setDisplayName("Killaura " + ColorUtils.gray + (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString())+ "  ");
+						this.setDisplayName("Killaura " + ColorUtils.gray + (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString()) + "  ");
 						if (canAttack(target) && !target.isInvulnerable()) {
 							float yaw = RotationUtils.getRotations(target)[0];
 							float pitch = RotationUtils.getRotations(target)[1];

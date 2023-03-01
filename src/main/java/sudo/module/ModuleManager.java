@@ -88,14 +88,15 @@ public class ModuleManager {
 		modules.add(new CrystalAura());
 		modules.add(new FakePlayer());
 		modules.add(new AutoTotem());
-		modules.add(new AimAssist());
-		modules.add(new TargetHud());
 		modules.add(new AutoArmor());
+		modules.add(new TargetHud());
+		modules.add(new AimAssist());
 		modules.add(new Surround());
 		modules.add(new Criticals());
 		modules.add(new Killaura());
 		modules.add(new Velocity());
 		modules.add(new AutoEZ());
+		modules.add(new Hitbox());
 		modules.add(new HoleTP());
 		modules.add(new Trigger());
 		modules.add(new Reach());
@@ -104,16 +105,16 @@ public class ModuleManager {
 		modules.add(new NoCameraClip());
 		modules.add(new ItemScanner());
 		modules.add(new Notifications());
-		modules.add(new PlayerEntityModule());
 		modules.add(new FakeHacker());
+		modules.add(new PlayerEntityModule());
 		modules.add(new NameTags());
 		modules.add(new NoOverlay());
 		modules.add(new NoRender());
 		modules.add(new TrueSight());
 		modules.add(new BlockESP());
 		modules.add(new Fullbright());
-		modules.add(new CityESP());
 		modules.add(new HoleESP());
+		modules.add(new CityESP());
 		modules.add(new Tracers());
 		modules.add(new Chams());
 		modules.add(new Cape());
@@ -122,9 +123,9 @@ public class ModuleManager {
 		//exploit
 		modules.add(new AntiSculkSensor());
 		modules.add(new VerticalPhase());
-		modules.add(new PortalGui());
 		modules.add(new NoLevitation());
 		modules.add(new BoatPhase());
+		modules.add(new PortalGui());
 		modules.add(new EntityFly());
 		modules.add(new Disabler());
 		modules.add(new FastXP());
@@ -134,8 +135,8 @@ public class ModuleManager {
 		modules.add(new ChestStealer());
 		modules.add(new FastBreak());
 		modules.add(new Scaffold());
-		modules.add(new Timer());
 		modules.add(new Nuker());
+		modules.add(new Timer());
 		//client
 		modules.add(new PacketLogger());
 		modules.add(new LoadConfig());

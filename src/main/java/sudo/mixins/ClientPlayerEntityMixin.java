@@ -1,4 +1,5 @@
 package sudo.mixins;
+
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.Packet;
 import net.minecraft.entity.Entity;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.client.network.ClientPlayerEntity;
+
 import sudo.events.Event;
 import sudo.events.EventMotionUpdate;
 import sudo.module.Mod;
@@ -16,7 +18,9 @@ import sudo.module.ModuleManager;
 import sudo.module.exploit.NoLevitation;
 import sudo.module.exploit.PortalGui;
 import sudo.module.movement.NoSlow;
+import sudo.module.render.NoRender;
 import sudo.utils.player.RotationUtils;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -41,29 +45,17 @@ import org.jetbrains.annotations.Nullable;
 @Mixin({ ClientPlayerEntity.class })
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 {
-    @Unique
-    private boolean lastSneaking;
-    @Unique
-    private boolean lastSprinting;
-    @Unique
-    private double lastX;
-    @Unique
-    private double lastBaseY;
-    @Unique
-    private double lastZ;
-    @Unique
-    private float lastYaw;
-    @Unique
-    private float lastPitch;
-    @Unique
-    private boolean lastOnGround;
-    @Unique
-    private int ticksSinceLastPositionPacketSent;
-    @Shadow
-    private boolean autoJumpEnabled;
-    @Shadow
-    @Final
-    private List<ClientPlayerTickable> tickables;
+    @Unique private boolean lastSneaking;
+    @Unique private boolean lastSprinting;
+    @Unique private double lastX;
+    @Unique private double lastBaseY;
+    @Unique private double lastZ;
+    @Unique private float lastYaw;
+    @Unique private float lastPitch;
+    @Unique private boolean lastOnGround;
+    @Unique private int ticksSinceLastPositionPacketSent;
+    @Shadow private boolean autoJumpEnabled;
+    @Shadow @Final private List<ClientPlayerTickable> tickables;
     
     @Shadow
     protected abstract boolean isCamera();
@@ -169,10 +161,13 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		if(ModuleManager.INSTANCE.getModule(NoSlow.class).isEnabled()) return false;
 		return player.isUsingItem();
 	}
+	private static NoRender noRenderModule = ModuleManager.INSTANCE.getModule(NoRender.class);
 
 	@Override
 	public boolean hasStatusEffect(StatusEffect effect) {
 		if(effect == StatusEffects.LEVITATION && ModuleManager.INSTANCE.getModule(NoLevitation.class).isEnabled()) return false;
+		if(effect == StatusEffects.NAUSEA && noRenderModule.isEnabled() && noRenderModule.nausea.isEnabled()) return false;
+		if(effect == StatusEffects.BLINDNESS && noRenderModule.isEnabled() && noRenderModule.blindness.isEnabled()) return false;
 		return super.hasStatusEffect(effect);
 	}
 }
