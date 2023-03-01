@@ -19,17 +19,19 @@ import javax.annotation.Nullable;
 
 @Mixin(ParticleManager.class)
 public abstract class MixinParticleManager {
-    @Shadow
-    @Nullable
-    protected abstract <T extends ParticleEffect> Particle createParticle(T parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ);
+    @Shadow @Nullable protected abstract <T extends ParticleEffect> Particle createParticle(T parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ);
+    
+	private static NoRender noRenderModule = ModuleManager.INSTANCE.getModule(NoRender.class);
 
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)Lnet/minecraft/client/particle/Particle;", at = @At("HEAD"), cancellable = true)
     private void onAddParticle(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfoReturnable<Particle> info) {
         EventParticles event = new EventParticles(parameters);
         Client.EventBus.post(event);
-        if (ModuleManager.INSTANCE.getModule(NoRender.class).isEnabled() && ModuleManager.INSTANCE.getModule(NoRender.class).explosion.isEnabled()) {
-            if (parameters.getType() == ParticleTypes.EXPLOSION) info.setReturnValue(createParticle(parameters, x, y, z, velocityX, velocityY, velocityZ));
-            else info.cancel();
+        if (noRenderModule.isEnabled()) {
+        	if (noRenderModule.explosion.isEnabled()) {
+	            if (parameters.getType() == ParticleTypes.EXPLOSION) info.setReturnValue(createParticle(parameters, x, y, z, velocityX, velocityY, velocityZ));
+	            else info.cancel();
+	        }
         }
     }
 }

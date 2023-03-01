@@ -10,7 +10,7 @@ import sudo.module.settings.ModeSetting;
 public class ArrylistModule extends Mod{
 	
 	public BooleanSetting show = new BooleanSetting("Show", true);
-	public ModeSetting mode = new ModeSetting("Color", "Pulse", "Pulse", "Orig", "Cute");
+	public ModeSetting mode = new ModeSetting("Color", "Pulse", "Pulse", "Simple", "Cute");
     public ColorSetting textColor = new ColorSetting("Text color", new Color(255,0,0));
     public ColorSetting pulseColor = new ColorSetting("Pulse color", new Color(120,0,0));
 	public ModeSetting SortY = new ModeSetting("Sorting", "Normal", "Normal", "Reversed");

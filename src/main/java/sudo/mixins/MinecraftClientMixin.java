@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import sudo.Client;
-import sudo.core.managers.ConfigManager;
+//import sudo.core.managers.ConfigManager;
 import sudo.module.ModuleManager;
 import sudo.module.render.ESP;
 
@@ -36,7 +36,7 @@ public class MinecraftClientMixin {
 	
 	@Inject(at = @At("TAIL"), method = "scheduleStop")
 	public void onShutdown(CallbackInfo ci) {
-		ConfigManager.saveConfig();
+//		ConfigManager.saveConfig();
 	}
 //
 //	public void saveConfig() {

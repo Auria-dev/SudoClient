@@ -8,9 +8,11 @@
   "client": [
     "AbstractClientPlayerEntityMixin",
     "BlockRender",
+    "BoxMixin",
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
+    "EntityMixin",
     "GameRender3D",
     "InGameHudMixin",
     "KeyboardMixin",

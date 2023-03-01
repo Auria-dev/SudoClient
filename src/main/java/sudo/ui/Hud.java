@@ -9,12 +9,14 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
+import sudo.module.combat.Killaura;
 import sudo.module.combat.TargetHud;
 import sudo.module.render.Notifications;
 import sudo.module.render.PlayerEntityModule;
@@ -126,6 +128,10 @@ public class Hud {
 						arrayColor = ColorUtils.getCuteColor(index);
 						outlineColor = ColorUtils.getCuteColor(index);
 						break;
+					case "Simple":
+						arrayColor = arrayModule.textColor.getColor();
+						outlineColor = arrayModule.textColor.getColor();
+						break;
 					default: 
 						arrayColor = new Color(255,255,255);
 						outlineColor = new Color(255,255,255);
@@ -154,7 +160,7 @@ public class Hud {
 		}
 	}
 
-	static PlayerEntity target = null;
+	static LivingEntity target = null;
 	
 	@SuppressWarnings("static-access")
 	public static void renderTargetHud(MatrixStack matrices) {
@@ -164,11 +170,15 @@ public class Hud {
 		
 		if (mc.player != null) {
 			
-			if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
-			    if (((EntityHitResult) hit).getEntity() instanceof PlayerEntity player) {
-			        target = player;
-			    }
-			} else if (target == null) return;
+			if (Killaura.target == null) {
+				if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
+				    if (((EntityHitResult) hit).getEntity() instanceof PlayerEntity player) {
+				        target = player;
+				    }
+				} else if (target == null) return;
+			} else if (Killaura.target != null) {
+				target = Killaura.target;
+			}
 			
 			int maxDistance = 24;
 			if (!(target == null)) {
@@ -190,11 +200,12 @@ public class Hud {
 				RenderUtils.renderRoundedShadow(matrices, new Color(0, 0, 0, 140), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50, ModuleManager.INSTANCE.getModule(TargetHud.class).shadow.getValue());
 				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 210), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50);
 				RenderUtils.drawEntity(fromX+13+offsetX, toY-4+offsetY, 20, target.getPitch(), 180, target);
-				textRend.drawString(matrices, target.getName().getString(), (int) fromX+25+offsetX, (int) 10+sHeight/2-2+offsetY, -1, 1);
+				textRend.drawString(matrices, (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString()), (int) fromX+25+offsetX, (int) 10+sHeight/2-2+offsetY, -1, 1);
 				DrawableHelper.fill(matrices, fromX+25+offsetX, fromY+45+offsetY, toX-2+offsetX, toY-3+offsetY, 0xff252525);
 				DrawableHelper.fill(matrices,  fromX+25+offsetX, fromY+45+offsetY, (fromX+25) + (int) (target.getHealth()*4.1)+1+offsetX, toY-3+offsetY, ColorUtils.mixColorsAnimated(1, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor()).getRGB());
 				textRend.drawString(matrices, (int) target.getHealth() + " | " + (target.isOnGround() ? "OnGround" : "InAir") , fromX+25+offsetX, fromY+15+offsetY, -1, 1);
-				textRend.drawString(matrices, "Ping " + getPing(target) + "ms", fromX+25+offsetX, fromY+27+offsetY, -1, 1);
+				if (target instanceof PlayerEntity) textRend.drawString(matrices, "Ping " + getPing((PlayerEntity) target) + "ms", fromX+25+offsetX, fromY+27+offsetY, -1, 1);
+				else textRend.drawString(matrices, "Age: " + target.age, fromX+25+offsetX, fromY+27+offsetY, -1, 1);
 			}
 		}
 	}
