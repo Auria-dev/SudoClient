@@ -14,9 +14,11 @@ import sudo.events.EventMotionUpdate;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.exploit.NoLevitation;
+import sudo.module.exploit.PortalGui;
 import sudo.module.movement.NoSlow;
 import sudo.utils.player.RotationUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.ClientPlayerTickable;
 import net.minecraft.client.world.ClientWorld;
@@ -77,6 +79,20 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             mod.onMotion();
         }
     }
+    
+    @Redirect(method = "updateNausea", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;closeHandledScreen()V", ordinal = 0), require = 0)
+	private void updateNausea_closeHandledScreen(ClientPlayerEntity player) {
+		if (!ModuleManager.INSTANCE.getModule(PortalGui.class).isEnabled()) {
+			closeHandledScreen();
+		}
+	}
+
+	@Redirect(method = "updateNausea", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", ordinal = 0), require = 0)
+	private void updateNausea_setScreen(MinecraftClient client, Screen screen) {
+		if (!ModuleManager.INSTANCE.getModule(PortalGui.class).isEnabled()) {
+			client.setScreen(screen);
+		}
+	}
 
     @SuppressWarnings("resource")
     @Inject(method = { "sendMovementPackets" }, at = { @At("HEAD") }, cancellable = true)
