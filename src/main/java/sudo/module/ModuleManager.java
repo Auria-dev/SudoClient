@@ -120,10 +120,13 @@ public class ModuleManager {
 		modules.add(new xray());
 		modules.add(new ESP());
 		//exploit
+		modules.add(new AntiSculkSensor());
 		modules.add(new VerticalPhase());
+		modules.add(new PortalGui());
 		modules.add(new NoLevitation());
 		modules.add(new BoatPhase());
 		modules.add(new EntityFly());
+		modules.add(new Disabler());
 		modules.add(new FastXP());
 		//world
 		modules.add(new AutoRespawn());

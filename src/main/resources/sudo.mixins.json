@@ -32,7 +32,8 @@
     "accessors.IExplosionS2CPacketAccessor",
     "accessors.IEntityVelocityUpdateS2CPacketAccessor",
     "accessors.WorldRendererAccessor",
-    "accessors.FrustramAccessor"
+    "accessors.FrustramAccessor",
+    "accessors.PlayerInputC2SPacketAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -50,7 +50,7 @@ public class Killaura extends Mod {
 	public NumberSetting maxAps = new NumberSetting("Maximum APS", 1, 20, 15, 1);
 	public BooleanSetting random = new BooleanSetting("Random Delay", false);
 	
-    public static BooleanSetting cooldown = new BooleanSetting("Cooldown", true);
+    public static BooleanSetting cooldown = new BooleanSetting("1.9 Cooldown", true);
 	public static BooleanSetting crits = new BooleanSetting("Criticals", false);
     public static BooleanSetting swing = new BooleanSetting("Swing", true);
 
