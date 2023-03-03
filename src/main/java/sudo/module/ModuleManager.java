@@ -107,7 +107,7 @@ public class ModuleManager {
 		modules.add(new Notifications());
 		modules.add(new FakeHacker());
 		modules.add(new PlayerEntityModule());
-		modules.add(new NameTags());
+//		modules.add(new Nametags());
 		modules.add(new NoOverlay());
 		modules.add(new NoRender());
 		modules.add(new TrueSight());

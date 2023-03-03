@@ -46,8 +46,9 @@ public class ClickGUI extends Screen {
 		if (ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blur.isEnabled()) {
 			RenderUtils.blur(matrices, 0, 0, mc.getWindow().getScaledWidth()*4, mc.getWindow().getScaledHeight()*4, (float) ModuleManager.INSTANCE.getModule(ClickGuiMod.class).blurIntensity.getValueFloat());
 		}
-
+		
 		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
+
 		for (Frame frame : frames) {
 			frame.render(matrices, mouseX, mouseY, delta);
 			frame.updatePosition(mouseX, mouseY);

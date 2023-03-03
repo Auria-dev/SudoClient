@@ -82,11 +82,9 @@ public class Hud {
 			
 			if (mod.isEnabled()) {
 				if (arrayModule.glow.isEnabled()) {
-					RenderUtils.renderRoundedShadow(matrices,
-							new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
+					RenderUtils.renderRoundedShadow(matrices, new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
 							fromX2, fromY2, toX2, toY2, 1, 500, 4);
-					RenderUtils.renderRoundedQuad(matrices, 
-							new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
+					RenderUtils.renderRoundedQuad(matrices, new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
 							fromX2, fromY2, toX2, toY2, 1, 500);
 				}
 				index++;
@@ -143,7 +141,6 @@ public class Hud {
 				if (arrayModule.outline.isEnabled()) {
 					DrawableHelper.fill(matrices, fromX2, (int)fromY2, fromX2-1, toY2,  outlineColor.getRGB());
 					DrawableHelper.fill(matrices, toX2+1, (int)fromY2+1, toX2, toY2,  outlineColor.getRGB());
-
 					if (index == enabled.size()-1) {
 						DrawableHelper.fill(matrices, fromX2-1, toY2, toX2+1, toY2+1,  outlineColor.getRGB()); //lines from the roots
 					} if (index == enabled.size()-enabled.size()) {
@@ -199,7 +196,9 @@ public class Hud {
 			if (target!=null) {
 				RenderUtils.renderRoundedShadow(matrices, new Color(0, 0, 0, 140), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50, ModuleManager.INSTANCE.getModule(TargetHud.class).shadow.getValue());
 				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 210), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50);
-				RenderUtils.drawEntity(fromX+13+offsetX, toY-4+offsetY, 20, target.getPitch(), 180, target);
+				RenderUtils.startScissor(fromX+offsetX, fromY+3+offsetY, 25, 47);
+				RenderUtils.drawEntity(fromX+13+offsetX, toY-4+offsetY, 20, 0, 180, target);
+				RenderUtils.endScissor();
 				textRend.drawString(matrices, (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString()), (int) fromX+25+offsetX, (int) 10+sHeight/2-2+offsetY, -1, 1);
 				DrawableHelper.fill(matrices, fromX+25+offsetX, fromY+45+offsetY, toX-2+offsetX, toY-3+offsetY, 0xff252525);
 				DrawableHelper.fill(matrices,  fromX+25+offsetX, fromY+45+offsetY, (fromX+25) + (int) (target.getHealth()*4.1)+1+offsetX, toY-3+offsetY, ColorUtils.mixColorsAnimated(1, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor()).getRGB());

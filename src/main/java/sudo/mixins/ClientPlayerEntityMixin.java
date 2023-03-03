@@ -56,9 +56,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Unique private int ticksSinceLastPositionPacketSent;
     @Shadow private boolean autoJumpEnabled;
     @Shadow @Final private List<ClientPlayerTickable> tickables;
-    
-    @Shadow
-    protected abstract boolean isCamera();
+    @Shadow protected abstract boolean isCamera();
     
     public ClientPlayerEntityMixin(final ClientWorld world, final GameProfile profile, @Nullable final PlayerPublicKey publicKey) {
         super(world, profile, publicKey);
