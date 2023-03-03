@@ -6,10 +6,13 @@ import sudo.module.Mod;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
 import sudo.module.settings.ModeSetting;
+import sudo.module.settings.NumberSetting;
 
 public class ArrylistModule extends Mod{
-	
+
 	public BooleanSetting show = new BooleanSetting("Show", true);
+	public NumberSetting offsetX1= new NumberSetting("Offset X", -100, 100, -3, 1);
+	public NumberSetting offsetY1= new NumberSetting("Offset Y", -100, 100, 6, 1);
 	public ModeSetting mode = new ModeSetting("Color", "Pulse", "Pulse", "Simple", "Cute");
     public ColorSetting textColor = new ColorSetting("Text color", new Color(255,0,0));
     public ColorSetting pulseColor = new ColorSetting("Pulse color", new Color(120,0,0));
@@ -22,7 +25,7 @@ public class ArrylistModule extends Mod{
 	
 	public ArrylistModule() {
 		super("Arraylist", "Customize the Arraylist", Category.CLIENT, 0);
-		addSettings(show, mode, textColor, pulseColor, SortX, SortY, background, outline, glow, glowcolor);
+		addSettings(show, mode, offsetX1, offsetY1, textColor, pulseColor, SortX, SortY, background, outline, glow, glowcolor);
 	}
 	
 	@Override
