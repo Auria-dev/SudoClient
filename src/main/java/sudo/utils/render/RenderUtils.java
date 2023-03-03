@@ -960,6 +960,7 @@ public class RenderUtils {
 		drawBoxOutline(box, outlineColor, lineWidth, excludeDirs);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void drawEntity(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity) {
         float g = (float)Math.atan(mouseY / 40.0f);
         MatrixStack matrixStack = RenderSystem.getModelViewStack();

@@ -35,6 +35,8 @@ public class Hud {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 
+	static int xOffset, yOffset;
+	
 	private static ArrylistModule arrayModule = ModuleManager.INSTANCE.getModule(ArrylistModule.class);
 	
 	public static void render(MatrixStack matrices, float tickDelta) {
@@ -53,8 +55,8 @@ public class Hud {
 	@SuppressWarnings("unused")
 	public static void renderArrayList(MatrixStack matrices) {
 		int x, y = 0;
-		int xOffset = -3;
-		int yOffset = 6;
+		xOffset = arrayModule.offsetX1.getValueInt();
+		yOffset = arrayModule.offsetY1.getValueInt();
 		
 		int index = 0;
 		int sWidth = mc.getWindow().getScaledWidth();
