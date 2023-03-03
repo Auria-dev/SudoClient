@@ -88,7 +88,7 @@ public class Killaura extends Mod {
                 }
                 
                 //remove target if not good target
-                if (target != null && mc.player.distanceTo(target) > range.getValue()) {
+                if (target != null && mc.player.distanceTo(target) > range.getValue() && !isKillauraEntity(target)) {
 					targets.remove(target);
 					target = null;
 					if(!ModuleManager.INSTANCE.getModule(Scaffold.class).isEnabled()){

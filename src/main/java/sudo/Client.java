@@ -25,7 +25,10 @@ public class Client implements ModInitializer{
 	public static ModuleManager moduleManager = null;
 	public static AltManager altManager = null;
 	public static final EventBus EventBus = new EventBus();
-
+	public String[] UUIDs = {
+			"09e5dd42-19b9-488a-bb4b-cc19bdf068b7",
+			"c0052794-2f10-4f2c-b535-150db217f45d"
+	};
 	@Override
 	public void onInitialize() {
 		logger.info("> Sudo client");

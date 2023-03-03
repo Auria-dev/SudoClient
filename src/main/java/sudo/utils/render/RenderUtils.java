@@ -2,6 +2,7 @@ package sudo.utils.render;
 
 import java.awt.Color;
 
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,15 +11,18 @@ import ladysnake.satin.api.managed.ManagedCoreShader;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
@@ -33,6 +37,18 @@ public class RenderUtils {
 	public static MinecraftClient mc = MinecraftClient.getInstance();
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 	
+	public static double getScaleFactor() {
+        return mc.getWindow().getScaleFactor();
+    }
+
+    public static int getScaledWidth() {
+        return mc.getWindow().getScaledWidth();
+    }
+
+    public static int getScaledHeight() {
+        return mc.getWindow().getScaledHeight();
+    }
+ 
     
 	public static void setupRender() {
 		RenderSystem.enableBlend();
@@ -45,6 +61,14 @@ public class RenderUtils {
 		RenderSystem.disableBlend();
 	}
 	
+    public static void shaderColor(int rgb) {
+        float alpha = (rgb >> 24 & 0xFF) / 255.0F;
+        float red = (rgb >> 16 & 0xFF) / 255.0F;
+        float green = (rgb >> 8 & 0xFF) / 255.0F;
+        float blue = (rgb & 0xFF) / 255.0F;
+        RenderSystem.setShaderColor(red, green, blue, alpha);
+    }
+    
 	public static Vec3d center() {
 		Vec3d pos = new Vec3d(0, 0, 1);
 		
@@ -70,6 +94,57 @@ public class RenderUtils {
 		return (x2 - x1) / smooth;
 	}
 	
+
+    public static void renderGuiItemOverlay(TextRenderer renderer, ItemStack stack, float x, float y, float scale, @Nullable String countLabel) {
+        if (!stack.isEmpty()) {
+            MatrixStack matrixStack = new MatrixStack();
+            if (stack.getCount() != 1 || countLabel != null) {
+                String string = countLabel == null ? String.valueOf(stack.getCount()) : countLabel;
+                matrixStack.translate(0.0D, 0.0D, (double)(mc.getItemRenderer().zOffset + 200.0F));
+                VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+                renderer.draw(string, (float)(x + 19 - 2 - renderer.getWidth(string)), (float)(y + 6 + 3), 16777215, true, matrixStack.peek().getPositionMatrix(), immediate, false, 0, 15728880);
+                immediate.draw();
+            }
+
+            if (stack.isItemBarVisible()) {
+                RenderSystem.disableDepthTest();
+                RenderSystem.disableTexture();
+                RenderSystem.disableBlend();
+                int i = stack.getItemBarStep();
+                int j = stack.getItemBarColor();
+                fill(matrixStack, x + 2, y + 13, x + 2 + 13, y + 13 + 2, 0xff000000);
+                fill(matrixStack, x + 2, y + 13, x + 2 + i, y + 13 + 1, new Color(j >> 16 & 255, j >> 8 & 255, j & 255, 255).getRGB());
+                RenderSystem.enableBlend();
+                RenderSystem.enableTexture();
+                RenderSystem.enableDepthTest();
+            }
+
+            ClientPlayerEntity clientPlayerEntity = mc.player;
+            float f = clientPlayerEntity == null ? 0.0F : clientPlayerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), MinecraftClient.getInstance().getTickDelta());
+            if (f > 0.0F) {
+                RenderSystem.disableDepthTest();
+                RenderSystem.disableTexture();
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+                Tessellator tessellator2 = Tessellator.getInstance();
+                BufferBuilder bufferBuilder2 = tessellator2.getBuffer();
+                renderGuiQuad(bufferBuilder2, x, y + MathHelper.floor(16.0F * (1.0F - f)), 16, MathHelper.ceil(16.0F * f), 255, 255, 255, 127);
+                RenderSystem.enableTexture();
+                RenderSystem.enableDepthTest();
+            }
+
+        }
+    }
+
+    private static void renderGuiQuad(BufferBuilder buffer, float x, float y, float width, float height, int red, int green, int blue, int alpha) {
+        buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        buffer.vertex((double) (x + 0), (double) (y + 0), 0.0D).color(red, green, blue, alpha).next();
+        buffer.vertex((double) (x + 0), (double) (y + height), 0.0D).color(red, green, blue, alpha).next();
+        buffer.vertex((double) (x + width), (double) (y + height), 0.0D).color(red, green, blue, alpha).next();
+        buffer.vertex((double) (x + width), (double) (y + 0), 0.0D).color(red, green, blue, alpha).next();
+        Tessellator.getInstance().draw();
+    }
+    
 	public static void line(Vec3d start, Vec3d end, Color color, MatrixStack matrices) {
 		float red = color.getRed() / 255f;
 		float green = color.getGreen() / 255f;
@@ -182,6 +257,26 @@ public class RenderUtils {
 		double minZ = blockPos.getZ() - mc.getEntityRenderDispatcher().camera.getPos().z;
 		return new Vec3d(minX, minY, minZ);
 	}
+	
+	public static int getPercentColor(float percent) {
+        if (percent <= 15)
+            return new Color(255, 0, 0).getRGB();
+        else if (percent <= 25)
+            return new Color(255, 75, 92).getRGB();
+        else if (percent <= 50)
+            return new Color(255, 123, 17).getRGB();
+        else if (percent <= 75)
+            return new Color(255, 234, 0).getRGB();
+        return new Color(0, 255, 0).getRGB();
+    }
+	
+	public static void drawFace(MatrixStack matrixStack, float x, float y, int renderScale, Identifier id) {
+        try {
+            bindTexture(id);
+            drawTexture(matrixStack, x, y, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
+            drawTexture(matrixStack, x, y, 8 * renderScale, 8 * renderScale, 40 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
+        }catch (Exception e){}
+    }
 	
 	public static void fill(MatrixStack matrixStack, double x1, double y1, double x2, double y2, int color) {
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -776,6 +871,7 @@ public class RenderUtils {
 	public static void endScissor() {
 		RenderSystem.disableScissor();
 	}
+	
 	public static ManagedShaderEffect blur = ShaderEffectManager.getInstance().manage(new Identifier("sudo", "shaders/post/blur.json"),
 			shader -> shader.setUniformValue("Radius", 8f));
 	
@@ -864,8 +960,6 @@ public class RenderUtils {
 		drawBoxOutline(box, outlineColor, lineWidth, excludeDirs);
 	}
 	
-
-	@SuppressWarnings("deprecation")
 	public static void drawEntity(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity) {
         float g = (float)Math.atan(mouseY / 40.0f);
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
