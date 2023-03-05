@@ -89,7 +89,7 @@ public class ConfigManager {
                 FileReader reader = new FileReader(path + module.getName() + ".json");
                 JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
                 module.setEnabled(jsonObject.get("enabled").getAsBoolean());
-                module.setKey(jsonObject.get("keybind").getAsInt()); //this sets the keybind but does not visually update the keybind.
+//                module.setKey(jsonObject.get("keybind").getAsInt()); //this sets the keybind but does not visually update the keybind.
                 
                 for (Setting setting : module.getSetting()) {
                     if (setting instanceof BooleanSetting) {

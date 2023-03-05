@@ -5,21 +5,33 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import ladysnake.satin.api.managed.ManagedCoreShader;
+import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import sudo.module.Mod;
+import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
 import sudo.module.combat.Killaura;
 import sudo.module.combat.TargetHud;
 import sudo.module.render.Notifications;
 import sudo.module.render.PlayerEntityModule;
+import sudo.module.settings.BooleanSetting;
+import sudo.module.settings.KeybindSetting;
+import sudo.module.settings.ModeSetting;
+import sudo.module.settings.NumberSetting;
+import sudo.module.settings.Setting;
 import sudo.utils.TimerUtil;
 import sudo.utils.misc.Notification;
 import sudo.utils.misc.NotificationUtil;
@@ -29,14 +41,17 @@ import sudo.utils.surge.animation.BoundedAnimation;
 import sudo.utils.surge.animation.Easing;
 import sudo.utils.text.GlyphPageFontRenderer;
 import sudo.utils.text.IFont;
+import sudo.utils.text.KeyUtils;
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 public class Hud {
 	private static MinecraftClient mc = MinecraftClient.getInstance();
 	public static GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 
 	static int xOffset, yOffset;
 	
+	public static final ManagedCoreShader BLUR_SHADER = ShaderEffectManager.getInstance().manageCoreShader(new Identifier("blur"));
 	private static ArrylistModule arrayModule = ModuleManager.INSTANCE.getModule(ArrylistModule.class);
 	
 	public static void render(MatrixStack matrices, float tickDelta) {
@@ -50,23 +65,188 @@ public class Hud {
 			Notifs(matrices);
 		if (ModuleManager.INSTANCE.getModule(PlayerEntityModule.class).isEnabled())
 			RenderUtils.drawEntity(30, 75, 30, mc.player.getPitch(), mc.player.getYaw(), mc.player);
+		renderTabGui(matrices);
 	}
 	
-	@SuppressWarnings("unused")
+	public static int currentCategoryIndex, animCategoryIndex, animModuleIndex, moduleExpandAnim = 0, currentSettingIndex, animSettingIndex;
+	public static boolean moduleExpanded, settingExpanded;
+	
+	public static void renderTabGui(MatrixStack matrices) {
+		Category category = Mod.Category.values()[currentCategoryIndex];
+		List<Mod> modules = ModuleManager.INSTANCE.getModulesInCategory(category);
+		int index = 0, settingIndex=0;
+		
+		//slow anim
+		if (animCategoryIndex<currentCategoryIndex*15)animCategoryIndex++;
+		if (animCategoryIndex>currentCategoryIndex*15)animCategoryIndex--;
+		
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 5, 20, 62, 35+((Mod.Category.values().length-1)*15), 1, 20);
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 6, 21+animCategoryIndex, 61, 34+animCategoryIndex, 1, 20);
+		for (Category c : Mod.Category.values()) {
+			textRend.drawString(matrices, c.name, 7, 20+index, -1, 1);
+			index+=15;
+		}
+		
+		index=0;
+
+		if (animModuleIndex<category.moduleIndex*15)animModuleIndex++;
+		if (animModuleIndex>category.moduleIndex*15)animModuleIndex--;
+
+		//e
+		if (animSettingIndex<currentSettingIndex*15)animSettingIndex++;
+		if (animSettingIndex>currentSettingIndex*15)animSettingIndex--;
+		
+		if (moduleExpanded) if (moduleExpandAnim<86) moduleExpandAnim+=5;
+		if (moduleExpandAnim<0) moduleExpandAnim=0;
+		if (moduleExpandAnim>86) moduleExpandAnim=86;
+		
+//		RenderUtils.startScissor(60, 0, moduleExpandAnim, 800);
+		if (moduleExpanded) {
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63, 20, 146, 35+(modules.size()-1)*15, 1, 20);
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64, 21+animModuleIndex, 145, 34+animModuleIndex, 1, 20);
+		for (Mod mod : modules) {
+			if (mod.isEnabled()) RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64, 21+index, 66, 34+index, 1, 20);
+			textRend.drawString(matrices, mod.getName(), 3+62, 20+index, -1, 1);
+			
+			if (index/15==category.moduleIndex && settingExpanded) {
+				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+84, 20, 146+84+12, 35+(mod.getSettings().size()-1)*15, 1, 20);
+				RenderUtils.renderRoundedQuad(matrices, mod.getSetting().get(currentSettingIndex).focused ? new Color(0, 0, 0, 140) : new Color(0, 0, 0, 90), 64+84, 21+animSettingIndex, 145+84+12, 34+animSettingIndex, 1, 20);
+
+				for (Setting setting : mod.getSetting()) {
+					if (setting instanceof BooleanSetting) {
+						RenderUtils.renderRoundedQuad(matrices, ((BooleanSetting) setting).isEnabled() ? new Color(255, 255, 255, 120) : new Color(0, 0, 0, 90), 145+76+11, 24+(settingIndex*15), 145+83+11, 31+(settingIndex*15), 1, 20);
+					} else if (setting instanceof KeybindSetting) {
+						textRend.drawString(matrices, KeyUtils.NumToKey(((KeybindSetting) setting).getKey()), 3+62+81+80-textRend.getStringWidth(KeyUtils.NumToKey(((KeybindSetting) setting).getKey()))+12, 20+(settingIndex*15), -1, 1);
+					} else if (setting instanceof ModeSetting) {
+						textRend.drawString(matrices, ((ModeSetting) setting).getMode(), 3+62+81+80-textRend.getStringWidth(((ModeSetting) setting).getMode())+12, 20+(settingIndex*15), -1, 1);
+					} else if (setting instanceof NumberSetting) {
+						RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+85, 30+(settingIndex*15), 148+ (81*(((NumberSetting) setting).getValue() - ((NumberSetting) setting).getMin()) / (((NumberSetting) setting).getMax() - ((NumberSetting) setting).getMin())), 33+(settingIndex*15), 1, 20);
+						textRend.drawString(matrices, ((NumberSetting) setting).getValue() + "", 3+62+81+80-textRend.getStringWidth(((NumberSetting) setting).getValue() + "")+13, 20+(settingIndex*15), -1, 1);
+					}
+					textRend.drawString(matrices, setting.getName(), 3+62+84, 20+(settingIndex*15), -1, 1);
+					settingIndex++;
+				}
+			}
+			index+=15;
+		}
+		}
+//		Client.logger.info(currentSettingIndex);
+		RenderUtils.endScissor();
+		if (!moduleExpanded) if (moduleExpandAnim>0) moduleExpandAnim-=5;
+	}
+	
+	public static void onKeyPress(int key, int action) {
+		Category category = Mod.Category.values()[currentCategoryIndex];
+		List<Mod> modules = ModuleManager.INSTANCE.getModulesInCategory(category);
+		
+		if (action == GLFW.GLFW_PRESS && mc.currentScreen==null) {
+			
+			if (key==GLFW.GLFW_KEY_UP) {
+				if (moduleExpanded) {
+					if (settingExpanded) {
+						if (modules.get(category.moduleIndex).getSetting().get(currentSettingIndex).focused) {
+							
+						} else {
+							if (currentSettingIndex<=0) {
+								currentSettingIndex = modules.get(category.moduleIndex).getSettings().size()-1;
+								animSettingIndex=(modules.get(category.moduleIndex).getSettings().size()-1)*15;
+							}
+							else currentSettingIndex--;
+						}
+					}
+					else {
+						if (category.moduleIndex<=0) {
+							category.moduleIndex = modules.size()-1;
+							animModuleIndex=(modules.size()-1)*15;
+						}
+						else category.moduleIndex--;
+					}
+				} else {
+					if (currentCategoryIndex<=0) {
+						currentCategoryIndex=Mod.Category.values().length-1;
+						animCategoryIndex=(Mod.Category.values().length-1)*15;
+					}
+					else currentCategoryIndex--;
+				}
+			}
+			
+			if (key==GLFW.GLFW_KEY_DOWN) {
+				if (moduleExpanded) {
+					if (settingExpanded) {
+						if (modules.get(category.moduleIndex).getSetting().get(currentSettingIndex).focused) {
+							
+						} else {
+							if (currentSettingIndex>=modules.get(category.moduleIndex).getSettings().size()-1) {
+								currentSettingIndex = 0;
+								animSettingIndex=0;
+							}
+							else currentSettingIndex++;
+						}
+					}
+					else {
+						if (category.moduleIndex>=modules.size()-1)  {
+							category.moduleIndex = 0;
+							animModuleIndex=0;
+						}
+						else category.moduleIndex++;
+					}
+				} else {
+					if (currentCategoryIndex>=Mod.Category.values().length-1) {
+						currentCategoryIndex=0;
+						animCategoryIndex=0;
+					}
+					else currentCategoryIndex++;
+				}
+			}
+			
+			
+			if (key==GLFW.GLFW_KEY_RIGHT) {
+				if (moduleExpanded) {
+					if (!settingExpanded) settingExpanded=true;
+				} else {
+					moduleExpandAnim+=5;
+					moduleExpanded=true;
+				}
+			}
+			if (key==GLFW.GLFW_KEY_LEFT) {
+				if (settingExpanded) {
+					if (modules.get(category.moduleIndex).getSetting().get(currentSettingIndex).focused) {
+						
+					} else {
+						settingExpanded=false;
+					}
+				} else {
+					moduleExpandAnim-=5;
+					moduleExpanded=false;
+				}
+			}
+			
+			if (key==GLFW.GLFW_KEY_ENTER) {
+				if (moduleExpanded) {
+					if (settingExpanded) {
+						modules.get(category.moduleIndex).getSetting().get(currentSettingIndex).focused = !modules.get(category.moduleIndex).getSetting().get(currentSettingIndex).focused;
+					} else modules.get(category.moduleIndex).toggle();
+				}
+			}
+		}
+	}
+	
+	
 	public static void renderArrayList(MatrixStack matrices) {
-		int x, y = 0;
 		xOffset = arrayModule.offsetX1.getValueInt();
 		yOffset = arrayModule.offsetY1.getValueInt();
 		
 		int index = 0;
 		int sWidth = mc.getWindow().getScaledWidth();
-		int sHeight = mc.getWindow().getScaledHeight();
+//		int sHeight = mc.getWindow().getScaledHeight();
 		
 		List<Mod> enabled = ModuleManager.INSTANCE.getEnabledModules();
 		if (arrayModule.SortY.is("Normal")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
 		else if (arrayModule.SortY.is("Reversed")) enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())));
 		else enabled.sort(Comparator.comparingInt(m -> (int)textRend.getStringWidth(((Mod)m).getDisplayName())).reversed());
-		
+
+        RenderSystem.setShader(BLUR_SHADER::getProgram);
+        RenderSystem.beginInitialization();
 		for (Mod mod : enabled) {
 			int fWidth = (int) textRend.getStringWidth(mod.getDisplayName());
 			int fHeight = (int) textRend.getFontHeight();
@@ -84,10 +264,11 @@ public class Hud {
 			
 			if (mod.isEnabled()) {
 				if (arrayModule.glow.isEnabled()) {
-					RenderUtils.renderRoundedShadow(matrices, new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
-							fromX2, fromY2, toX2, toY2, 1, 500, 4);
-					RenderUtils.renderRoundedQuad(matrices, new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
-							fromX2, fromY2, toX2, toY2, 1, 500);
+					DrawableHelper.fill(matrices, fromX2, fromY2-1, toX2, toY2, 0xffff2222);
+//					RenderUtils.renderRoundedShadow(matrices, new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
+//							fromX2, fromY2, toX2, toY2, 1, 500, 4);
+//					RenderUtils.renderRoundedQuad(matrices, new Color(arrayModule.glowcolor.getColor().getRed(), arrayModule.glowcolor.getColor().getGreen(), arrayModule.glowcolor.getColor().getBlue(), 95), 
+//							fromX2, fromY2, toX2, toY2, 1, 500);
 				}
 				index++;
 			}
@@ -160,7 +341,6 @@ public class Hud {
 	}
 
 	static LivingEntity target = null;
-	
 	@SuppressWarnings("static-access")
 	public static void renderTargetHud(MatrixStack matrices) {
 		HitResult hit = mc.crosshairTarget;
@@ -218,9 +398,8 @@ public class Hud {
         if (playerListEntry == null) return 0;
         return playerListEntry.getLatency();
     }
-    
+
     static BoundedAnimation SlidIn = new BoundedAnimation(0f, 120f, 100f, false, Easing.LINEAR);
-    
 	public static void Notifs(MatrixStack matrices) {
 
 		boolean anim=false;

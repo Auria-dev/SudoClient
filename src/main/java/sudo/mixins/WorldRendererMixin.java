@@ -11,13 +11,13 @@ import sudo.module.Mod;
 import sudo.module.ModuleManager;
 
 @Mixin(GameRenderer.class)
-public class WorldRendererMixin {
-    @Inject(method = "renderWorld", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = { "ldc=hand" }), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void onRenderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo info) {
-        for (Mod m : ModuleManager.INSTANCE.getModules()) {
-            if (m.isEnabled()) {
-                m.onWorldRender(matrices);
-            }
-        }
-    }
+public class WorldRendererMixin {	
+	@Inject(method = "renderWorld", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = { "ldc=hand" }), locals = LocalCapture.CAPTURE_FAILSOFT)
+	private void onRenderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo info) {
+		for (Mod m : ModuleManager.INSTANCE.getModules()) {
+			if (m.isEnabled()) {
+				m.onWorldRender(matrices);
+			}
+		}
+	}
 }

@@ -106,6 +106,7 @@ public class Mod {
 		CLIENT("Client");
 		
 		public String name;
+		public int moduleIndex;
 		
 		private Category(String name) {
 			this.name = name;
