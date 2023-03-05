@@ -19,6 +19,7 @@ import sudo.ui.screens.clickgui.ClickGUI;
 
 public class Client implements ModInitializer{
 	
+	public static String version = "b0.5";
 	public static final Client INSTANCE = new Client();
 	public static Logger logger = LogManager.getLogger(Client.class);
 	private MinecraftClient mc = MinecraftClient.getInstance();

@@ -39,7 +39,7 @@ public class Scaffold extends Mod {
     private static final Formatting Gray = Formatting.GRAY;
 	@Override
 	public void onTick() {
-		this.setDisplayName("Scaffold" + Gray + " ["+mode.getMode()+"]");
+		this.setDisplayName("Scaffold" + Gray + " ["+mode.getMode()+"] ");
 		if (mode.getMode().equalsIgnoreCase("Extend")) {
         	Vec3d ppos = Objects.requireNonNull(mc.player).getPos().add(0, -1, 0);
         	BlockPos bp = new BlockPos(ppos);

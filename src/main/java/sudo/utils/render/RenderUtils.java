@@ -913,18 +913,9 @@ public class RenderUtils {
 	}
 	
 	private static void drawBlurredTexture(MatrixStack matrices, int x0, int x1, int y0, int y1, int z, int regionWidth, int regionHeight, float u, float v, int textureWidth, int textureHeight) {
-		drawBlurredTexturedQuad(
-		matrices.peek().getPositionMatrix(),
-		x0,
-		x1,
-		y0,
-		y1,
-		z,
-		(u + 0.0F) / (float)textureWidth,
-		(u + (float)regionWidth) / (float)textureWidth,
-		(v + 0.0F) / (float)textureHeight,
-		(v + (float)regionHeight) / (float)textureHeight
-		);
+		drawBlurredTexturedQuad(matrices.peek().getPositionMatrix(), x0, x1, y0, y1, z,
+		(u + 0.0F) / (float)textureWidth, (u + (float)regionWidth) / (float)textureWidth,
+		(v + 0.0F) / (float)textureHeight, (v + (float)regionHeight) / (float)textureHeight);
 	}
 	
 	public static final ManagedCoreShader BLUR_SHADER = ShaderEffectManager.getInstance().manageCoreShader(new Identifier("blur"));

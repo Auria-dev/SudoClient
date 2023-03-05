@@ -7,11 +7,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Keyboard;
 import sudo.Client;
+import sudo.ui.Hud;
 
 @Mixin(Keyboard.class)
 public class KeyboardMixin {
 	@Inject(method = "onKey", at = @At("HEAD"), cancellable = true)
 	public void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
 		Client.INSTANCE.onKeyPress(key, action);
+		Hud.onKeyPress(key, action);
 	}
 }

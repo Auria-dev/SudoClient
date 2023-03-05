@@ -21,6 +21,7 @@ import sudo.utils.mixins.IBox;
 
 @Mixin(EntityRenderDispatcher.class)
 public class RenderEntityDispatcherMixin {
+	
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public <E extends Entity> void onRenderPre(E entity, double x, double y, double z, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (Chams.get.shouldRender(entity)) {
@@ -42,5 +43,4 @@ public class RenderEntityDispatcherMixin {
         double v = ModuleManager.INSTANCE.getModule(Hitbox.class).size.getValue();
         if (v != 0 && ModuleManager.INSTANCE.getModule(Hitbox.class).isEnabled()) ((IBox) box).expand(v);
     }
-
 }

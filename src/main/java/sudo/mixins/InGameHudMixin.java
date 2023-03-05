@@ -12,7 +12,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import sudo.module.ModuleManager;
 import sudo.module.render.NoOverlay;
-import sudo.module.render.NoRender;
 import sudo.ui.Hud;
 
 @Mixin(InGameHud.class)
@@ -22,6 +21,11 @@ public class InGameHudMixin {
 		Hud.render(matrices, tickDelta);
 	}
 
+    @Inject(method = "renderStatusEffectOverlay", at = @At("HEAD"), cancellable = true)
+	private void renderStatusEffectOverlay(MatrixStack matrices, CallbackInfo info) {
+    	info.cancel();
+	}
+	
     @ModifyArgs(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderOverlay(Lnet/minecraft/util/Identifier;F)V", ordinal = 0))
     private void onRenderPumpkinOverlay(Args args) {
         if (ModuleManager.INSTANCE.getModule(NoOverlay.class).isEnabled()) args.set(1, 0f);
