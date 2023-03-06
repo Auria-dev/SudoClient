@@ -11,7 +11,9 @@ public class KeybindSetting extends Setting {
     }
 
     public void setKey(int key) {
+    	this.enabled = true;
     	this.key = key;
+    	this.enabled = false;
     }
 
     public int getKey() {

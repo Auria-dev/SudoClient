@@ -19,6 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import sudo.Client;
 import sudo.module.Mod;
 import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
@@ -28,6 +29,7 @@ import sudo.module.combat.TargetHud;
 import sudo.module.render.Notifications;
 import sudo.module.render.PlayerEntityModule;
 import sudo.module.settings.BooleanSetting;
+import sudo.module.settings.ColorSetting;
 import sudo.module.settings.KeybindSetting;
 import sudo.module.settings.ModeSetting;
 import sudo.module.settings.NumberSetting;
@@ -68,7 +70,7 @@ public class Hud {
 		renderTabGui(matrices);
 	}
 	
-	public static int currentCategoryIndex, animCategoryIndex, animModuleIndex, moduleExpandAnim = 0, currentSettingIndex, animSettingIndex;
+	public static int currentCategoryIndex, animCategoryIndex, animModuleIndex, moduleExpandAnim = 0, currentSettingIndex, animSettingIndex, settingExpandAnim = 0;
 	public static boolean moduleExpanded, settingExpanded;
 	
 	public static void renderTabGui(MatrixStack matrices) {
@@ -100,17 +102,20 @@ public class Hud {
 		if (moduleExpandAnim<0) moduleExpandAnim=0;
 		if (moduleExpandAnim>86) moduleExpandAnim=86;
 		
-//		RenderUtils.startScissor(60, 0, moduleExpandAnim, 800);
-		if (moduleExpanded) {
+		if (settingExpanded) if (settingExpandAnim<100) settingExpandAnim+=5;
+		if (settingExpandAnim<0) settingExpandAnim=0;
+		if (settingExpandAnim>100) settingExpandAnim=100;
+		
+		RenderUtils.startScissor(60, 0, moduleExpandAnim+settingExpandAnim, 800);
 		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63, 20, 146, 35+(modules.size()-1)*15, 1, 20);
 		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64, 21+animModuleIndex, 145, 34+animModuleIndex, 1, 20);
 		for (Mod mod : modules) {
 			if (mod.isEnabled()) RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64, 21+index, 66, 34+index, 1, 20);
 			textRend.drawString(matrices, mod.getName(), 3+62, 20+index, -1, 1);
-			
-			if (index/15==category.moduleIndex && settingExpanded) {
+
+			if (index/15==category.moduleIndex) {
 				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+84, 20, 146+84+12, 35+(mod.getSettings().size()-1)*15, 1, 20);
-				RenderUtils.renderRoundedQuad(matrices, mod.getSetting().get(currentSettingIndex).focused ? new Color(0, 0, 0, 140) : new Color(0, 0, 0, 90), 64+84, 21+animSettingIndex, 145+84+12, 34+animSettingIndex, 1, 20);
+				RenderUtils.renderRoundedQuad(matrices, mod.getSetting().get(currentSettingIndex).focused ? new Color(0, 0, 0, 120) : new Color(0, 0, 0, 90), 64+84, 21+animSettingIndex, 145+84+12, 34+animSettingIndex, 1, 20);
 
 				for (Setting setting : mod.getSetting()) {
 					if (setting instanceof BooleanSetting) {
@@ -120,8 +125,11 @@ public class Hud {
 					} else if (setting instanceof ModeSetting) {
 						textRend.drawString(matrices, ((ModeSetting) setting).getMode(), 3+62+81+80-textRend.getStringWidth(((ModeSetting) setting).getMode())+12, 20+(settingIndex*15), -1, 1);
 					} else if (setting instanceof NumberSetting) {
-						RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+85, 30+(settingIndex*15), 148+ (81*(((NumberSetting) setting).getValue() - ((NumberSetting) setting).getMin()) / (((NumberSetting) setting).getMax() - ((NumberSetting) setting).getMin())), 33+(settingIndex*15), 1, 20);
+						RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+85, 30+(settingIndex*15), 148+ ((81+11)*(((NumberSetting) setting).getValue() - ((NumberSetting) setting).getMin()) / (((NumberSetting) setting).getMax() - ((NumberSetting) setting).getMin())), 33+(settingIndex*15), 1, 20);
 						textRend.drawString(matrices, ((NumberSetting) setting).getValue() + "", 3+62+81+80-textRend.getStringWidth(((NumberSetting) setting).getValue() + "")+13, 20+(settingIndex*15), -1, 1);
+					} else if (setting instanceof ColorSetting) {
+						RenderUtils.renderRoundedQuad(matrices, ((ColorSetting) setting).getColor(), 145+76+5, 24+(settingIndex*15), 145+83+11, 31+(settingIndex*15), 1, 20);
+						textRend.drawString(matrices, "#"+((ColorSetting) setting).getHex(), 3+62+81+80-6-textRend.getStringWidth("#"+((ColorSetting) setting).getHex())+12, 20+(settingIndex*15)+2, ((ColorSetting) setting).getColor().getRGB(), 0.8f);
 					}
 					textRend.drawString(matrices, setting.getName(), 3+62+84, 20+(settingIndex*15), -1, 1);
 					settingIndex++;
@@ -129,10 +137,9 @@ public class Hud {
 			}
 			index+=15;
 		}
-		}
-//		Client.logger.info(currentSettingIndex);
 		RenderUtils.endScissor();
 		if (!moduleExpanded) if (moduleExpandAnim>0) moduleExpandAnim-=5;
+		if (!settingExpanded) if (settingExpandAnim>0) settingExpandAnim-=5;
 	}
 	
 	public static void onKeyPress(int key, int action) {
@@ -140,6 +147,31 @@ public class Hud {
 		List<Mod> modules = ModuleManager.INSTANCE.getModulesInCategory(category);
 		
 		if (action == GLFW.GLFW_PRESS && mc.currentScreen==null) {
+			
+			if (moduleExpanded && settingExpanded) {
+				Mod module = modules.get(category.moduleIndex);
+				if (module.getSetting().get(currentSettingIndex).focused && module.getSetting().get(currentSettingIndex) instanceof KeybindSetting) {
+					if (key!=GLFW.GLFW_KEY_ENTER && key!=GLFW.GLFW_KEY_UP && key!=GLFW.GLFW_KEY_DOWN && key!=GLFW.GLFW_KEY_LEFT && key!=GLFW.GLFW_KEY_RIGHT && key!=GLFW.GLFW_KEY_ESCAPE) {
+						KeybindSetting keybind = ((KeybindSetting) modules.get(category.moduleIndex).getSetting().get(currentSettingIndex));
+						
+						if (key!=GLFW.GLFW_KEY_DELETE) {
+							keybind.toggle();
+							keybind.setKey(key);
+							modules.get(category.moduleIndex).setKey(key);
+							keybind.toggle();
+							keybind.focused = false;
+						} else if (key==GLFW.GLFW_KEY_DELETE) {
+							keybind.toggle();
+							keybind.setKey(0);
+							modules.get(category.moduleIndex).setKey(0);
+							keybind.toggle();
+							keybind.focused = false;
+						}
+						Client.logger.info(key + modules.get(category.moduleIndex).getName());
+						return;
+					}
+				}
+			}
 			
 			if (key==GLFW.GLFW_KEY_UP) {
 				if (moduleExpanded) {
@@ -202,7 +234,22 @@ public class Hud {
 			
 			if (key==GLFW.GLFW_KEY_RIGHT) {
 				if (moduleExpanded) {
-					if (!settingExpanded) settingExpanded=true;
+					if (settingExpanded) {
+						if (modules.get(category.moduleIndex).getSetting().get(currentSettingIndex).focused) {
+							Setting setting = modules.get(category.moduleIndex).getSetting().get(currentSettingIndex);
+							if (setting instanceof BooleanSetting) {
+								((BooleanSetting) setting).setEnabled(!((BooleanSetting) setting).isEnabled());
+							} else if (setting instanceof ModeSetting) {
+								((ModeSetting) setting).cycle();
+							} else if (setting instanceof NumberSetting) {
+								((NumberSetting) setting).increment(true);
+							} else if (setting instanceof KeybindSetting) {
+							} else if (setting instanceof ColorSetting) {
+							}
+						}
+					} else if (!settingExpanded) {
+						settingExpanded=true;
+					}
 				} else {
 					moduleExpandAnim+=5;
 					moduleExpanded=true;
@@ -211,9 +258,20 @@ public class Hud {
 			if (key==GLFW.GLFW_KEY_LEFT) {
 				if (settingExpanded) {
 					if (modules.get(category.moduleIndex).getSetting().get(currentSettingIndex).focused) {
-						
+						Setting setting = modules.get(category.moduleIndex).getSetting().get(currentSettingIndex);
+						if (setting instanceof BooleanSetting) {
+							((BooleanSetting) setting).setEnabled(!((BooleanSetting) setting).isEnabled());
+						} else if (setting instanceof ModeSetting) {
+							((ModeSetting) setting).cycleBack();
+						} else if (setting instanceof NumberSetting) {
+							((NumberSetting) setting).increment(false);
+						} else if (setting instanceof KeybindSetting) {
+						} else if (setting instanceof ColorSetting) {
+						}
 					} else {
 						settingExpanded=false;
+						currentSettingIndex=0;
+						animSettingIndex=0;
 					}
 				} else {
 					moduleExpandAnim-=5;

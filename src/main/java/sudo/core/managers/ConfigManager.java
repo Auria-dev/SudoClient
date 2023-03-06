@@ -89,21 +89,20 @@ public class ConfigManager {
                 FileReader reader = new FileReader(path + module.getName() + ".json");
                 JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
                 module.setEnabled(jsonObject.get("enabled").getAsBoolean());
-//                module.setKey(jsonObject.get("keybind").getAsInt()); //this sets the keybind but does not visually update the keybind.
+                module.setKey(jsonObject.get("keybind").getAsInt());
                 
                 for (Setting setting : module.getSetting()) {
-                    if (setting instanceof BooleanSetting) {
+                	if (setting instanceof KeybindSetting) {
+                		((KeybindSetting) setting).setKey(jsonObject.get("keybind").getAsInt());
+                	} else if (setting instanceof BooleanSetting) {
                         ((BooleanSetting) setting).setEnabled(jsonObject.get(((BooleanSetting) setting).getName()).getAsBoolean());
-                    }
-                    if (setting instanceof ModeSetting) {
+                    } else if (setting instanceof ModeSetting) {
                         ((ModeSetting) setting).setMode(jsonObject.get(((ModeSetting) setting).getName()).getAsString());
                         ((ModeSetting) setting).cycle();
                         ((ModeSetting) setting).cycleBack();
-                    }
-                    if (setting instanceof NumberSetting) {
+                    } else if (setting instanceof NumberSetting) {
                         ((NumberSetting) setting).setValue(jsonObject.get(((NumberSetting) setting).getName()).getAsDouble());
-                    }
-                    if (setting instanceof ColorSetting) {
+                    } else if (setting instanceof ColorSetting) {
                     	int[] color = ((ColorSetting)setting).hexToRgbInt(jsonObject.get(((ColorSetting) setting).getName()).getAsString());
                     	((ColorSetting) setting).setRGB(color[0], color[1], color[2], color[3]);
                     }

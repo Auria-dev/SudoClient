@@ -125,6 +125,6 @@ public class KeyUtils {
     	case 284 : return "PAUSE";
     	case 0 : return "None";
     	}
-		return "Unknown";
+		return "None";
     }
 }

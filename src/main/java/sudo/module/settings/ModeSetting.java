@@ -36,7 +36,7 @@ public class ModeSetting extends Setting {
 	}
 	
 	public int getIndex() {
-		return index;
+		return (int) index;
 	}
 	
 	public void setIndex(int index) {
@@ -55,11 +55,12 @@ public class ModeSetting extends Setting {
 	}
 	
 	public void cycleBack() {
-		if (index>0 && index <= modes.size()) {
+		if (index>0 && index <= modes.size()-1) {
 			index--;
 			mode = modes.get(index);
-		} else if (index==0) {
-			index=0;
+		} else if (index<=0) {
+			index=modes.size()-1;
+			mode=modes.get(modes.size()-1);
 		}
 	}
 	
