@@ -3,12 +3,12 @@ package sudo.module.render;
 import sudo.module.Mod;
 import sudo.module.settings.NumberSetting;
 
-public class ItemViewModel extends Mod {
+public class ViewModel extends Mod {
 
-    public static ItemViewModel INSTANCE;
+    public static ViewModel INSTANCE;
 
-    public ItemViewModel() {
-    	super("ItemViewModel", "Customize the held items position", Category.RENDER, 0); 
+    public ViewModel() {
+    	super("ViewModel", "Customize the held items position", Category.RENDER, 0); 
     	addSettings(x,y,z,swingLeft,swingRight);
     	 INSTANCE = this;
     }

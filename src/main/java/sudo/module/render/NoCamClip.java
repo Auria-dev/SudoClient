@@ -2,10 +2,10 @@ package sudo.module.render;
 
 import sudo.module.Mod;
 
-public class NoCameraClip extends Mod {
+public class NoCamClip extends Mod {
 
-	public NoCameraClip() {
-		super("NoCameraClip", "Allows the third person camera to to through blocks", Category.RENDER, 0);
+	public NoCamClip() {
+		super("NoCamClip", "Allows the third person camera to to through blocks", Category.RENDER, 0);
 	}
 	
 	@Override
