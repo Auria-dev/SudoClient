@@ -69,7 +69,6 @@ public class Hud {
 			RenderUtils.drawEntity(30, 75, 30, mc.player.getPitch(), mc.player.getYaw(), mc.player);
 		renderTabGui(matrices);
 	}
-	
 	public static int currentCategoryIndex, animCategoryIndex, animModuleIndex, moduleExpandAnim = 0, currentSettingIndex, animSettingIndex, settingExpandAnim = 0;
 	public static boolean moduleExpanded, settingExpanded;
 	
@@ -78,7 +77,6 @@ public class Hud {
 		List<Mod> modules = ModuleManager.INSTANCE.getModulesInCategory(category);
 		int index = 0, settingIndex=0;
 		
-		//slow anim
 		if (animCategoryIndex<currentCategoryIndex*15)animCategoryIndex++;
 		if (animCategoryIndex>currentCategoryIndex*15)animCategoryIndex--;
 		
@@ -90,7 +88,7 @@ public class Hud {
 		}
 		
 		index=0;
-
+	
 		if (animModuleIndex<category.moduleIndex*15)animModuleIndex++;
 		if (animModuleIndex>category.moduleIndex*15)animModuleIndex--;
 
