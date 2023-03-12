@@ -2,6 +2,8 @@ package sudo.ui.screens.clickgui.setting;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.module.ModuleManager;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.settings.KeybindSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
@@ -56,7 +58,7 @@ public class Keybind extends Component {
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset, parent.parent.x + parent.parent.width, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff1f1f1f);
-		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff9D73E6);
+		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor().getRGB());
 		
 		if (isBinding==false) {
 			textRend.drawString(matrices, "Bind: ", parent.parent.x + 5, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset-3, 0xff8B8B8B,1);

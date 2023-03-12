@@ -7,6 +7,14 @@ import net.minecraft.client.option.Perspective;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.hit.HitResult.Type;
 import sudo.Client;
 import sudo.core.event.EventTarget;
 import sudo.events.EventRender3D;
@@ -89,7 +97,7 @@ public class TargetStrafe extends Mod {
     }
     
     public static void strafe(double moveSpeed, LivingEntity target,  boolean direction, boolean flight) {
-		if (mc.player != null && Killaura.target != null && (Killaura.target != mc.player && mc.player.distanceTo(Killaura.target) <= Killaura.range.getValue() && Killaura.target.isAlive() && mc.player.isAlive())) {
+		if (mc.player != null && Killaura.target != null && (Killaura.target != mc.player && mc.player.distanceTo(Killaura.target) <= Killaura.range.getValue() && Killaura.target.isAlive() && mc.player.isAlive()) && canAttack(Killaura.target)) {
 	    	try {
 		        double direction1 = direction ? 1 : -1;
 		        float[] rotations = RotationUtils.getRotations(target);
@@ -124,4 +132,30 @@ public class TargetStrafe extends Mod {
     	}
     	RenderUtils.drawCircle(matrices, entity.getPos(), rad, height, rainbow.isEnabled() ? ColorUtils.rainbow(2f, 1f, 1f) : color.getColor().getRGB());
     }
+    
+	private static boolean canAttack(LivingEntity entity) {
+		if (entity != mc.player && mc.player.distanceTo(entity) <= Killaura.range.getValue() && entity.isAlive() && mc.player.isAlive()) {
+			if (!Killaura.trigger.isEnabled()) {
+				return isKillauraEntity(entity);
+			} else {
+				HitResult hitResult = mc.crosshairTarget;
+				if (hitResult != null && hitResult.getType() == Type.ENTITY) {
+					Entity entity1 = ((EntityHitResult) hitResult).getEntity();
+					if (entity1 != null && entity1 == entity) return isKillauraEntity(entity);
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isKillauraEntity(LivingEntity entity) {
+		if (Killaura.players.isEnabled() && entity instanceof PlayerEntity) return true;
+		if (Killaura.animals.isEnabled() && entity instanceof AnimalEntity) return true;
+		if (Killaura.monsters.isEnabled() && entity instanceof Monster) return true;
+		if (Killaura.passives.isEnabled() && entity instanceof PassiveEntity && !(entity instanceof ArmorStandEntity)) return true;
+		if (Killaura.passives.isEnabled() && entity.isInvisible()) return true;
+		return false;
+	}
 }

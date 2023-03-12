@@ -54,13 +54,13 @@ public class Killaura extends Mod {
 	public static BooleanSetting crits = new BooleanSetting("Criticals", false);
     public static BooleanSetting swing = new BooleanSetting("Swing", true);
 
-	public BooleanSetting trigger = new BooleanSetting("Trigger", false);
+	public static BooleanSetting trigger = new BooleanSetting("Trigger", false);
 	
-	public BooleanSetting players = new BooleanSetting("Players", true);
-	public BooleanSetting animals = new BooleanSetting("Animals", false);
-	public BooleanSetting monsters = new BooleanSetting("Monsters", false);
-	public BooleanSetting passives = new BooleanSetting("Passives", false);
-	public BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
+	public static BooleanSetting players = new BooleanSetting("Players", true);
+	public static BooleanSetting animals = new BooleanSetting("Animals", false);
+	public static BooleanSetting monsters = new BooleanSetting("Monsters", false);
+	public static BooleanSetting passives = new BooleanSetting("Passives", false);
+	public static BooleanSetting invisibles = new BooleanSetting("Invisibles", false);
 
 	public BooleanSetting esp = new BooleanSetting("Esp", true);
 	public ColorSetting espColor = new ColorSetting("Esp", new Color(200,0,0));
@@ -169,7 +169,7 @@ public class Killaura extends Mod {
 			} else {
 				anim-=3;
 			}
-	    	if (esp.isEnabled()) RenderUtils.drawCircle(matrices, new Vec3d(target.getX(), target.getY() + anim / 100, target.getZ()), 0.6f, 1, espColor.getColor().getRGB());
+	    	if (esp.isEnabled() && target.isAlive() && canAttack(target)) RenderUtils.drawCircle(matrices, new Vec3d(target.getX(), target.getY() + anim / 100, target.getZ()), 0.6f, 1, espColor.getColor().getRGB());
 		} else {
 			anim = 0;
 		}

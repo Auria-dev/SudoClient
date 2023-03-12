@@ -5,6 +5,8 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
+import sudo.module.ModuleManager;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.settings.ColorSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
@@ -29,17 +31,9 @@ public class ColorBox extends Component{
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         colorSet.name = colorSet.name;
-        int sx = parent.parent.x +5,
-                sy = parent.parent.y + 12 + parent.offset + offset,
-                ex = parent.parent.x + 87,
-                ey = parent.parent.y + getHeight(122)+ parent.offset+ offset;
-        DrawableHelper.fill(matrices, 
-        		parent.parent.x, 
-        		parent.parent.y+parent.offset+offset, 
-        		parent.parent.x + parent.parent.width, 
-        		parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 
-        		0xff1f1f1f);
-		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 0xff9D73E6);
+        int sx = parent.parent.x +5, sy = parent.parent.y + 12 + parent.offset + offset, ex = parent.parent.x + 87, ey = parent.parent.y + getHeight(122)+ parent.offset+ offset;
+        DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y+parent.offset+offset, parent.parent.x + parent.parent.width, parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), 0xff1f1f1f);
+		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y + parent.offset+offset + (parent.parent.height*(open ? 6 : 1)) + (open ? 3 : 0), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor().getRGB());
 
         textRend.drawString(matrices, colorSet.name, (int) sx, (int) sy - 12, -1, 1);
         textRend.drawString(matrices, "#" + colorSet.getHex().substring(1), (int) sx + textRend.getStringWidth(colorSet.name) + 3, (int) sy - 12, colorSet.getRGB(),1);

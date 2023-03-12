@@ -20,5 +20,4 @@ public class AutoWalk extends Mod{
 		KeyBinding.setKeyPressed(mc.options.forwardKey.getDefaultKey(), false);
 		super.onDisable();
 	}
-
 }

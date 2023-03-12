@@ -24,6 +24,7 @@ import sudo.module.Mod;
 import sudo.module.Mod.Category;
 import sudo.module.ModuleManager;
 import sudo.module.client.ArrylistModule;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.combat.Killaura;
 import sudo.module.combat.TargetHud;
 import sudo.module.render.Notifications;
@@ -55,6 +56,7 @@ public class Hud {
 	
 	public static final ManagedCoreShader BLUR_SHADER = ShaderEffectManager.getInstance().manageCoreShader(new Identifier("blur"));
 	private static ArrylistModule arrayModule = ModuleManager.INSTANCE.getModule(ArrylistModule.class);
+	private static ClickGuiMod ClickGuiMod = ModuleManager.INSTANCE.getModule(ClickGuiMod.class);
 	
 	public static void render(MatrixStack matrices, float tickDelta) {
 		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
@@ -73,17 +75,18 @@ public class Hud {
 	public static boolean moduleExpanded, settingExpanded;
 	
 	public static void renderTabGui(MatrixStack matrices) {
+		int offsetx = 0, offsety = 65;
 		Category category = Mod.Category.values()[currentCategoryIndex];
 		List<Mod> modules = ModuleManager.INSTANCE.getModulesInCategory(category);
 		int index = 0, settingIndex=0;
 		
 		if (animCategoryIndex<currentCategoryIndex*15)animCategoryIndex++;
 		if (animCategoryIndex>currentCategoryIndex*15)animCategoryIndex--;
-		
-		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 5, 20, 62, 35+((Mod.Category.values().length-1)*15), 1, 20);
-		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 6, 21+animCategoryIndex, 61, 34+animCategoryIndex, 1, 20);
+
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 5+offsetx, 20+offsety, 62+offsetx, 35+((Mod.Category.values().length-1)*15)+offsety, 1, 20);
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 6+offsetx, 21+animCategoryIndex+offsety, 61+offsetx, 34+animCategoryIndex+offsety, 1, 20);
 		for (Category c : Mod.Category.values()) {
-			textRend.drawString(matrices, c.name, 7, 20+index, -1, 1);
+			textRend.drawString(matrices, c.name, 7+offsetx, 20+index+offsety, -1, 1);
 			index+=15;
 		}
 		
@@ -104,32 +107,32 @@ public class Hud {
 		if (settingExpandAnim<0) settingExpandAnim=0;
 		if (settingExpandAnim>100) settingExpandAnim=100;
 		
-		RenderUtils.startScissor(60, 0, moduleExpandAnim+settingExpandAnim, 800);
-		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63, 20, 146, 35+(modules.size()-1)*15, 1, 20);
-		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64, 21+animModuleIndex, 145, 34+animModuleIndex, 1, 20);
+		RenderUtils.startScissor(60, 0, moduleExpandAnim+settingExpandAnim+offsetx, 800+offsety);
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+offsetx, 20+offsety, 146+offsetx, 35+(modules.size()-1)*15+offsety, 1, 20);
+		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64+offsetx, 21+animModuleIndex+offsety, 145+offsetx, 34+animModuleIndex+offsety, 1, 20);
 		for (Mod mod : modules) {
-			if (mod.isEnabled()) RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64, 21+index, 66, 34+index, 1, 20);
-			textRend.drawString(matrices, mod.getName(), 3+62, 20+index, -1, 1);
+//			if (mod.isEnabled()) RenderUtils.renderRoundedQuad(matrices, new Color(ClickGuiMod.primaryColor.getColor().getRed(), ClickGuiMod.primaryColor.getColor().getGreen(), ClickGuiMod.primaryColor.getColor().getBlue(), 150), 64, 21+index, 66, 34+index, 1, 20);
+			textRend.drawString(matrices, mod.getName(), 3+62+offsetx, 20+index+offsety, mod.isEnabled() ? ClickGuiMod.primaryColor.getColor().getRGB() : -1, 1);
 
 			if (index/15==category.moduleIndex) {
-				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+84, 20, 146+84+12, 35+(mod.getSettings().size()-1)*15, 1, 20);
-				RenderUtils.renderRoundedQuad(matrices, mod.getSetting().get(currentSettingIndex).focused ? new Color(0, 0, 0, 120) : new Color(0, 0, 0, 90), 64+84, 21+animSettingIndex, 145+84+12, 34+animSettingIndex, 1, 20);
+				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+84+offsetx, 20+offsety, 146+84+12+offsetx, 35+(mod.getSettings().size()-1)*15+offsety, 1, 20);
+				RenderUtils.renderRoundedQuad(matrices, mod.getSetting().get(currentSettingIndex).focused ? new Color(0, 0, 0, 120) : new Color(0, 0, 0, 90), 64+84+offsetx, 21+animSettingIndex+offsety, 145+84+12+offsetx, 34+animSettingIndex+offsety, 1, 20);
 
 				for (Setting setting : mod.getSetting()) {
 					if (setting instanceof BooleanSetting) {
-						RenderUtils.renderRoundedQuad(matrices, ((BooleanSetting) setting).isEnabled() ? new Color(255, 255, 255, 120) : new Color(0, 0, 0, 90), 145+76+11, 24+(settingIndex*15), 145+83+11, 31+(settingIndex*15), 1, 20);
+						RenderUtils.renderRoundedQuad(matrices, ((BooleanSetting) setting).isEnabled() ? new Color(255, 255, 255, 120) : new Color(0, 0, 0, 90), 145+76+11+offsetx, 24+(settingIndex*15)+offsety, 145+83+11+offsetx, 31+(settingIndex*15)+offsety, 1, 20);
 					} else if (setting instanceof KeybindSetting) {
-						textRend.drawString(matrices, KeyUtils.NumToKey(((KeybindSetting) setting).getKey()), 3+62+81+80-textRend.getStringWidth(KeyUtils.NumToKey(((KeybindSetting) setting).getKey()))+12, 20+(settingIndex*15), -1, 1);
+						textRend.drawString(matrices, KeyUtils.NumToKey(((KeybindSetting) setting).getKey()), 3+62+81+80-textRend.getStringWidth(KeyUtils.NumToKey(((KeybindSetting) setting).getKey()))+12+offsetx, 20+(settingIndex*15)+offsety, -1, 1);
 					} else if (setting instanceof ModeSetting) {
-						textRend.drawString(matrices, ((ModeSetting) setting).getMode(), 3+62+81+80-textRend.getStringWidth(((ModeSetting) setting).getMode())+12, 20+(settingIndex*15), -1, 1);
+						textRend.drawString(matrices, ((ModeSetting) setting).getMode(), 3+62+81+80-textRend.getStringWidth(((ModeSetting) setting).getMode())+12+offsetx, 20+(settingIndex*15)+offsety, -1, 1);
 					} else if (setting instanceof NumberSetting) {
-						RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+85, 30+(settingIndex*15), 148+ ((81+11)*(((NumberSetting) setting).getValue() - ((NumberSetting) setting).getMin()) / (((NumberSetting) setting).getMax() - ((NumberSetting) setting).getMin())), 33+(settingIndex*15), 1, 20);
-						textRend.drawString(matrices, ((NumberSetting) setting).getValue() + "", 3+62+81+80-textRend.getStringWidth(((NumberSetting) setting).getValue() + "")+13, 20+(settingIndex*15), -1, 1);
+						RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+85+offsetx, 30+(settingIndex*15)+offsety, 148+ ((81+11)*(((NumberSetting) setting).getValue() - ((NumberSetting) setting).getMin()) / (((NumberSetting) setting).getMax() - ((NumberSetting) setting).getMin()))+offsetx, 33+(settingIndex*15)+offsety, 1, 20);
+						textRend.drawString(matrices, ((NumberSetting) setting).getValue() + "", 3+62+81+80-textRend.getStringWidth(((NumberSetting) setting).getValue() + "")+13+offsetx, 20+(settingIndex*15)+offsety, -1, 1);
 					} else if (setting instanceof ColorSetting) {
-						RenderUtils.renderRoundedQuad(matrices, ((ColorSetting) setting).getColor(), 145+76+5, 24+(settingIndex*15), 145+83+11, 31+(settingIndex*15), 1, 20);
-						textRend.drawString(matrices, "#"+((ColorSetting) setting).getHex(), 3+62+81+80-6-textRend.getStringWidth("#"+((ColorSetting) setting).getHex())+12, 20+(settingIndex*15)+2, ((ColorSetting) setting).getColor().getRGB(), 0.8f);
+						RenderUtils.renderRoundedQuad(matrices, ((ColorSetting) setting).getColor(), 145+76+5+offsetx, 24+(settingIndex*15)+offsety, 145+83+11+offsetx, 31+(settingIndex*15)+offsety, 1, 20);
+						textRend.drawString(matrices, "#"+((ColorSetting) setting).getHex(), 3+62+81+80-6-textRend.getStringWidth("#"+((ColorSetting) setting).getHex())+12+offsetx, 20+(settingIndex*15)+2+offsety, ((ColorSetting) setting).getColor().getRGB(), 0.8f);
 					}
-					textRend.drawString(matrices, setting.getName(), 3+62+84, 20+(settingIndex*15), -1, 1);
+					textRend.drawString(matrices, setting.getName(), 3+62+84+offsetx, 20+(settingIndex*15)+offsety, -1, 1);
 					settingIndex++;
 				}
 			}
@@ -287,7 +290,6 @@ public class Hud {
 		}
 	}
 	
-	
 	public static void renderArrayList(MatrixStack matrices) {
 		xOffset = arrayModule.offsetX1.getValueInt();
 		yOffset = arrayModule.offsetY1.getValueInt();
@@ -358,16 +360,16 @@ public class Hud {
 				
 				switch (arrayModule.mode.getSelected()) {
 					case "Pulse": 
-						arrayColor = ColorUtils.mixColorsAnimated(index, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor());
-						outlineColor = ColorUtils.mixColorsAnimated(index, 1, arrayModule.pulseColor.getColor(), arrayModule.textColor.getColor());
+						arrayColor = ColorUtils.mixColorsAnimated(index, 1, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor(), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).secondaryColor.getColor());
+						outlineColor = ColorUtils.mixColorsAnimated(index, 1, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).secondaryColor.getColor(), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor());
 						break;
 					case "Cute": 
 						arrayColor = ColorUtils.getCuteColor(index);
 						outlineColor = ColorUtils.getCuteColor(index);
 						break;
 					case "Simple":
-						arrayColor = arrayModule.textColor.getColor();
-						outlineColor = arrayModule.textColor.getColor();
+						arrayColor = ClickGuiMod.primaryColor.getColor();
+						outlineColor = ClickGuiMod.primaryColor.getColor();
 						break;
 					default: 
 						arrayColor = new Color(255,255,255);
@@ -396,7 +398,11 @@ public class Hud {
 		}
 	}
 
+	
+	
 	static LivingEntity target = null;
+	static int renderWith, healthAnimation=0;
+	static boolean shouldRender=false;
 	@SuppressWarnings("static-access")
 	public static void renderTargetHud(MatrixStack matrices) {
 		HitResult hit = mc.crosshairTarget;
@@ -404,8 +410,7 @@ public class Hud {
 		int sHeight = mc.getWindow().getScaledHeight();
 		
 		if (mc.player != null) {
-			
-			if (Killaura.target == null) {
+			if (Killaura.target == null || ModuleManager.INSTANCE.getModule(Killaura.class).isEnabled()==false) {
 				if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
 				    if (((EntityHitResult) hit).getEntity() instanceof PlayerEntity player) {
 				        target = player;
@@ -422,27 +427,37 @@ public class Hud {
 				}
 			}
 			
-			
 			int offsetX = 30;
 			int offsetY = 15;
-			
 			int fromX = 5+sWidth/2;
 			int fromY = 5+sHeight/2;
 			int toX = 20+sWidth/2+95;
 			int toY = 15+sHeight/2+40;
 			
 			if (target!=null) {
-				RenderUtils.renderRoundedShadow(matrices, new Color(0, 0, 0, 140), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50, ModuleManager.INSTANCE.getModule(TargetHud.class).shadow.getValue());
-				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 210), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50);
+				shouldRender=true;
+			} else if (target==null) {
+				shouldRender=false;
+				healthAnimation=84;
+			}
+			
+			if (shouldRender) {
+				if (target!=null) renderWith=(int) (((target.getHealth()-0)/(target.getMaxHealth()-1)*100)/1.26);			
+				else if (target==null) renderWith=84;
+				
+				if (healthAnimation<renderWith) healthAnimation++;
+				if (healthAnimation>renderWith) healthAnimation--;
+				
+				RenderUtils.renderRoundedShadow(matrices, new Color(0, 0, 0, 90), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50, ModuleManager.INSTANCE.getModule(TargetHud.class).shadow.getValue());
+				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), fromX+offsetX, fromY+3+offsetY, toX+1+offsetX, toY+offsetY, ModuleManager.INSTANCE.getModule(TargetHud.class).round.getValue(), 50);
 				RenderUtils.startScissor(fromX+offsetX, fromY+3+offsetY, 25, 47);
 				RenderUtils.drawEntity(fromX+13+offsetX, toY-4+offsetY, 20, 0, 180, target);
 				RenderUtils.endScissor();
-				textRend.drawString(matrices, (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString()), (int) fromX+25+offsetX, (int) 10+sHeight/2-2+offsetY, -1, 1);
-				DrawableHelper.fill(matrices, fromX+25+offsetX, fromY+45+offsetY, toX-2+offsetX, toY-3+offsetY, 0xff252525);
-				DrawableHelper.fill(matrices,  fromX+25+offsetX, fromY+45+offsetY, (fromX+25) + (int) (target.getHealth()*4.1)+1+offsetX, toY-3+offsetY, ColorUtils.mixColorsAnimated(1, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor()).getRGB());
-				textRend.drawString(matrices, (int) target.getHealth() + " | " + (target.isOnGround() ? "OnGround" : "InAir") , fromX+25+offsetX, fromY+15+offsetY, -1, 1);
+				DrawableHelper.fill(matrices, toX-2+offsetX, fromY+45+offsetY, fromX+25+offsetX, toY-3+offsetY, new Color(0,0,0,90).getRGB());
+				DrawableHelper.fill(matrices, fromX+25+offsetX, fromY+45+offsetY, (int) (fromX+25+offsetX) + healthAnimation, toY-3+offsetY, ColorUtils.mixColorsAnimated(1, 1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()).getRGB());
+				textRend.drawString(matrices, (target instanceof PlayerEntity ? target.getName().getString().replaceAll(ColorUtils.colorChar, "&") : target.getDisplayName().getString()), (int) fromX+25+offsetX, (int) 10+sHeight/2-2+offsetY, ClickGuiMod.primaryColor.getColor().getRGB(), 1);
+				textRend.drawString(matrices, String.format("%.1f", target.getHealth()) + " | " + (target.isOnGround() ? "OnGround" : "InAir") , fromX+25+offsetX, fromY+15+offsetY, -1, 1);
 				if (target instanceof PlayerEntity) textRend.drawString(matrices, "Ping " + getPing((PlayerEntity) target) + "ms", fromX+25+offsetX, fromY+27+offsetY, -1, 1);
-				else textRend.drawString(matrices, "Age: " + target.age, fromX+25+offsetX, fromY+27+offsetY, -1, 1);
 			}
 		}
 	}
@@ -478,7 +493,7 @@ public class Hud {
 			RenderUtils.renderRoundedQuad(matrices, new Color(0,0,0,180), sWidth-SlidIn.getAnimationValue(), renderY+22, sWidth+50, renderY+38, 3, 50);
 			textRend.drawString(matrices, n.getMessage(), sWidth+2-SlidIn.getAnimationValue(), renderY + 22, -1, 0.85f);
 			RenderUtils.startScissor((int) (sWidth-SlidIn.getAnimationValue()), renderY+22, sWidth+50, renderY+38);
-			DrawableHelper.fill(matrices, (int) (sWidth-(afterTimer.lastMS - n.getTimeCreated()) / animation(0, 125, 0.121,0)), renderY + 34, sWidth, renderY+36, ColorUtils.mixColorsAnimated(renderY/18, 1, arrayModule.textColor.getColor(), arrayModule.pulseColor.getColor()).getRGB());
+			DrawableHelper.fill(matrices, (int) (sWidth-(afterTimer.lastMS - n.getTimeCreated()) / animation(0, 125, 0.121,0)), renderY + 34, sWidth, renderY+36, ColorUtils.mixColorsAnimated(1, 1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()).getRGB());
 			RenderUtils.endScissor();
 			renderY -= 18;
 		}

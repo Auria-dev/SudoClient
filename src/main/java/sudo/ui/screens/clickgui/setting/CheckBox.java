@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.module.ModuleManager;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
@@ -23,17 +25,12 @@ public class CheckBox extends Component {
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		DrawableHelper.fill(matrices, 
-				parent.parent.x, 
-				parent.parent.y + parent.offset + offset, 
-				parent.parent.x + parent.parent.width, 
-				parent.parent.y+parent.offset+offset+parent.parent.height, 
-				0xff1f1f1f );
-		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff9D73E6 );
+		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset, parent.parent.x + parent.parent.width, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff1f1f1f);
+		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, parent.parent.y+parent.offset+offset+parent.parent.height, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor().getRGB());
 		int offsetY = ((parent.parent.height / 2) - mc.textRenderer.fontHeight / 2);
 
 		if (boolSet.isEnabled()) {
-			RenderUtils.renderRoundedQuad(matrices, new Color(157, 115, 230), (parent.parent.x + offsetY) + 88, (parent.parent.y + parent.offset + offset + offsetY) + 2, parent.parent.x + offsetY + 94, parent.parent.y + parent.offset + offset + offsetY + 8, 1, 100);
+			RenderUtils.renderRoundedQuad(matrices, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor(), (parent.parent.x + offsetY) + 88, (parent.parent.y + parent.offset + offset + offsetY) + 2, parent.parent.x + offsetY + 94, parent.parent.y + parent.offset + offset + offsetY + 8, 1, 100);
 //			textRend.drawString(matrices, "x", parent.parent.width+0.5, parent.parent.y+(parent.parent.height/2)-(mc.textRenderer.fontHeight/2) + parent.offset+1+offset-3.77, -1, 1);
 		} else if (!boolSet.isEnabled()) {
 			RenderUtils.renderRoundedQuad(matrices, new Color(84, 84, 84), (parent.parent.x + offsetY) + 88, (parent.parent.y + parent.offset + offset + offsetY) + 2, parent.parent.x + offsetY + 94, parent.parent.y + parent.offset + offset + offsetY + 8, 1, 100);
