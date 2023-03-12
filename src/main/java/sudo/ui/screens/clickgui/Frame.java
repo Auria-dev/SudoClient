@@ -1,6 +1,5 @@
 package sudo.ui.screens.clickgui;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import sudo.module.Mod;
 import sudo.module.Mod.Category;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.ModuleManager;
 import sudo.ui.screens.clickgui.setting.ColorBox;
 import sudo.ui.screens.clickgui.setting.Component;
@@ -25,7 +25,8 @@ public class Frame {
 	private List<ModuleButton> buttons;
 	
 	protected MinecraftClient mc = MinecraftClient.getInstance();
-
+	private static ClickGuiMod ClickGuiMod = ModuleManager.INSTANCE.getModule(ClickGuiMod.class);
+	
 	public Frame(Category category, int x, int y, int width, int height) {
 		this.category = category;
 		this.x = x;
@@ -45,7 +46,7 @@ public class Frame {
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		DrawableHelper.fill(matrices, x, y+4, x + width, y + height, new Color(0xffA962E8).getRGB());
+		DrawableHelper.fill(matrices, x, y+4, x + width, y + height, ClickGuiMod.primaryColor.getColor().getRGB());
 		textRend.drawString(matrices, category.name, x + (width/2) - (mc.textRenderer.getWidth(category.name)/2), y + (height/2) - ((mc.textRenderer.fontHeight-4)/2)-2.5, -1, 1);
 		if (extended) {
 			for (ModuleButton button : buttons) {

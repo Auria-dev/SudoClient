@@ -62,8 +62,8 @@ public class ModuleManager {
 	//69 modules 09/02/2023
 	//74 modules 07/03/2023
 	private void addModules() {
-		//movement
-		modules.add(new AAAExample());
+		
+		modules.add(new AAAExample()); //movement
 		modules.add(new AutoWalk());
 		modules.add(new AirJump());
 		modules.add(new BoatFly());
@@ -83,7 +83,8 @@ public class ModuleManager {
 		modules.add(new Sprint());
 		modules.add(new Strafe());
 		modules.add(new Step());
-		//combat
+		
+		modules.add(new BogoHit()); //combat
 		modules.add(new AutoTotem());
 		modules.add(new AutoArmor());
 		modules.add(new AimAssist());
@@ -99,9 +100,9 @@ public class ModuleManager {
 		modules.add(new TargetStrafe());
 		modules.add(new TargetHud());
 		modules.add(new Trigger());
-		modules.add(new Velocity());
-		//render
-		modules.add(new Chams());
+		modules.add(new Velocity()); 
+		
+		modules.add(new Chams()); //render
 		modules.add(new Cape());
 		modules.add(new ESP());
 		modules.add(new BlockESP());
@@ -120,8 +121,8 @@ public class ModuleManager {
 		modules.add(new TrueSight());
 		modules.add(new Tracers());
 		modules.add(new xray());
-		//exploit
-		modules.add(new AntiSculkSensor());
+		
+		modules.add(new AntiSculkSensor()); //exploit
 		modules.add(new BoatPhase());
 		modules.add(new Disabler());
 		modules.add(new EntityFly());
@@ -129,20 +130,21 @@ public class ModuleManager {
 		modules.add(new NoLevitation());
 		modules.add(new PortalGui());
 		modules.add(new VerticalPhase());
-		//world
-		modules.add(new AutoRespawn());
+		
+		modules.add(new AutoRespawn()); //world
 		modules.add(new ChestStealer());
 		modules.add(new ElytraReplace());
 		modules.add(new FastBreak());
 		modules.add(new Nuker());
 		modules.add(new Scaffold());
 		modules.add(new Timer());
-		//client
-		modules.add(new PacketLogger());
+		
+		modules.add(new PacketLogger()); //client
 		modules.add(new LoadConfig());
 		modules.add(new SaveConfig());
 		modules.add(new ClickGuiMod());
 		modules.add(new ArrylistModule());
 		modules.add(new Snake());
+		
 	}
 }

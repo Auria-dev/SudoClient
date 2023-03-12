@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import sudo.module.ModuleManager;
+import sudo.module.client.ClickGuiMod;
 import sudo.module.settings.NumberSetting;
 import sudo.module.settings.Setting;
 import sudo.ui.screens.clickgui.ModuleButton;
@@ -22,18 +24,26 @@ public class Slider extends Component {
 		super(setting, parent, offset);
 		this.numSet = (NumberSetting)setting;
 	}
-
+	
+	int renderWidthAnimation=0;
+	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset, parent.parent.x + parent.parent.width, parent.parent.y+parent.offset+offset+parent.parent.height, 0xff1f1f1f);
-		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, (int) (parent.parent.y+parent.offset+offset+parent.parent.height-3.5), 0xff9D73E6);
+		DrawableHelper.fill(matrices, parent.parent.x+2, parent.parent.y + parent.offset + offset, parent.parent.x+4, (int) (parent.parent.y+parent.offset+offset+parent.parent.height-3.5), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor().getRGB());
 
 		double diff = Math.min(parent.parent.width, Math.max(0, mouseX - parent.parent.x));
 		int renderWidth = (int) (parent.parent.width * (numSet.getValue() - numSet.getMin()) / (numSet.getMax() - numSet.getMin()));
 		
-		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset+parent.parent.height-3, parent.parent.x + parent.parent.width-2, parent.parent.y+parent.offset+offset+parent.parent.height-1, 0xff545454);
-		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset+parent.parent.height-3, parent.parent.x + renderWidth, parent.parent.y+parent.offset+offset+parent.parent.height-1, 0xff9D73E6);
+		if (renderWidthAnimation<renderWidth)renderWidthAnimation++;
+		if (renderWidthAnimation<renderWidth)renderWidthAnimation++;	//my eyes
+		if (renderWidthAnimation<renderWidth)renderWidthAnimation++;
+		if (renderWidthAnimation>renderWidth)renderWidthAnimation--;
+		if (renderWidthAnimation>renderWidth)renderWidthAnimation--;
+		if (renderWidthAnimation>renderWidth)renderWidthAnimation--;
 		
+		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset+parent.parent.height-3, parent.parent.x + parent.parent.width-2, parent.parent.y+parent.offset+offset+parent.parent.height-1, 0xff545454);
+		DrawableHelper.fill(matrices, parent.parent.x, parent.parent.y + parent.offset + offset+parent.parent.height-3, parent.parent.x + renderWidthAnimation, /*replace renderWidthAnimation with renderWidth if animation bugs*/ parent.parent.y+parent.offset+offset+parent.parent.height-1, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor().getRGB());
 		if (sliding) {
 			if (diff==0) {
 				numSet.setValue(numSet.getMin());
@@ -54,6 +64,10 @@ public class Slider extends Component {
 	public int getWidth(int len) {
 		return len - len / 4 - 1;
 	}
+	
+	double easeInOutQuad(double x) {
+        return (x < 0.5) ? 2 * x * x : 1 - Math.pow((-2 * x + 2), 2) / 2;
+    }
 	
 	@Override
 	public void mouseClicked(double mouseX, double mouseY, int button) {

@@ -20,7 +20,6 @@ import sudo.module.settings.NumberSetting;
 import sudo.module.settings.Setting;
 
 public class ConfigManager {
-	
 	@SuppressWarnings("resource")
     public static void saveConfig() {
 		File directory = new File(MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\");
@@ -28,8 +27,6 @@ public class ConfigManager {
 		
 		if (directory.mkdir()) {
 			Client.logger.info("Sudo config folder successfully created");
-		} else {
-			
 		}
 		
         for (Mod module : ModuleManager.INSTANCE.getModules()) {
@@ -61,15 +58,15 @@ public class ConfigManager {
 				writer.write("\n    \"description\": \"" + module.getDescription() + "\"");
                 writer.write("\n}");
                 writer.close();
+                writer.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//			Client.logger.info("Sudo config saved successfully");
         }
     }
     
 
-	@SuppressWarnings("resource")
+	@SuppressWarnings({ "resource", "unused" })
     public static void loadConfig() {
 		for (Mod module : ModuleManager.INSTANCE.getModules()) {
 			module.setEnabled(false);
@@ -77,16 +74,17 @@ public class ConfigManager {
 		File directory = new File(MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\");
 		String path = MinecraftClient.getInstance().runDirectory + "\\config\\sudo\\";
 		
-		if (directory.mkdir()) {
-			Client.logger.info("Config folder does not exist. No config was loaded.");
-		} else {
-			Client.logger.info("Cconfig folder found");
+		if (!directory.exists()) {
+			if (directory.mkdir()) {
+				return;
+			}
 		}
 		
 		for (Mod module : ModuleManager.INSTANCE.getModules()) {
-            try {
+            try {            
+            	String filePath = directory + File.separator + module.getName() + ".json";
+                FileReader reader = new FileReader(filePath);
                 Gson gson = new Gson();
-                FileReader reader = new FileReader(path + module.getName() + ".json");
                 JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
                 module.setEnabled(jsonObject.get("enabled").getAsBoolean());
                 module.setKey(jsonObject.get("keybind").getAsInt());
