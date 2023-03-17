@@ -29,6 +29,7 @@ import sudo.module.combat.Killaura;
 import sudo.module.combat.TargetHud;
 import sudo.module.render.Notifications;
 import sudo.module.render.PlayerEntityModule;
+import sudo.module.render.TabGui;
 import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
 import sudo.module.settings.KeybindSetting;
@@ -61,21 +62,17 @@ public class Hud {
 	public static void render(MatrixStack matrices, float tickDelta) {
 		textRend.drawString(matrices, "Sudo client", 5, 5, -1, 1);
 		
-		if (arrayModule.show.isEnabled())
-			renderArrayList(matrices);
-		if (ModuleManager.INSTANCE.getModule(TargetHud.class).isEnabled())
-			renderTargetHud(matrices);
-		if (ModuleManager.INSTANCE.getModule(Notifications.class).enabled.isEnabled()) 
-			Notifs(matrices);
-		if (ModuleManager.INSTANCE.getModule(PlayerEntityModule.class).isEnabled())
-			RenderUtils.drawEntity(30, 75, 30, mc.player.getPitch(), mc.player.getYaw(), mc.player);
-		renderTabGui(matrices);
+		if (arrayModule.show.isEnabled()) renderArrayList(matrices);
+		if (ModuleManager.INSTANCE.getModule(TargetHud.class).isEnabled()) renderTargetHud(matrices);
+		if (ModuleManager.INSTANCE.getModule(Notifications.class).enabled.isEnabled()) Notifs(matrices);
+		if (ModuleManager.INSTANCE.getModule(PlayerEntityModule.class).isEnabled()) RenderUtils.drawEntity(30, 75, 30, mc.player.getPitch(), mc.player.getYaw(), mc.player);
+		if (ModuleManager.INSTANCE.getModule(TabGui.class).isEnabled()) renderTabGui(matrices);
 	}
 	public static int currentCategoryIndex, animCategoryIndex, animModuleIndex, moduleExpandAnim = 0, currentSettingIndex, animSettingIndex, settingExpandAnim = 0;
 	public static boolean moduleExpanded, settingExpanded;
 	
 	public static void renderTabGui(MatrixStack matrices) {
-		int offsetx = 0, offsety = 65;
+		int offsetx = 0, offsety = 0;
 		Category category = Mod.Category.values()[currentCategoryIndex];
 		List<Mod> modules = ModuleManager.INSTANCE.getModulesInCategory(category);
 		int index = 0, settingIndex=0;
@@ -111,8 +108,7 @@ public class Hud {
 		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+offsetx, 20+offsety, 146+offsetx, 35+(modules.size()-1)*15+offsety, 1, 20);
 		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64+offsetx, 21+animModuleIndex+offsety, 145+offsetx, 34+animModuleIndex+offsety, 1, 20);
 		for (Mod mod : modules) {
-//			if (mod.isEnabled()) RenderUtils.renderRoundedQuad(matrices, new Color(ClickGuiMod.primaryColor.getColor().getRed(), ClickGuiMod.primaryColor.getColor().getGreen(), ClickGuiMod.primaryColor.getColor().getBlue(), 150), 64, 21+index, 66, 34+index, 1, 20);
-			textRend.drawString(matrices, mod.getName(), 3+62+offsetx, 20+index+offsety, mod.isEnabled() ? ClickGuiMod.primaryColor.getColor().getRGB() : -1, 1);
+			textRend.drawString(matrices, mod.getName(), 3+62+offsetx, 20+index+offsety, mod.isEnabled() ? ColorUtils.mixColorsAnimated(index*10, 1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()).getRGB() : -1, 1);
 
 			if (index/15==category.moduleIndex) {
 				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+84+offsetx, 20+offsety, 146+84+12+offsetx, 35+(mod.getSettings().size()-1)*15+offsety, 1, 20);

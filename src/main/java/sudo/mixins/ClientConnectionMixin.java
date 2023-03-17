@@ -39,4 +39,5 @@ public class ClientConnectionMixin {
         if(event.isCancelled()) ci.cancel();
         if(ModuleManager.INSTANCE.getModule(Velocity.class).isEnabled()) {Velocity.get.onReceivePacket(event);}
     }
+//    TODO: Fix this, its to optimise the CA
 }

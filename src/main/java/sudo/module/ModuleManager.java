@@ -119,6 +119,7 @@ public class ModuleManager {
 //		modules.add(new Nametags());
 		modules.add(new PlayerEntityModule());
 		modules.add(new TrueSight());
+		modules.add(new TabGui());
 		modules.add(new Tracers());
 		modules.add(new xray());
 		
