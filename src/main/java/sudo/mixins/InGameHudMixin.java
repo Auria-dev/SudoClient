@@ -45,4 +45,9 @@ public class InGameHudMixin {
     private void onRenderSpyglassOverlay(float scale, CallbackInfo info) {
         if (ModuleManager.INSTANCE.getModule(NoOverlay.class).isEnabled()) info.cancel();
     }
+    
+    @Inject(method = "renderHotbar", at = @At("HEAD"), cancellable = true)
+    private void renderHotbar(float tickDelta, MatrixStack matrices, CallbackInfo info) {
+//    	info.cancel();
+    }
 }

@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import com.google.common.collect.Streams;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.particle.ExplosionLargeParticle;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import sudo.Client;
 import sudo.core.event.EventTarget;
 import sudo.events.EventParticle;
 import sudo.events.EventSendPacket;
@@ -46,14 +49,16 @@ public class CrystalAura extends Mod {
 	private Map<BlockPos, Integer> blacklist = new HashMap<>();
 	private List<LivingEntity> targets;
 	private Vec3d lookVec;
-	
+
+    
 	public BooleanSetting explode = new BooleanSetting("Explode", true);
 	public BooleanSetting antiWeak = new BooleanSetting("Anti Weakness", true);
 	public BooleanSetting antiSuicide = new BooleanSetting("Anti Suicide", true);
 	public NumberSetting aps = new NumberSetting("APS", 1, 30, 10, 1);
 	public NumberSetting attackDelay = new NumberSetting("Attack Delay", 0, 30, 1, 0.1);
 	public NumberSetting  minHp = new NumberSetting("Min Health", 0, 36, 2, 1);
-	
+
+	public BooleanSetting AKsound = new BooleanSetting("AK Sound", false);
 	public BooleanSetting place = new BooleanSetting("Place", true);
 	public NumberSetting cps = new NumberSetting("Crystals/s", 0, 30, 0, 1);
 	public BooleanSetting autoSwitch = new BooleanSetting("Switch", true);
@@ -74,7 +79,7 @@ public class CrystalAura extends Mod {
 	
 	public CrystalAura() {
 		super("CrystalAura", "Automatically places and breakes crystals near players to kill them", Category.COMBAT, 0);
-		addSettings(explode, antiWeak, antiSuicide, aps, attackDelay, minHp, place, cps, autoSwitch, switchBack, oneDotTwelve, blacklistSet, raycast, minDamage, minRatio, placeDelay, sameTick, rotate, range);
+		addSettings(AKsound, explode, antiWeak, antiSuicide, aps, attackDelay, minHp, place, cps, autoSwitch, switchBack, oneDotTwelve, blacklistSet, raycast, minDamage, minRatio, placeDelay, sameTick, rotate, range);
 	}
 
 	public void onTick() {
@@ -148,8 +153,17 @@ public class CrystalAura extends Mod {
 	
 					mc.interactionManager.attackEntity(mc.player, c);
 					mc.player.swingHand(Hand.MAIN_HAND);
-					blacklist.remove(c.getBlockPos().down());
-	
+					
+					if (AKsound.isEnabled()) {
+						float min = 0.8f, max = 1.5f;
+						Random random = new Random();
+						float randomPitch = min + random.nextFloat() * (max-min);
+			            mc.getSoundManager().play(PositionedSoundInstance.master(Client.MY_SOUND_EVENT, randomPitch));
+					}
+					
+					c.remove(null);
+		            blacklist.remove(c.getBlockPos().down());
+
 					InventoryUtils.selectSlot(oldSlot);
 	
 					end = true;
