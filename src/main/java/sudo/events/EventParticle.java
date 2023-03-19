@@ -4,6 +4,8 @@ import net.minecraft.particle.ParticleEffect;
 
 import net.minecraft.client.particle.Particle;
 
+import sudo.core.event.Event;
+
 public class EventParticle extends Event {
 
 	public static class Normal extends EventParticle {

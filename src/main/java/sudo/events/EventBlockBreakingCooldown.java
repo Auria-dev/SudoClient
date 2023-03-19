@@ -1,5 +1,7 @@
 package sudo.events;
 
+import sudo.core.event.Event;
+
 public class EventBlockBreakingCooldown extends Event {
     private int cooldown;
 

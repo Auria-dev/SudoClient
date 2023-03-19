@@ -1,5 +1,7 @@
 package sudo.events;
 
+import sudo.core.event.Event;
+
 public class EventMove extends Event {
     private double x;
     private double y;
