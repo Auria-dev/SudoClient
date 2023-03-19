@@ -1,5 +1,7 @@
 package sudo.events;
 
+import sudo.core.event.Event;
+
 import net.minecraft.entity.Entity;
 
 public class EventModelPlayerRender extends Event

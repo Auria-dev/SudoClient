@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.client.network.ClientPlayerEntity;
 
-import sudo.events.Event;
+import sudo.core.event.Event;
 import sudo.events.EventMotionUpdate;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;

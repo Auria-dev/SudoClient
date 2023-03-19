@@ -7,7 +7,6 @@ import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.ColorSetting;
 import sudo.module.settings.ModeSetting;
 import sudo.module.settings.NumberSetting;
-
 import java.awt.*;
 
 import com.google.common.eventbus.Subscribe;

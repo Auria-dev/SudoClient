@@ -1,5 +1,7 @@
 package sudo.events;
 
+import sudo.core.event.Event;
+
 public class EventMotionUpdate extends Event{
     double x, y, z;
     float yaw, pitch, lastYaw, lastPitch;

@@ -2,6 +2,8 @@ package sudo.events;
 
 import net.minecraft.particle.ParticleEffect;
 
+import sudo.core.event.Event;
+
 public class EventParticles extends Event {
     public ParticleEffect particle;
 

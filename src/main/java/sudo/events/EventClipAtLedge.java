@@ -1,6 +1,8 @@
 package sudo.events;
 
-public class EventClipAtLedge {
+import sudo.core.event.Event;
+
+public class EventClipAtLedge extends Event {
     private static final EventClipAtLedge INSTANCE = new EventClipAtLedge();
 
     private boolean set, clip;

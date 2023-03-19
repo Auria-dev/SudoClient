@@ -228,7 +228,6 @@ public class Hud {
 				}
 			}
 			
-			
 			if (key==GLFW.GLFW_KEY_RIGHT) {
 				if (moduleExpanded) {
 					if (settingExpanded) {

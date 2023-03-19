@@ -29,9 +29,7 @@ public class ClientConnectionMixin {
 
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     public void receive(ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
-    	
         EventReceivePacket event = new EventReceivePacket(packet);
-        
         if (ModuleManager.INSTANCE.getModule(PacketLogger.class).isEnabled()) {
     		Client.logger.info(event);
     	}
@@ -39,5 +37,4 @@ public class ClientConnectionMixin {
         if(event.isCancelled()) ci.cancel();
         if(ModuleManager.INSTANCE.getModule(Velocity.class).isEnabled()) {Velocity.get.onReceivePacket(event);}
     }
-//    TODO: Fix this, its to optimise the CA
 }

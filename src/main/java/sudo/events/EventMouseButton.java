@@ -1,5 +1,7 @@
 package sudo.events;
 
+import sudo.core.event.Event;
+
 public class EventMouseButton extends Event {
 
     private int button;
