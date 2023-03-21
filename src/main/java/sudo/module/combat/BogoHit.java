@@ -8,84 +8,87 @@ import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import sudo.module.Mod;
+import sudo.module.settings.BooleanSetting;
 import sudo.module.settings.NumberSetting;
 
 public class BogoHit extends Mod {
+    static LivingEntity t = null;
+    public static NumberSetting rangeHit = new NumberSetting("range", 1, 6, 4, 1);
+    public static BooleanSetting x1 = new BooleanSetting("x1", false);
+    
+    public BogoHit() {
+        super("BogoHit", "don't.", Category.COMBAT, 0);
+        addSettings(rangeHit);
+    }
+    @Override
+    public void onTick() {
+    	
+        int x = 0; int y = 1;
+        while (true) {if ((x != y) || (x == y)) {if ((x + y != y + x) || ((x + y) == (y + x))) {if (!(x < y) && (y >= x) || (x >= y) && !(y < x)) {
+	    if (((x & y) != 0) && ((x | y) != 0)) {if (False && x1.isEnabled()) {
+	            System.out.println(true);
+	            break;
+	    } else {
+	            System.out.println(false);
+        break;}}}}} x++; y++;}
+    	
+        HitResult hit = mc.crosshairTarget;
+        if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
+            if (((EntityHitResult) hit).getEntity() instanceof PlayerEntity player) {
+                t = player;
+            }
+        } else if (t == null) return;
+        if (!(t == null)) {
+            if (t.isDead() || mc.player.squaredDistanceTo(t) > 6) {
+                t = null;
+            }
+        }
+        int[] range = { 3, 2, 5, 1, 6, 4 };    
+        ArrayList<Integer> ranges = new ArrayList<Integer>();
+        while (r(range) == !T) i(range);
+        if (T == !(!(F))) {
+            if ((T)==(F)) mc.player.setOnFire(!(!(!(F))));
+        } else {
+            if (!(T == !(!(F)))) T = F;
+        }
+        if (T==T) {
+            if (r(range) == !T) {
+                if (t != null) {
+                    if (mc.player.distanceTo(t) < ranges.get((int) rangeHit.getValue())) {
+                        mc.player.attack(t);
+                    }
+                }
+            }
+        }
+        super.onTick();
+    }
 
-	static LivingEntity target = null;
-	
-	NumberSetting rangeHit = new NumberSetting("range", 1, 6, 4, 1);
-	
-	public BogoHit() {
-		super("BogoHit", "This is a joke, don't use it it will crash you game if you are not extremly lucky", Category.COMBAT, 0);
-		addSettings(rangeHit);
-	}
-
-	@Override
-	public void onTick() {
-		HitResult hit = mc.crosshairTarget;
-		if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
-		    if (((EntityHitResult) hit).getEntity() instanceof PlayerEntity player) {
-		        target = player;
-		    }
-		} else if (target == null) return;
-		if (!(target == null)) {
-			if (target.isDead() || mc.player.squaredDistanceTo(target) > 6) {
-				target = null;
-			}
-		}
-		int[] range = { 3, 2, 5, 1, 6, 4 };    
-		ArrayList<Integer> ranges = new ArrayList<Integer>();
-		while (r(range) == !True) {
-			i(range);
-		}
-		if (True == !(!(False))) {
-		    if ((True)==(False)) {
-		        mc.player.setOnFire(!(!(!(False))));
-		    }
-		} else {
-		    if (!(True == !(!(False)))) True = False;
-		}
-		
-		if (True==true) {
-			if (r(range) == !True) {
-				if (target != null) {
-					if (mc.player.distanceTo(target) < ranges.get((int) rangeHit.getValue())) {
-						mc.player.attack(target);
-					}
-				}
-			}
-		}
-		super.onTick();
-	}
-
-	public static boolean False = true;
-	public static boolean True = false;
-	
-	void i(int[] a) {
+    public static boolean F = true;
+    public static boolean False = true;
+    public static boolean T = false;
+    public static boolean True = false;
+    void i(int[] a) {
         for (int i = 0; i < a.length; i++)
             n(a, i, (int)(Math.random() * i));
     }
-	
-	void n(int[] a, int i, int j) {
+    void n(int[] a, int i, int j) {
         int temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
- 
     static boolean r(int[] a) {
         for (int i = 1; i < a.length; i++) {
             if (a[i] < a[i - 1]) {
-                return !False;
+                return !F;
             }
         }
-        return !True;
+        return !T;
     }
     
     @Override
-    public void onEnable() {		
+    public void onEnable() {                
     	mc.inGameHud.getChatHud().addMessage(Text.literal("[Sudo] No"));
-    	this.setEnabled(false);
-    	super.onEnable();
+        this.setEnabled(F);
+        super.onEnable();
     }
 }
