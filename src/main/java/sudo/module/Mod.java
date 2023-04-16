@@ -1,12 +1,12 @@
 package sudo.module;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import sudo.module.settings.KeybindSetting;
-import sudo.module.settings.Setting;
+import sudo.module.settings.*;
 import sudo.utils.misc.Notification;
 import sudo.utils.misc.NotificationUtil;
 
@@ -112,4 +112,27 @@ public class Mod {
 			this.name = name;
 		}
 	}
+
+	//If you use this on settings then you wont have to deal with adding addSettings because itll add two
+	// You can also look at an example of this on AAAExample.java
+	public BooleanSetting reg(String name, Boolean val){
+		BooleanSetting setting = new BooleanSetting(name, val);
+		return setting;
+	}
+
+	public NumberSetting reg(String name, double min, double max, double def, double inc){
+		NumberSetting setting = new NumberSetting(name, min,max,def,inc);
+		return setting;
+	}
+
+	public ModeSetting reg(String name, String mode, String... modes){
+		ModeSetting setting = new ModeSetting(name,  mode, modes);
+		return setting;
+	}
+
+	public ColorSetting reg(String name, Color val){
+		ColorSetting setting = new ColorSetting(name,  val);
+		return setting;
+	}
+
 }

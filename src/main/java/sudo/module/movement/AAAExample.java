@@ -15,10 +15,10 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class AAAExample extends Mod {
 
-	public NumberSetting slider = new NumberSetting("Slider", 0, 10, 3, 0.1);
-	public BooleanSetting bool = new BooleanSetting("Boolean", true);
-	public ModeSetting mode = new ModeSetting("Mode", "Mode 1", "Mode 1", "Mode 2", "Mode 3");
-	public ColorSetting coolor = new ColorSetting("Color", new Color(255,25,25));
+	public NumberSetting slider = reg("Slider", 0, 10, 3, 0.1);
+	public BooleanSetting bool = reg("Boolean", true);
+	public ModeSetting mode = reg("Mode", "Mode 1", "Mode 1", "Mode 2", "Mode 3");
+	public ColorSetting coolor = reg("Color", new Color(255,25,25));
 	
 	public AAAExample() {
 		super("ExampleModule", "Just an example module", Category.MOVEMENT, 0);
