@@ -21,6 +21,11 @@ public class MinecraftClientMixin {
 	public void onTick(CallbackInfo ci) {
 		Client.fabricInteractManager.onTick();
 	}
+
+	@Inject(method = "run", at = @At("HEAD"), cancellable = true)
+	public void onRun(CallbackInfo ci){
+		Client.fabricInteractManager.onRun();
+	}
 	
 	@Inject(method = "getWindowTitle", at = @At("HEAD"), cancellable = true)
     public void getWindowTitle(CallbackInfoReturnable<String> ci) {
