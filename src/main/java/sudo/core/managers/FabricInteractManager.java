@@ -33,4 +33,12 @@ public class FabricInteractManager {
             }
         }
     }
+
+    public void onRun(){
+        if(mc.player != null){
+            for(Mod module : ModuleManager.INSTANCE.getEnabledModules()){
+                module.onRun();
+            }
+        }
+    }
 }

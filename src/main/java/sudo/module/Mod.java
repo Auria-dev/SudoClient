@@ -95,6 +95,7 @@ public class Mod {
 	public void setKey(int key) {this.key = key;}
 	public boolean isEnabled() {return enabled;}
     public void onWorldRender(MatrixStack matrices) {}
+    public void onRun() {}
 	public Category getCategory() {return category;}
 
 	public enum Category {
