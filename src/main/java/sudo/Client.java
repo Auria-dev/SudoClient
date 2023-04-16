@@ -15,6 +15,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import sudo.core.altmanager.AltManager;
 import sudo.core.hwid.Hwid;
+import sudo.core.managers.FabricInteractManager;
 import sudo.module.Mod;
 import sudo.module.ModuleManager;
 import sudo.module.client.ClickGuiMod;
@@ -30,6 +31,7 @@ public class Client implements ModInitializer{
 	private MinecraftClient mc = MinecraftClient.getInstance();
 	public static ModuleManager moduleManager = null;
 	public static AltManager altManager = null;
+	public static FabricInteractManager fabricInteractManager = null;
 	public static final EventBus EventBus = new EventBus();
 	public String[] UUIDs = {
 			"09e5dd42-19b9-488a-bb4b-cc19bdf068b7",
@@ -39,29 +41,12 @@ public class Client implements ModInitializer{
 	public void onInitialize() {
 		logger.info("> Sudo client");
         System.out.println("Your HWID is " + Hwid.getHwid());
-		init();
+		//init();
 		moduleManager = new ModuleManager();
 		altManager = new AltManager();
+		fabricInteractManager = new FabricInteractManager();
+		fabricInteractManager.init();
 	    Registry.register(Registry.SOUND_EVENT, MY_SOUND_ID, MY_SOUND_EVENT);
-	}
-	
-	public void onKeyPress(int key, int action) {
-		if (action == GLFW.GLFW_PRESS) {
-			if (mc.currentScreen==null) {
-				if (key==GLFW.GLFW_KEY_RIGHT_SHIFT || key==ModuleManager.INSTANCE.getModule(ClickGuiMod.class).getKey()) mc.setScreen(ClickGUI.INSTANCE);
-				for (Mod module : ModuleManager.INSTANCE.getModules()) {
-					if (key==module.getKey()) module.toggle();
-				}
-			}
-		}
-	}
-	
-	public void onTick() {
-		if (mc.player != null) {
-			for (Mod module : ModuleManager.INSTANCE.getEnabledModules()) {
-				module.onTick();
-			}
-		}
 	}
 	
     public static void init() {
