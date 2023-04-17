@@ -20,6 +20,7 @@ public class BogoHit extends Mod {
         super("BogoHit", "don't.", Category.COMBAT, 0);
         addSettings(rangeHit);
     }
+    
     @Override
     public void onTick() {
     	
