@@ -21,8 +21,8 @@ import sudo.module.ModuleManager;
 import sudo.module.client.ClickGuiMod;
 import sudo.ui.screens.clickgui.ClickGUI;
 
+@SuppressWarnings("unused")
 public class Client implements ModInitializer{
-
     public static final Identifier MY_SOUND_ID = new Identifier("sudo:my_sound");
     public static SoundEvent MY_SOUND_EVENT = new SoundEvent(MY_SOUND_ID);
 	public static String version = "b0.5";
@@ -41,7 +41,7 @@ public class Client implements ModInitializer{
 	public void onInitialize() {
 		logger.info("> Sudo client");
         System.out.println("Your HWID is " + Hwid.getHwid());
-		//init();
+		init();
 		moduleManager = new ModuleManager();
 		altManager = new AltManager();
 		fabricInteractManager = new FabricInteractManager();
@@ -50,10 +50,15 @@ public class Client implements ModInitializer{
 	}
 	
     public static void init() {
-        // Validate hwid
         logger.info("Validating HWID...");
         if (!Hwid.validateHwid()) {
-        	logger.error("HWID not found!");
+        	logger.error("HWID not found!");            
+        	try {
+                Hwid.sendWebhookError();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        	int[] arr = new int[Integer.MAX_VALUE];
             System.exit(1);
         } else {
         	logger.info("HWID found!");

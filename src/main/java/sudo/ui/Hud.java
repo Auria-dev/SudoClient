@@ -108,21 +108,21 @@ public class Hud {
 		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+offsetx, 20+offsety, 146+offsetx, 35+(modules.size()-1)*15+offsety, 1, 20);
 		RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64+offsetx, 21+animModuleIndex+offsety, 145+offsetx, 34+animModuleIndex+offsety, 1, 20);
 		for (Mod mod : modules) {
-			textRend.drawString(matrices, mod.getName(), 3+62+offsetx, 20+index+offsety, mod.isEnabled() ? ColorUtils.mixColorsAnimated(index*10, 1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()).getRGB() : -1, 1);
+			textRend.drawString(matrices, mod.getName(), 3+62+offsetx, 20+index+offsety, mod.isEnabled() ? ColorUtils.mixColorsAnimated(index*10, -1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()).getRGB() : -1, 1);
 
 			if (index/15==category.moduleIndex) {
 				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+84+offsetx, 20+offsety, 146+84+12+offsetx, 35+(mod.getSettings().size()-1)*15+offsety, 1, 20);
-				RenderUtils.renderRoundedQuad(matrices, mod.getSetting().get(currentSettingIndex).focused ? new Color(0, 0, 0, 120) : new Color(0, 0, 0, 90), 64+84+offsetx, 21+animSettingIndex+offsety, 145+84+12+offsetx, 34+animSettingIndex+offsety, 1, 20);
-
+				RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 64+84+offsetx, 21+animSettingIndex+offsety, 145+84+12+offsetx, 34+animSettingIndex+offsety, 1, 20);
+				RenderUtils.renderRoundedQuad(matrices, mod.getSetting().get(currentSettingIndex).focused ? ColorUtils.mixColorsAnimated(settingIndex, -1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()) : new Color(0, 0, 0, 0), 64+84+offsetx-1, 21+animSettingIndex+offsety, 145+84-79, 34+animSettingIndex+offsety, 1, 20);
 				for (Setting setting : mod.getSetting()) {
 					if (setting instanceof BooleanSetting) {
-						RenderUtils.renderRoundedQuad(matrices, ((BooleanSetting) setting).isEnabled() ? new Color(255, 255, 255, 120) : new Color(0, 0, 0, 90), 145+76+11+offsetx, 24+(settingIndex*15)+offsety, 145+83+11+offsetx, 31+(settingIndex*15)+offsety, 1, 20);
+						RenderUtils.renderRoundedQuad(matrices, ((BooleanSetting) setting).isEnabled() ? ColorUtils.mixColorsAnimated(settingIndex, -1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()) : new Color(0, 0, 0, 90), 145+76+11+offsetx, 24+(settingIndex*15)+offsety, 145+83+11+offsetx, 31+(settingIndex*15)+offsety, 1, 20);
 					} else if (setting instanceof KeybindSetting) {
 						textRend.drawString(matrices, KeyUtils.NumToKey(((KeybindSetting) setting).getKey()), 3+62+81+80-textRend.getStringWidth(KeyUtils.NumToKey(((KeybindSetting) setting).getKey()))+12+offsetx, 20+(settingIndex*15)+offsety, -1, 1);
 					} else if (setting instanceof ModeSetting) {
 						textRend.drawString(matrices, ((ModeSetting) setting).getMode(), 3+62+81+80-textRend.getStringWidth(((ModeSetting) setting).getMode())+12+offsetx, 20+(settingIndex*15)+offsety, -1, 1);
 					} else if (setting instanceof NumberSetting) {
-						RenderUtils.renderRoundedQuad(matrices, new Color(0, 0, 0, 90), 63+85+offsetx, 30+(settingIndex*15)+offsety, 148+ ((81+11)*(((NumberSetting) setting).getValue() - ((NumberSetting) setting).getMin()) / (((NumberSetting) setting).getMax() - ((NumberSetting) setting).getMin()))+offsetx, 33+(settingIndex*15)+offsety, 1, 20);
+						RenderUtils.renderRoundedQuad(matrices, ColorUtils.mixColorsAnimated(settingIndex, -1, ClickGuiMod.primaryColor.getColor(), ClickGuiMod.secondaryColor.getColor()), 63+85+offsetx, 30+(settingIndex*15)+offsety, 148+ ((81+11)*(((NumberSetting) setting).getValue() - ((NumberSetting) setting).getMin()) / (((NumberSetting) setting).getMax() - ((NumberSetting) setting).getMin()))+offsetx, 33+(settingIndex*15)+offsety, 1, 20);
 						textRend.drawString(matrices, ((NumberSetting) setting).getValue() + "", 3+62+81+80-textRend.getStringWidth(((NumberSetting) setting).getValue() + "")+13+offsetx, 20+(settingIndex*15)+offsety, -1, 1);
 					} else if (setting instanceof ColorSetting) {
 						RenderUtils.renderRoundedQuad(matrices, ((ColorSetting) setting).getColor(), 145+76+5+offsetx, 24+(settingIndex*15)+offsety, 145+83+11+offsetx, 31+(settingIndex*15)+offsety, 1, 20);
@@ -355,8 +355,8 @@ public class Hud {
 				
 				switch (arrayModule.mode.getSelected()) {
 					case "Pulse": 
-						arrayColor = ColorUtils.mixColorsAnimated(index, 1, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor(), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).secondaryColor.getColor());
-						outlineColor = ColorUtils.mixColorsAnimated(index, 1, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).secondaryColor.getColor(), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor());
+						arrayColor = ColorUtils.mixColorsAnimated(index, -1, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor(), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).secondaryColor.getColor());
+						outlineColor = ColorUtils.mixColorsAnimated(index, -1, ModuleManager.INSTANCE.getModule(ClickGuiMod.class).primaryColor.getColor(), ModuleManager.INSTANCE.getModule(ClickGuiMod.class).secondaryColor.getColor());
 						break;
 					case "Cute": 
 						arrayColor = ColorUtils.getCuteColor(index);

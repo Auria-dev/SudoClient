@@ -79,6 +79,24 @@ public class RotationUtils {
 	    return new float[]{yaw, pitch};
 	}
 
+    public static float[] getSmoothRotations(LivingEntity e) {
+        double deltaX = e.getPos().getX() + (e.getPos().getX() - e.lastRenderX) - mc.player.getPos().getX(),
+                deltaY = e.getPos().getY() - 3.5 + e.getEyeHeight(e.getPose()) - mc.player.getPos().getY() + mc.player.getEyeHeight(mc.player.getPose()),
+                deltaZ = e.getPos().getZ() + (e.getPos().getZ() - e.lastRenderZ) - mc.player.getPos().getZ(),
+                distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
+
+        float yaw = (float) Math.toDegrees(-Math.atan(deltaX / deltaZ)),
+                pitch = (float) -Math.toDegrees(Math.atan(deltaY / distance));
+
+        if (deltaX < 0 && deltaZ < 0) {
+            yaw = (float) (90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
+        } else if (deltaX > 0 && deltaZ < 0) {
+            yaw = (float) (-90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
+        }
+
+        return new float[] {yaw, pitch};
+    }
+	
 	public static float[] getRotations(LivingEntity ent) {
         double x = ent.getX();
         double z = ent.getZ();
