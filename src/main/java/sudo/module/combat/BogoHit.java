@@ -88,7 +88,7 @@ public class BogoHit extends Mod {
     @Override
     public void onEnable() {                
     	mc.inGameHud.getChatHud().addMessage(Text.literal("[Sudo] No"));
-        this.setEnabled(F);
+        this.setEnabled(false);
         super.onEnable();
     }
 }

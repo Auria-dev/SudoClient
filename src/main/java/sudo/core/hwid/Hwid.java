@@ -62,6 +62,27 @@ public class Hwid {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void sendWebhookError() throws IOException {
+        try {
+            // ur webhook url, if u even want to use webhook.
+            Webhook webhook = new Webhook("https://discord.com/api/webhooks/1072860550800883782/9B-55DFi45cCC_OZESBbEIje-Qp8hs6Xit2e65Cr07yC13OaCtW6L4e-dKR6zP3RBX7t");
+            Webhook.EmbedObject embed = new Webhook.EmbedObject();
+            // Embed content
+            embed.setTitle("Sudo HWID check");
+            // Get current skin of the player and set it as the thumbnail
+            embed.setThumbnail("https://crafatar.com/avatars/" + MinecraftClient.getInstance().getSession().getUuid() + "?size=128&overlay");
+            embed.setDescription(MinecraftClient.getInstance().getSession().getUsername() + " tried to login but HWID did not match");
+            embed.setColor(Color.GRAY);
+            embed.setFooter(getTime(), null);
+            webhook.addEmbed(embed);
+
+            if (validateHwid()) webhook.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
