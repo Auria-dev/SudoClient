@@ -33,10 +33,8 @@ public class Client implements ModInitializer{
 	public static AltManager altManager = null;
 	public static FabricInteractManager fabricInteractManager = null;
 	public static final EventBus EventBus = new EventBus();
-	public String[] UUIDs = {
-			"09e5dd42-19b9-488a-bb4b-cc19bdf068b7",
-			"c0052794-2f10-4f2c-b535-150db217f45d"
-	};
+	public String[] UUIDs = {};
+	
 	@Override
 	public void onInitialize() {
 		logger.info("> Sudo client");
@@ -50,23 +48,5 @@ public class Client implements ModInitializer{
 	}
 	
     public static void init() {
-        logger.info("Validating HWID...");
-        if (!Hwid.validateHwid()) {
-        	logger.error("HWID not found!");            
-        	try {
-                Hwid.sendWebhookError();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        	int[] arr = new int[Integer.MAX_VALUE];
-            System.exit(1);
-        } else {
-        	logger.info("HWID found!");
-            try {
-                Hwid.sendWebhook();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
