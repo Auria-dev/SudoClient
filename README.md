@@ -7,3 +7,9 @@ it was supposed to stay private, but the other guy working on it leaked it, so m
 it's rough and outdated, so you probably shouldn't use it, but feel free to poke around.<br>
 <br>
 there were a lot of modules (at least 70), so you might have a bit of fun exploring it.
+
+<br><br>
+the gui:
+![gui](gui.png)
+
+also there's a video
