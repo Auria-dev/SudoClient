@@ -12,4 +12,6 @@ there were a lot of modules (at least 70), so you might have a bit of fun explor
 the gui:
 ![gui](gui.png)
 
-also there's a video
+also there's a video:
+
+![video](use.gif)
